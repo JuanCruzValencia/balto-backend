@@ -1,0 +1,25 @@
+import express from "express";
+import passport from "passport";
+import UserController from "./users.controllers.js";
+import { authToken } from "../utils/jwt.js";
+import UserService from "./users.services.js";
+
+const Router = express.Router();
+
+Router.post(
+  "/register",
+  passport.authenticate("register", {
+    failureMessage: "Cannot register new user",
+  }),
+  UserService.registerUser
+);
+
+Router.get("/current", authToken, UserController.getCurrentUser);
+
+Router.get("/premium/:uid", UserController.changeUserRole);
+
+Router.post("/restore", UserController.postRestore);
+
+Router.post("/restoreForm/:uid/:token", UserController.postRestoreForm);
+
+export default Router;
