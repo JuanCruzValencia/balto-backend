@@ -1,9 +1,9 @@
-import CustomError from "../errors/customError.js";
-import cartsModel from "../models/carts.model.js";
-import { productsModel } from "../models/products.model.js";
-import ticketModel from "../models/ticket.model.js";
-import userModel from "../models/users.model.js";
-import ProductsService from "../products/products.services.js";
+import CustomError from "../errors/customError.ts";
+import cartsModel from "../models/carts.model.ts";
+import { productsModel } from "../models/products.model.ts";
+import ticketModel from "../models/ticket.model.ts";
+import userModel from "../models/users.model.ts";
+import ProductsService from "../products/products.serivces.ts";
 
 class CartsServices {
   createCart = async () => {
@@ -14,7 +14,7 @@ class CartsServices {
       const cart = await cartsModel.create(newCart);
 
       return cart;
-    } catch (error) {
+    } catch (error: any) {
       CustomError.createError({
         name: error.name,
         message: error.message,
@@ -27,7 +27,7 @@ class CartsServices {
       const carts = await cartsModel.find();
 
       return carts;
-    } catch (error) {
+    } catch (error: any) {
       CustomError.createError({
         name: error.name,
         message: error.message,
@@ -46,7 +46,7 @@ class CartsServices {
       if (!cart) throw new Error("Cart Not Found");
 
       return cart;
-    } catch (error) {
+    } catch (error: any) {
       CustomError.createError({
         name: error.name,
         message: error.message,
@@ -92,7 +92,7 @@ class CartsServices {
       );
 
       return result;
-    } catch (error) {
+    } catch (error: any) {
       CustomError.createError({
         name: error.name,
         message: error.message,
@@ -120,7 +120,7 @@ class CartsServices {
       );
 
       return result;
-    } catch (error) {
+    } catch (error: any) {
       CustomError.createError({
         name: error.name,
         message: error.message,
@@ -144,7 +144,7 @@ class CartsServices {
       );
 
       return result;
-    } catch (error) {
+    } catch (error: any) {
       CustomError.createError({
         name: error.name,
         message: error.message,
@@ -164,7 +164,7 @@ class CartsServices {
       );
 
       return result;
-    } catch (error) {
+    } catch (error: any) {
       CustomError.createError({
         name: error.name,
         message: error.message,
@@ -184,7 +184,7 @@ class CartsServices {
       );
 
       return result;
-    } catch (error) {
+    } catch (error: any) {
       CustomError.createError({
         name: error.name,
         message: error.message,
@@ -209,7 +209,7 @@ class CartsServices {
       console.log(ticket);
 
       return ticket;
-    } catch (error) {
+    } catch (error: any) {
       CustomError.createError({
         name: error.name,
         message: error.message,
@@ -225,7 +225,7 @@ class CartsServices {
       });
 
       return result;
-    } catch (error) {
+    } catch (error: any) {
       CustomError.createError({
         name: error.name,
         message: error.message,
@@ -248,7 +248,7 @@ class CartsServices {
       });
 
       return total;
-    } catch (error) {
+    } catch (error: any) {
       CustomError.createError({
         name: error.name,
         message: error.message,

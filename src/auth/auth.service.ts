@@ -3,12 +3,13 @@ import userModel from "../models/users.model.js";
 import dotenv from "dotenv";
 import CustomError from "../errors/customError.js";
 import { ERRORS_ENUM } from "../consts/ERRORS.js";
+import { SessionUser, User } from "../interface/interfaces.js";
 dotenv.config();
 
 class AuthServices {
   constructor() {}
 
-  async validateUser(username, password) {
+  async validateUser(username: User["email"], password: User["password"]) {
     const user = await userModel.findOne({ email: username });
 
     if (!user) {
@@ -25,7 +26,7 @@ class AuthServices {
     return null;
   }
 
-  async login(payload) {
+  async login(payload: SessionUser) {
     const user = { ...payload };
 
     const token = jwt.sign({ user }, process.env.JWT_SECRET!, {

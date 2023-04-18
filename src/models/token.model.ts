@@ -1,6 +1,12 @@
-import { Schema, model } from "mongoose";
+import { Schema, Types, model } from "mongoose";
 
-const tokenSchema = new Schema({
+interface Token {
+  userId: Types.ObjectId;
+  token: string;
+  expireAt: Date;
+}
+
+const tokenSchema: Schema<Token> = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
     required: true,
@@ -17,6 +23,6 @@ const tokenSchema = new Schema({
   },
 });
 
-const tokenModel = model("Token", tokenSchema);
+const tokenModel = model<Token>("Token", tokenSchema);
 
 export default tokenModel;

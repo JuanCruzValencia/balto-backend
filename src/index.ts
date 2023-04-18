@@ -46,7 +46,7 @@ app.use("/api/products", productsRouter);
 app.use("/api/carts", cartRouter);
 // app.use("/chat", chatRouter);
 // app.use("/", productsMockRouter);
-// app.use("/loggerTest", loggerRouter);
+app.use("/loggerTest", loggerRouter);
 
 //app.listen
 const httpServer = app.listen(PORT, () => {

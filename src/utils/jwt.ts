@@ -1,8 +1,10 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { Request, Response, NextFunction } from "express";
+import { SessionUser } from "../interface/interfaces";
 dotenv.config();
 
-export const generateToken = (user) => {
+export const generateToken = (user: SessionUser) => {
   const token = jwt.sign({ user }, process.env.JWT_SECRET!, {
     expiresIn: "24h",
   });
@@ -10,8 +12,10 @@ export const generateToken = (user) => {
   return token;
 };
 
-export const authToken = (req, res, next) => {
+export const authToken = (req: Request, res: Response, next: NextFunction) => {
   const signedJwt = req.headers["authorization"];
+
+  if (!signedJwt) return;
 
   jwt.verify(
     signedJwt.split(" ")[1],
@@ -24,7 +28,7 @@ export const authToken = (req, res, next) => {
         });
       }
 
-      req.user = credentials.user;
+      req.user = credentials?.user;
 
       next();
     }

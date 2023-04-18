@@ -1,1 +1,1 @@
-export { default as customError } from './customError';
+export { default as customError } from './customError.ts';

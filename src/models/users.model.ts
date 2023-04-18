@@ -1,9 +1,16 @@
-import mongoose from "mongoose";
+import { Schema, model, Model } from "mongoose";
 import bcrypt from "bcryptjs";
+import { User } from "../interface/interfaces";
 
-const Schema = mongoose.Schema;
+interface UserModel extends Model<User> {
+  encryptPassword: (password: string) => Promise<void>;
+  comparePassword: (
+    password: string,
+    recivedPassword: string
+  ) => Promise<boolean>;
+}
 
-const userSchema = new Schema({
+const userSchema: Schema<User> = new Schema({
   first_name: String,
   last_name: String,
   email: {
@@ -32,6 +39,6 @@ userSchema.statics.comparePassword = async (password, recivedPassword) => {
   return await bcrypt.compare(password, recivedPassword);
 };
 
-const userModel = mongoose.model("User", userSchema);
+const userModel = model<User, UserModel>("User", userSchema);
 
 export default userModel;

@@ -1,6 +1,7 @@
-import __dirname from "../utils.js";
+import __dirname from "../utils.ts";
+import { Request, Response } from "express";
 
-export const getLoggerTest = (req, res) => {
+export const getLoggerTest = (req: Request, res: Response) => {
   try {
     req.logger.debug("Debug Test");
     req.logger.info("Info Test");

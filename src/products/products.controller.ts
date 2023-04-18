@@ -1,12 +1,13 @@
-import { ERRORS_ENUM } from "../consts/ERRORS.js";
-import CustomError from "../errors/customError.js";
-import { generateProductErrorInfo } from "../errors/infoError.js";
-import ProductsService from "./products.services.js";
+import { ERRORS_ENUM } from "../consts/ERRORS.ts";
+import CustomError from "../errors/customError.ts";
+import { generateProductErrorInfo } from "../errors/infoError.ts";
+import ProductsService from "./products.serivces.ts";
+import { Request, Response } from "express";
 
 class ProductsControllers {
   constructor() {}
 
-  getAllProducts = async (req, res) => {
+  getAllProducts = async (req: Request, res: Response) => {
     try {
       const { query, limit, sort, page } = req.query;
 
@@ -41,14 +42,14 @@ class ProductsControllers {
           ? `/api/products?page=${result.nextPage}`
           : null,
       });
-    } catch (error) {
+    } catch (error: any) {
       return res
         .status(400)
         .send({ status: error.name, message: error.message });
     }
   };
 
-  getProductById = async (req, res) => {
+  getProductById = async (req: Request, res: Response) => {
     try {
       const { pid } = req.params;
 
@@ -63,14 +64,14 @@ class ProductsControllers {
       return res.status(200).send({
         payload: result,
       });
-    } catch (error) {
+    } catch (error: any) {
       return res
         .status(400)
         .send({ status: error.name, message: error.message });
     }
   };
 
-  addNewProduct = async (req, res) => {
+  addNewProduct = async (req: Request, res: Response) => {
     try {
       const newProduct = req.body;
       const user = req.session.user;
@@ -95,14 +96,14 @@ class ProductsControllers {
       return res.status(200).send({
         payload: result,
       });
-    } catch (error) {
+    } catch (error: any) {
       return res
         .status(400)
         .send({ status: error.name, message: error.message });
     }
   };
 
-  updateProduct = async (req, res) => {
+  updateProduct = async (req: Request, res: Response) => {
     try {
       const { pid } = req.params;
       const newProduct = req.body;
@@ -118,14 +119,14 @@ class ProductsControllers {
       return res.status(200).send({
         payload: result,
       });
-    } catch (error) {
+    } catch (error: any) {
       return res
         .status(400)
         .send({ status: error.name, message: error.message });
     }
   };
 
-  deleteProduct = async (req, res) => {
+  deleteProduct = async (req: Request, res: Response) => {
     try {
       const { pid } = req.params;
       const user = req.session.user;
@@ -141,7 +142,7 @@ class ProductsControllers {
       return res.status(202).send({
         payload: result,
       });
-    } catch (error) {
+    } catch (error: any) {
       return res
         .status(400)
         .send({ status: error.name, message: error.message });

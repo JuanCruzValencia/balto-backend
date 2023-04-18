@@ -1,5 +1,6 @@
-import CustomError from "../errors/customError.js";
-import { productsModel } from "../models/products.model.js";
+import CustomError from "../errors/customError.ts";
+import { Product, SessionUser } from "../interface/interfaces.ts";
+import productsModel from "../models/products.model.ts";
 
 class ProductsServices {
   getAllProducts = async (query, options) => {
@@ -30,7 +31,7 @@ class ProductsServices {
       const products = await productsModel.paginate({}, options);
 
       return products;
-    } catch (error) {
+    } catch (error: any) {
       CustomError.createError({
         name: error.name,
         message: error.message,
@@ -38,7 +39,7 @@ class ProductsServices {
     }
   };
 
-  getProductById = async (pid) => {
+  getProductById = async (pid: Product["_id"]) => {
     try {
       const product = await productsModel.findById({ _id: pid }).lean();
 
@@ -47,7 +48,7 @@ class ProductsServices {
       }
 
       return product;
-    } catch (error) {
+    } catch (error: any) {
       CustomError.createError({
         name: error.name,
         message: error.message,
@@ -55,7 +56,7 @@ class ProductsServices {
     }
   };
 
-  addNewProduct = async (newProduct, user) => {
+  addNewProduct = async (newProduct: Product, user: SessionUser) => {
     try {
       const product = await productsModel.findOne({ code: newProduct.code });
 
@@ -69,7 +70,7 @@ class ProductsServices {
       });
 
       return addProduct;
-    } catch (error) {
+    } catch (error: any) {
       CustomError.createError({
         name: error.name,
         message: error.message,
@@ -77,7 +78,7 @@ class ProductsServices {
     }
   };
 
-  updateProduct = async (pid, newProduct) => {
+  updateProduct = async (pid: Product["_id"], newProduct: Partial<Product>) => {
     try {
       const product = await this.getProductById(pid);
 
@@ -91,7 +92,7 @@ class ProductsServices {
       );
 
       return updateProduct;
-    } catch (error) {
+    } catch (error: any) {
       CustomError.createError({
         name: error.name,
         message: error.message,
@@ -99,24 +100,23 @@ class ProductsServices {
     }
   };
 
-  deleteProduct = async (pid, user) => {
+  deleteProduct = async (pid: Product["_id"], user: SessionUser) => {
     try {
       const product = await this.getProductById(pid);
 
       //TODO el owner dentro del prodcuto se guarda como un objeto
+      if (!product) {
+        throw new Error("Product Not Found");
+      }
 
       if (product.owner !== "ADMIN" && product.owner != user._id) {
         throw new Error("Not Authorized");
       }
 
-      if (!product) {
-        throw new Error("Product Not Found");
-      }
-
       const deleteProduct = await productsModel.deleteOne({ _id: pid });
 
       return deleteProduct;
-    } catch (error) {
+    } catch (error: any) {
       CustomError.createError({
         name: error.name,
         message: error.message,
@@ -124,9 +124,13 @@ class ProductsServices {
     }
   };
 
-  updateStock = async (pid, quantity) => {
+  updateStock = async (pid: Product["_id"], quantity: number) => {
     try {
       const product = await this.getProductById(pid);
+
+      if (!product) {
+        throw new Error("Product Not Found");
+      }
 
       if (product.stock < quantity) {
         console.log("No stock");
@@ -140,7 +144,7 @@ class ProductsServices {
       );
 
       return true;
-    } catch (error) {
+    } catch (error: any) {
       CustomError.createError({
         name: error.name,
         message: error.message,

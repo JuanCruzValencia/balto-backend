@@ -1,8 +1,9 @@
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import dotenv from "dotenv";
-import CustomError from "./errors/customError.js";
-import { User } from "./interface/interfaces.js";
+import CustomError from "./errors/customError.ts";
+import { User } from "./interface/interfaces.ts";
+import { Request, Response, NextFunction } from "express";
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -23,22 +24,24 @@ export const generateCode = () => {
   return result;
 };
 
-export const authPolicies = (policieOne, policieTwo) => (req, res, next) => {
-  const role = req.user._doc.role;
+export const authPolicies =
+  (policieOne: string | null, policieTwo: string | null) =>
+  (req: Request, res: Response, next: NextFunction) => {
+    const role = req.user?._doc.role;
 
-  if (typeof policieOne === "undefined") {
-    policieOne = policieTwo;
-    policieTwo = null;
-  }
+    if (typeof policieOne === "undefined") {
+      policieOne = policieTwo;
+      policieTwo = null;
+    }
 
-  if (role !== policieOne && role !== policieTwo) {
-    return res.status(403).send({
-      error: "Not Authorized from Policies",
-    });
-  }
+    if (role !== policieOne && role !== policieTwo) {
+      return res.status(403).send({
+        error: "Not Authorized from Policies",
+      });
+    }
 
-  next();
-};
+    next();
+  };
 
 export const validateNewUser = (newUser: User) => {
   const { first_name, last_name, age, email, password } = newUser;

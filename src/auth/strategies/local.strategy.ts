@@ -1,13 +1,14 @@
 import passport from "passport";
-import passportLocal from "passport-local";
+import * as passportLocal from "passport-local";
 import userModel from "../../models/users.model.js";
 import CartsService from "../../carts/carts.services.js";
 import AuthService from "../auth.service.js";
 import { validateNewUser } from "../../utils.js";
 import dotenv from "dotenv";
+import { User } from "../../interface/interfaces.js";
 
 dotenv.config();
-const LocalStrategy = passportLocal;
+const LocalStrategy = passportLocal.Strategy;
 
 const initializeLocalPassport = () => {
   passport.use(

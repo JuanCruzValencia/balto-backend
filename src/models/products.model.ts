@@ -1,9 +1,12 @@
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2";
+import { Product } from "../interface/interfaces";
 
-const Schema = mongoose.Schema;
+interface ProductModel extends Product {
+  owner: string;
+}
 
-const productsSchema = new Schema({
+const productsSchema: Schema<ProductModel> = new Schema({
   title: String,
   description: String,
   code: String,
@@ -21,13 +24,9 @@ const productsSchema = new Schema({
     type: String,
     index: true,
   },
-  thumbnails: {
-    type: Array,
-    index: true,
-    default: [],
-  },
+  thumbnails: [String],
   owner: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: "User",
     default: "ADMIN",
   },
@@ -35,4 +34,9 @@ const productsSchema = new Schema({
 
 productsSchema.plugin(mongoosePaginate);
 
-export const productsModel = mongoose.model("Products", productsSchema);
+const productsModel = model<ProductModel>(
+  "Products",
+  productsSchema
+);
+
+export default productsModel

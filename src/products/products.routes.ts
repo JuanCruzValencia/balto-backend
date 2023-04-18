@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { authToken } from "../utils/jwt.js";
-import ProductsController from "./products.controller.js";
-import { authPolicies } from "../utils.js";
+import { authToken } from "../utils/jwt.ts";
+import ProductsController from "./products.controller.ts";
+import { authPolicies } from "../utils.ts";
 
 const router = Router();
 

@@ -1,4 +1,6 @@
-export const generateProductErrorInfo = (product) => {
+import { Product } from "../interface/interfaces";
+
+export const generateProductErrorInfo = (product: Product) => {
   return `Required properties:
     title: must be string, recived ${product.title}
     description: must be string, recived ${product.description}

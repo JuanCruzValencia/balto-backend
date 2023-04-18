@@ -1,25 +1,26 @@
-import { ERRORS_ENUM } from "../consts/ERRORS.js";
-import CustomError from "../errors/customError.js";
-import CartsService from "./carts.services.js";
+import { ERRORS_ENUM } from "../consts/ERRORS.ts";
+import CustomError from "../errors/customError.ts";
+import CartsService from "./carts.services.ts";
+import { ErrorRequestHandler, Request, Response } from "express";
 
 class CartsControllers {
   constructor() {}
 
-  createCart = async (req, res) => {
+  createCart = async (req: Request, res: Response) => {
     try {
       await CartsService.createCart();
 
       res.status(200).send({
         message: "Cart created",
       });
-    } catch (error) {
+    } catch (error: any) {
       req.logger.error(error);
 
       res.status(400).send({ status: error.name, message: error.message });
     }
   };
 
-  getCarts = async (req, res) => {
+  getCarts = async (req: Request, res: Response) => {
     try {
       const result = await CartsService.getAllCarts();
 
@@ -32,14 +33,14 @@ class CartsControllers {
       res.status(200).send({
         payload: result,
       });
-    } catch (error) {
+    } catch (error: any) {
       req.logger.error(error);
 
       res.status(400).send({ status: error.name, message: error.message });
     }
   };
 
-  getCartById = async (req, res) => {
+  getCartById = async (req: Request, res: Response) => {
     try {
       const { cid } = req.params;
 
@@ -54,17 +55,17 @@ class CartsControllers {
       res.status(200).send({
         payload: result,
       });
-    } catch (error) {
+    } catch (error: any) {
       req.logger.error(error);
 
       res.status(400).send({ status: error.name, message: error.message });
     }
   };
 
-  addProductToCart = async (req, res) => {
+  addProductToCart = async (req: Request, res: Response) => {
     try {
       const { cid, pid } = req.params;
-      const user = req.user._doc;
+      const user = req.user!._doc;
 
       const result = await CartsService.addProductToCart(cid, pid, user);
 
@@ -77,7 +78,7 @@ class CartsControllers {
       res.status(200).send({
         payload: result,
       });
-    } catch (error) {
+    } catch (error: any) {
       req.logger.error(error);
 
       res.render("error", {
@@ -86,7 +87,7 @@ class CartsControllers {
     }
   };
 
-  updateProductQuantity = async (req, res) => {
+  updateProductQuantity = async (req: Request, res: Response) => {
     try {
       const { cid, pid } = req.params;
       const { quantity } = req.body;
@@ -102,14 +103,14 @@ class CartsControllers {
       res.status(200).send({
         payload: result,
       });
-    } catch (error) {
+    } catch (error: any) {
       req.logger.error(error);
 
       res.status(400).send({ status: error.name, message: error.message });
     }
   };
 
-  addArrayOfProducts = async (req, res) => {
+  addArrayOfProducts = async (req: Request, res: Response) => {
     try {
       const { cid } = req.params;
       const arrayOfProducts = req.body;
@@ -122,14 +123,14 @@ class CartsControllers {
       res.status(200).send({
         payload: result,
       });
-    } catch (error) {
+    } catch (error: any) {
       req.logger.error(error);
 
       res.status(400).send({ status: error.name, message: error.message });
     }
   };
 
-  deleteOneProduct = async (req, res) => {
+  deleteOneProduct = async (req: Request, res: Response) => {
     try {
       const { cid, pid } = req.params;
 
@@ -144,14 +145,14 @@ class CartsControllers {
       res.status(200).send({
         payload: result,
       });
-    } catch (error) {
+    } catch (error: any) {
       req.logger.error(error);
 
       res.status(400).send({ status: error.name, message: error.message });
     }
   };
 
-  emptyCart = async (req, res) => {
+  emptyCart = async (req: Request, res: Response) => {
     try {
       const { cid } = req.params;
 
@@ -160,14 +161,14 @@ class CartsControllers {
       res.status(200).send({
         payload: result,
       });
-    } catch (error) {
+    } catch (error: any) {
       req.logger.error(error);
 
       res.status(400).send({ status: error.name, message: error.message });
     }
   };
 
-  purchaseCart = async (req, res) => {
+  purchaseCart = async (req: Request, res: Response) => {
     try {
       const { cid } = req.params;
 
@@ -182,7 +183,7 @@ class CartsControllers {
       res.status(200).send({
         payload: result,
       });
-    } catch (error) {
+    } catch (error: any) {
       req.logger.error(error);
 
       res.status(400).send({ status: error.name, message: error.message });

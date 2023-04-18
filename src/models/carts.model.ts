@@ -1,13 +1,12 @@
-import mongoose from "mongoose";
+import {Schema, model, Model} from "mongoose";
+import { Cart } from "../interface/interfaces";
 
-const Schema = mongoose.Schema;
-
-const cartSchema = new Schema({
-  carts: {
+const cartSchema: Schema<Cart> = new Schema({
+  products: {
     type: [
       {
         product: {
-          type: mongoose.Types.ObjectId,
+          type: Schema.Types.ObjectId,
           ref: "Products",
         },
         quantity: {
@@ -20,6 +19,6 @@ const cartSchema = new Schema({
   },
 });
 
-const cartsModel = mongoose.model("Carts", cartSchema);
+const cartsModel = model<Cart>("Carts", cartSchema);
 
 export default cartsModel;

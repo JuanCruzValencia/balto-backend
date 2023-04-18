@@ -1,4 +1,4 @@
-import messageModel from "../models/messages.model.js";
+import messageModel from "../models/messages.model.ts";
 
 export default (io) => {
   io.on("connection", (socket) => {

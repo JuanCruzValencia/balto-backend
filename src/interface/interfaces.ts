@@ -9,6 +9,28 @@ export interface User {
   role: string;
 }
 
-export interface Cart {}
+export interface SessionUser extends User {
+  accessToken: string;
+}
 
-export interface Product {}
+export interface Cart {
+  id: string;
+  products: CartProduct[];
+}
+
+export interface Product {
+  _id: string;
+  title: string;
+  description: string;
+  code: string;
+  price: number;
+  status: boolean;
+  stock: number;
+  category: string;
+  thumbnails: string[];
+}
+
+export interface CartProduct {
+  product: Product["_id"];
+  quantity: number;
+}

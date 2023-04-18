@@ -1,4 +1,5 @@
-import winston from "winston";
+import { createLogger, transports, format } from "winston";
+import { Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -22,41 +23,37 @@ const customLevels = {
   },
 };
 
-const prodLogger = winston.createLogger({
+const prodLogger = createLogger({
   levels: customLevels.levels,
   transports: [
-    new winston.transports.Console({
+    new transports.Console({
       level: "info",
-      format: winston.format.combine(
-        winston.format.simple()
-      ),
+      format: format.combine(format.simple()),
     }),
-    new winston.transports.File({
+    new transports.File({
       filename: "./errors.log",
       level: "warning",
-      format: winston.format.simple(),
+      format: format.simple(),
     }),
   ],
 });
 
-const devLogger = winston.createLogger({
+const devLogger = createLogger({
   levels: customLevels.levels,
   transports: [
-    new winston.transports.Console({
+    new transports.Console({
       level: "debug",
-      format: winston.format.combine(
-        winston.format.simple()
-      ),
+      format: format.combine(format.simple()),
     }),
-    new winston.transports.File({
+    new transports.File({
       filename: "./errors.log",
       level: "warning",
-      format: winston.format.simple(),
+      format: format.simple(),
     }),
   ],
 });
 
-export const addLogger = (req, res, next) => {
+export const addLogger = (req: Request, res: Response, next: NextFunction) => {
   const enviroment = process.env.ENVIROMENT_VAR;
 
   if (enviroment === "production") {
