@@ -1,12 +1,13 @@
-import CartsService from "../carts/carts.services.js";
-import { ERRORS_ENUM } from "../consts/ERRORS.js";
-import CustomError from "../errors/customError.js";
-import tokenModel from "../models/token.model.js";
-import userModel from "../models/users.model.js";
-import sendMail from "../utils/nodemailer.js";
-import { generateCode, validateNewUser } from "../utils.js";
-import { generateToken } from "../utils/jwt.js";
-import UserDto from "./dto/user.dto.js";
+import { ERRORS_ENUM } from "../consts/ERRORS.ts";
+import CustomError from "../errors/customError.ts";
+import tokenModel from "../models/token.model.ts";
+import userModel from "../models/users.model.ts";
+import sendMail from "../utils/nodemailer.ts";
+import { generateCode } from "../utils.ts";
+import { generateToken } from "../utils/jwt.ts";
+import UserDto from "./dto/user.dto.ts";
+import { User } from "../interface/interfaces.ts";
+import { Request, Response } from "express";
 
 class UserServices {
   finAll = async () => {
@@ -21,32 +22,34 @@ class UserServices {
     }
   };
 
-  findUser = async (email) => {
+  findUser = async (email: User["email"]) => {
     try {
-      const result = await userModel.findOne({ email }).lean().exec();
+      const user = await userModel.findOne({ email }).lean().exec();
 
-      if (!result) {
+      if (!user) {
         CustomError.createError({
           message: ERRORS_ENUM["USER NOT FOUND"],
         });
+
+        return;
       }
 
-      const user = new UserDto(result);
+      const userDto = new UserDto(user);
 
-      return user;
+      return userDto;
     } catch (error) {
       console.log(error);
     }
   };
 
-  registerUser = (req, res) => {
+  registerUser = (req: Request, res: Response) => {
     //TODO register must redirect fron the front
     if (!req.user) return res.status(400);
 
     res.status(200).send({ paylaod: req.user });
   };
 
-  loginUser = async (username, password, done) => {
+  loginUser = async (username: string, password: string, done) => {
     try {
       const user = await userModel.findOne({ email: username }).lean().exec();
 
@@ -71,7 +74,7 @@ class UserServices {
 
       const token = generateToken(dtoUser);
 
-      dtoUser.token = token;
+      dtoUser.accessToken = token;
 
       return done(null, dtoUser);
     } catch (error) {
@@ -81,7 +84,7 @@ class UserServices {
     }
   };
 
-  changeRole = async (uid) => {
+  changeRole = async (uid: User["_id"]) => {
     try {
       const user = await this.findUserById(uid);
 
@@ -93,7 +96,7 @@ class UserServices {
 
       const result = await userModel.updateOne(
         { _id: uid },
-        { role: user.role === "USER" ? "PREMIUM" : "USER" }
+        { role: user?.role === "USER" ? "PREMIUM" : "USER" }
       );
 
       if (!result) return false;
@@ -104,7 +107,7 @@ class UserServices {
     }
   };
 
-  sendRestoreMail = async (email) => {
+  sendRestoreMail = async (email: string) => {
     try {
       const user = await this.findUser(email);
 
@@ -112,9 +115,11 @@ class UserServices {
         CustomError.createError({
           message: "User with given email doesn't exist",
         });
+
+        return;
       }
 
-      let token = await tokenModel.findOne({ userId: user._id });
+      let token = await tokenModel.findOne({ userId: user?._id });
 
       if (!token) {
         token = await new tokenModel({
@@ -123,7 +128,7 @@ class UserServices {
         }).save();
       }
 
-      const link = `${process.env.BASE_URL}/restoreForm/${user._id}/${token.token}`;
+      const link = `${process.env.BASE_URL}/restoreForm/${user?._id}/${token.token}`;
 
       await sendMail.send(user.email, "Password reset", link);
 
@@ -133,7 +138,11 @@ class UserServices {
     }
   };
 
-  restorePassword = async (uid, password, token) => {
+  restorePassword = async (
+    uid: User["_id"],
+    password: string,
+    token: string
+  ) => {
     try {
       const user = await this.findUserById(uid);
 
@@ -145,7 +154,7 @@ class UserServices {
         return;
       }
 
-      const userToken = await this.findUserToken(uid);
+      const userToken = await this.findUserToken(uid, token);
 
       if (!userToken) {
         CustomError.createError({
@@ -185,7 +194,7 @@ class UserServices {
     }
   };
 
-  findUserById = async (uid) => {
+  findUserById = async (uid: User["_id"]) => {
     try {
       const user = await userModel.findById({ _id: uid }).lean().exec();
 
@@ -201,7 +210,7 @@ class UserServices {
     }
   };
 
-  findUserToken = async (uid, token) => {
+  findUserToken = async (uid: User["_id"], token: string) => {
     try {
       const userToken = await tokenModel.findOne({ userId: uid });
 

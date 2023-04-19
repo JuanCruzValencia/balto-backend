@@ -1,4 +1,4 @@
-import AuthService from "./auth.service.js";
+import AuthService from "./auth.service.ts";
 import dotenv from "dotenv";
 import { Request, Response } from "express";
 dotenv.config();

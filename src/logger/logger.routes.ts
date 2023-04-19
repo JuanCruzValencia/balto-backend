@@ -1,5 +1,5 @@
 import express from "express"
-import { getLoggerTest } from "./logger.controller.js";
+import { getLoggerTest } from "./logger.controller.ts";
 
 const Router = express.Router();
 

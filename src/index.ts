@@ -1,21 +1,21 @@
 import express from "express";
 import dotenv from "dotenv";
 import passport from "passport";
-import __dirname from "./utils.js";
+import __dirname from "./utils.ts";
 import session from "express-session";
-import productsRouter from "./products/products.routes.js";
-import cartRouter from "./carts/carts.routes.js";
-import chatRouter from "./messages/messages.routes.js";
-import sessionRouter from "./users/users.routes.js";
-import productsMockRouter from "./mocks/productsMock.routes.js";
-import loggerRouter from "./logger/logger.routes.js";
-import MongoConnection, { MongoStoreInstance } from "./utils/mongo.js";
+import productsRouter from "./products/products.routes.ts";
+import cartRouter from "./carts/carts.routes.ts";
+import chatRouter from "./messages/messages.routes.ts";
+import sessionRouter from "./users/users.routes.ts";
+import productsMockRouter from "./mocks/productsMock.routes.ts";
+import loggerRouter from "./logger/logger.routes.ts";
+import MongoConnection, { MongoStoreInstance } from "./utils/mongo.ts";
 import { Server } from "socket.io";
-import socket from "./utils/socket.js";
-import { errorHandler } from "./middlewares/errors/index.js";
-import { addLogger } from "./utils/logger.js";
-import authRouter from "./auth/auth.routes.js";
-import { jwtStrategy, localStrategy } from "./auth/strategies/index.js";
+import socket from "./utils/socket.ts";
+import { errorHandler } from "./middlewares/errors/index.ts";
+import { addLogger } from "./utils/logger.ts";
+import authRouter from "./auth/auth.routes.ts";
+import { jwtStrategy, localStrategy } from "./auth/strategies/index.ts";
 
 //const and env variables
 dotenv.config();

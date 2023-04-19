@@ -1,6 +1,7 @@
 import { ERRORS_ENUM } from "../consts/ERRORS.ts";
 import CustomError from "../errors/customError.ts";
 import { generateProductErrorInfo } from "../errors/infoError.ts";
+import { SessionUser } from "../interface/interfaces.ts";
 import ProductsService from "./products.serivces.ts";
 import { Request, Response } from "express";
 
@@ -11,19 +12,23 @@ class ProductsControllers {
     try {
       const { query, limit, sort, page } = req.query;
 
+      const queryParam = query?.toString() || ""; //TODO this should not be needed
+
       const options = {
-        limit: limit || 10,
-        page: page || 1,
+        limit: Number(limit) || 10,
+        page: Number(page) || 1,
         sort: { price: sort } || { price: 1 },
         lean: true,
       };
 
-      const result = await ProductsService.getAllProducts(query, options);
+      const result = await ProductsService.getAllProducts(queryParam, options);
 
       if (!result) {
         CustomError.createError({
           message: ERRORS_ENUM["PRODUCT NOT FOUND"],
         });
+
+        return;
       }
 
       return res.status(200).send({
@@ -74,6 +79,7 @@ class ProductsControllers {
   addNewProduct = async (req: Request, res: Response) => {
     try {
       const newProduct = req.body;
+
       const user = req.session.user;
 
       const { title, price, description, code, category } = newProduct;
@@ -83,6 +89,8 @@ class ProductsControllers {
           name: ERRORS_ENUM["INVALID PRODUCT PROPERTY"],
           message: generateProductErrorInfo(newProduct),
         });
+
+        return;
       }
 
       const result = await ProductsService.addNewProduct(newProduct, user);
@@ -129,7 +137,12 @@ class ProductsControllers {
   deleteProduct = async (req: Request, res: Response) => {
     try {
       const { pid } = req.params;
-      const user = req.session.user;
+
+      const user: SessionUser = req.session.user;
+
+      if (!user) {
+        return;
+      }
 
       const result = await ProductsService.deleteProduct(pid, user);
 

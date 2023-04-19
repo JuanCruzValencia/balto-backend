@@ -19,7 +19,7 @@ router.post(
 router.put(
   "/:pid",
   authToken,
-  authPolicies("ADMIN", undefined),
+  authPolicies("ADMIN", null),
   ProductsController.updateProduct
 );
 

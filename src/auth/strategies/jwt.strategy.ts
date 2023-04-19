@@ -2,7 +2,7 @@ import passport from "passport";
 import passportJWT from "passport-jwt";
 import userModel from "../../models/users.model.ts";
 import dotenv from "dotenv";
-import { User } from "../../interface/interfaces.ts";
+import { SessionUser } from "../../interface/interfaces.ts";
 
 dotenv.config();
 const JwtStrategy = passportJWT.Strategy;
@@ -22,7 +22,7 @@ const initializeJwtPassport = () => {
     )
   );
 
-  passport.serializeUser(function (user: Partial<User>, done) {
+  passport.serializeUser(function (user: Partial<SessionUser>, done) {
     done(null, user._id);
   });
 

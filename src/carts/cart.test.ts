@@ -1,7 +1,7 @@
 import supertest from "supertest";
 import chai from "chai";
 import dotenv from "dotenv";
-import { generateProducts } from "../../utils/products.mock.js";
+import { generateProducts } from "../../utils/products.mock.ts";
 dotenv.config();
 
 const expect = chai.expect;

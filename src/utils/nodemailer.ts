@@ -2,11 +2,9 @@ import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 dotenv.config();
 
-type MailMangerTypes = {
-    transport: string
-}
-
 class MailManager {
+  private transport;
+
   constructor() {
     this.transport = nodemailer.createTransport({
       service: "gmail",
@@ -18,7 +16,7 @@ class MailManager {
     });
   }
 
-  send = async (user, subject, text) => {
+  send = async (user: string, subject: string, text: string) => {
     const result = await this.transport.sendMail({
       from: process.env.NODE_APP_EMAIL,
       to: user,

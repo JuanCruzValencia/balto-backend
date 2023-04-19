@@ -1,9 +1,10 @@
 import CustomError from "../errors/customError.ts";
 import { Product, SessionUser } from "../interface/interfaces.ts";
 import productsModel from "../models/products.model.ts";
+import { PaginateOptions } from "mongoose";
 
 class ProductsServices {
-  getAllProducts = async (query, options) => {
+  getAllProducts = async (query: string, options: PaginateOptions) => {
     try {
       if (query === "inStock") {
         const products = await productsModel.paginate(

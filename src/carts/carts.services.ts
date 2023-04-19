@@ -1,6 +1,7 @@
 import CustomError from "../errors/customError.ts";
+import { Cart } from "../interface/interfaces.ts";
 import cartsModel from "../models/carts.model.ts";
-import { productsModel } from "../models/products.model.ts";
+import productsModel from "../models/products.model.ts";
 import ticketModel from "../models/ticket.model.ts";
 import userModel from "../models/users.model.ts";
 import ProductsService from "../products/products.serivces.ts";
@@ -35,7 +36,7 @@ class CartsServices {
     }
   };
 
-  getCartById = async (cid) => {
+  getCartById = async (cid: Cart['id']) => {
     try {
       const cart = await cartsModel
         .findById({ _id: cid })

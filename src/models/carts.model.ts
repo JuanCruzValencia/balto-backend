@@ -1,5 +1,5 @@
 import {Schema, model, Model} from "mongoose";
-import { Cart } from "../interface/interfaces";
+import { Cart } from "../interface/interfaces.ts";
 
 const cartSchema: Schema<Cart> = new Schema({
   products: {

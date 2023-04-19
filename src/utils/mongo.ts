@@ -5,13 +5,11 @@ import MongoStore from "connect-mongo";
 dotenv.config();
 
 export default class MongoConnection {
-  static #instance;
+  static #instance: MongoConnection;
 
   constructor() {
     set("strictQuery", false);
     connect(process.env.MONGO_URI!, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
       dbName: process.env.MONGO_DB,
     });
   }
@@ -34,13 +32,9 @@ export const MongoStoreInstance = {
   store: MongoStore.create({
     mongoUrl: process.env.MONGO_URI,
     dbName: process.env.MONGO_DB,
-    mongoOptions: {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    },
     ttl: 200,
   }),
-  secret: process.env.SESSION_SECRET,
+  secret: process.env.SESSION_SECRET!,
   resave: true,
   saveUninitialized: true,
 };

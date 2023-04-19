@@ -8,7 +8,8 @@ export default class UserDto {
   readonly age: number;
   readonly cart: Cart;
   readonly role: string;
-  
+  public accessToken: string | undefined;
+
   constructor(user: User) {
     this._id = user._id;
     this.first_name = user.first_name;
@@ -17,5 +18,6 @@ export default class UserDto {
     this.email = user.email;
     this.cart = user.cart;
     this.role = user.role;
+    this.accessToken = "";
   }
 }
