@@ -27,6 +27,7 @@ class UserServices {
 
       if (!user) {
         CustomError.createError({
+          name: ERRORS_ENUM["USER NOT FOUND"],
           message: ERRORS_ENUM["USER NOT FOUND"],
         });
 
@@ -89,6 +90,7 @@ class UserServices {
 
       if (!user) {
         CustomError.createError({
+          name: ERRORS_ENUM["USER NOT FOUND"],
           message: ERRORS_ENUM["USER NOT FOUND"],
         });
       }
@@ -112,6 +114,7 @@ class UserServices {
 
       if (!user) {
         CustomError.createError({
+          name: "ERROR",
           message: "User with given email doesn't exist",
         });
 
@@ -147,6 +150,7 @@ class UserServices {
 
       if (!user) {
         CustomError.createError({
+          name: ERRORS_ENUM["USER NOT FOUND"],
           message: ERRORS_ENUM["USER NOT FOUND"],
         });
 
@@ -157,6 +161,7 @@ class UserServices {
 
       if (!userToken) {
         CustomError.createError({
+          name: "ERROR",
           message: "Invalid or expired token",
         });
 
@@ -170,6 +175,7 @@ class UserServices {
 
       if (verifyPassword) {
         CustomError.createError({
+          name: "ERROR",
           message: "Can not use the last password, must be a new one",
         });
 
@@ -199,6 +205,7 @@ class UserServices {
 
       if (!user) {
         CustomError.createError({
+          name: ERRORS_ENUM["USER NOT FOUND"],
           message: ERRORS_ENUM["USER NOT FOUND"],
         });
       }

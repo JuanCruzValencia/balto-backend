@@ -1,4 +1,4 @@
-import {Schema, model} from "mongoose";
+import { Schema, model } from "mongoose";
 import { Cart } from "../interface/interfaces.ts";
 
 const cartSchema: Schema<Cart> = new Schema({

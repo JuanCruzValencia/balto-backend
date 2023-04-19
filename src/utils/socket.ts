@@ -1,6 +1,7 @@
 import messageModel from "../models/messages.model.ts";
+import { Server } from "socket.io";
 
-export default (io) => {
+export default (io: Server) => {
   io.on("connection", (socket) => {
     const getMessages = async () => {
       const messages = await messageModel.find();

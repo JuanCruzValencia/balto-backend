@@ -27,7 +27,8 @@ export const generateCode = () => {
 export const authPolicies =
   (policieOne: string | null, policieTwo: string | null) =>
   (req: Request, res: Response, next: NextFunction) => {
-    const role = req.user?.role;
+    const user = req.user as SessionUser;
+    const role = user.role;
 
     if (typeof policieOne === "undefined") {
       policieOne = policieTwo;

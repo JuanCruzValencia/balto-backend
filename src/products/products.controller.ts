@@ -25,6 +25,7 @@ class ProductsControllers {
 
       if (!result) {
         CustomError.createError({
+          name: ERRORS_ENUM["PRODUCT NOT FOUND"],
           message: ERRORS_ENUM["PRODUCT NOT FOUND"],
         });
 
@@ -62,8 +63,11 @@ class ProductsControllers {
 
       if (!result) {
         CustomError.createError({
+          name: ERRORS_ENUM["PRODUCT NOT FOUND"],
           message: ERRORS_ENUM["PRODUCT NOT FOUND"],
         });
+
+        return;
       }
 
       return res.status(200).send({
@@ -84,9 +88,10 @@ class ProductsControllers {
 
       if (!user) {
         CustomError.createError({
+          name: ERRORS_ENUM["USER NOT FOUND"],
           message: ERRORS_ENUM["USER NOT FOUND"],
         });
-        
+
         return;
       }
 
@@ -105,6 +110,7 @@ class ProductsControllers {
 
       if (!result) {
         CustomError.createError({
+          name: ERRORS_ENUM["INVALID PRODUCT PROPERTY"],
           message: ERRORS_ENUM["INVALID PRODUCT PROPERTY"],
         });
       }
@@ -128,6 +134,7 @@ class ProductsControllers {
 
       if (!result) {
         CustomError.createError({
+          name: ERRORS_ENUM["PRODUCT NOT FOUND"],
           message: ERRORS_ENUM["PRODUCT NOT FOUND"],
         });
       }
@@ -150,6 +157,7 @@ class ProductsControllers {
 
       if (!user) {
         CustomError.createError({
+          name: ERRORS_ENUM["USER NOT FOUND"],
           message: ERRORS_ENUM["USER NOT FOUND"],
         });
 
@@ -160,6 +168,7 @@ class ProductsControllers {
 
       if (!result) {
         CustomError.createError({
+          name: ERRORS_ENUM["PRODUCT NOT FOUND"],
           message: ERRORS_ENUM["PRODUCT NOT FOUND"],
         });
       }

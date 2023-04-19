@@ -28,6 +28,7 @@ class UserControllers {
 
       if (!result) {
         CustomError.createError({
+          name: "ERROR",
           message: "Something went wrong",
         });
       }
@@ -65,6 +66,7 @@ class UserControllers {
 
       if (!result) {
         CustomError.createError({
+          name: ERRORS_ENUM["USER NOT FOUND"],
           message: ERRORS_ENUM["USER NOT FOUND"],
         });
       }

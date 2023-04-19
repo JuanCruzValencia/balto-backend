@@ -2,7 +2,7 @@ import { ERRORS_ENUM } from "../consts/ERRORS.ts";
 import CustomError from "../errors/customError.ts";
 import { SessionUser } from "../interface/interfaces.ts";
 import CartsService from "./carts.services.ts";
-import { ErrorRequestHandler, Request, Response } from "express";
+import { Request, Response } from "express";
 
 class CartsControllers {
   constructor() {}
@@ -27,6 +27,7 @@ class CartsControllers {
 
       if (!result) {
         CustomError.createError({
+          name: ERRORS_ENUM["CART IS EMPTY"],
           message: ERRORS_ENUM["CART IS EMPTY"],
         });
       }
@@ -49,6 +50,7 @@ class CartsControllers {
 
       if (!result) {
         CustomError.createError({
+          name: ERRORS_ENUM["CART NOT FOUND"],
           message: ERRORS_ENUM["CART NOT FOUND"],
         });
       }
@@ -67,10 +69,11 @@ class CartsControllers {
     try {
       const { cid, pid } = req.params;
 
-      const user = req.user;
+      const user = req.user as SessionUser;
 
       if (!user) {
         CustomError.createError({
+          name: ERRORS_ENUM["USER NOT FOUND"],
           message: ERRORS_ENUM["USER NOT FOUND"],
         });
 
@@ -81,6 +84,7 @@ class CartsControllers {
 
       if (!result) {
         CustomError.createError({
+          name: "Cart Error",
           message: "Failed to add producto to cart",
         });
       }
@@ -106,6 +110,7 @@ class CartsControllers {
 
       if (!result) {
         CustomError.createError({
+          name: ERRORS_ENUM["INVALID CART PROPERTY"],
           message: ERRORS_ENUM["INVALID CART PROPERTY"],
         });
       }
@@ -148,6 +153,7 @@ class CartsControllers {
 
       if (!result) {
         CustomError.createError({
+          name: ERRORS_ENUM["INVALID CART PROPERTY"],
           message: ERRORS_ENUM["INVALID CART PROPERTY"],
         });
       }
@@ -186,6 +192,7 @@ class CartsControllers {
 
       if (!result) {
         CustomError.createError({
+          name: ERRORS_ENUM["INVALID CART PROPERTY"],
           message: ERRORS_ENUM["INVALID CART PROPERTY"],
         });
       }

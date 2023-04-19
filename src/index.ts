@@ -44,8 +44,8 @@ app.use("/auth", authRouter);
 app.use("/api/users", sessionRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartRouter);
-// app.use("/chat", chatRouter);
-// app.use("/", productsMockRouter);
+app.use("/chat", chatRouter);
+app.use("/", productsMockRouter);
 app.use("/loggerTest", loggerRouter);
 
 //app.listen

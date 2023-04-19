@@ -10,7 +10,7 @@ class AuthControllers {
   async loginCtrl(req: Request, res: Response) {
     if (!req.user) return res.status(400);
 
-    const user = req.user;
+    const user = req.user as SessionUser;
 
     const loggedUser = await AuthService.login(user);
 
