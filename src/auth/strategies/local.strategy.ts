@@ -5,6 +5,7 @@ import CartsService from "../../carts/carts.services.ts";
 import AuthService from "../auth.service.ts";
 import { validateNewUser } from "../../utils.ts";
 import dotenv from "dotenv";
+import { SessionUser, User } from "../../interface/interfaces.ts";
 
 dotenv.config();
 const LocalStrategy = passportLocal.Strategy;
@@ -19,13 +20,15 @@ const initializeLocalPassport = () => {
 
         if (user) return done(null, false);
 
-        const newUser = {
+        const createCart = await CartsService.createCart();
+
+        const newUser: Partial<User> = {
           first_name: req.body.first_name,
           last_name: req.body.last_name,
           email: req.body.email,
           age: req.body.age,
           password: await userModel.encryptPassword(password),
-          cart: await CartsService.createCart(),
+          cart: createCart!,
         };
 
         if (!validateNewUser(newUser)) {

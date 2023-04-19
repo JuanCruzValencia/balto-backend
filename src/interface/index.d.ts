@@ -1,15 +1,18 @@
-import session from 'express-session';
-import { Express } from 'express';
-import { User } from './interfaces';
+import session from "express-session";
+import express from "express";
+import { SessionUser } from "./interfaces";
 
-declare module 'express-session' {
+declare module "express-session" {
   export interface SessionData {
-    user: Partial<User>;
+    user: SessionUser;
+  }
+}
+declare global {
+  namespace Express {
+    export interface Request {
+      user?: SessionUser;
+      logger?: any;
+    }
   }
 }
 
-declare namespace Express {
-  export interface Request {
-     logger?: any
-  }
-}

@@ -4,7 +4,6 @@ import tokenModel from "../models/token.model.ts";
 import userModel from "../models/users.model.ts";
 import sendMail from "../utils/nodemailer.ts";
 import { generateCode } from "../utils.ts";
-import { generateToken } from "../utils/jwt.ts";
 import UserDto from "./dto/user.dto.ts";
 import { User } from "../interface/interfaces.ts";
 import { Request, Response } from "express";
@@ -49,40 +48,40 @@ class UserServices {
     res.status(200).send({ paylaod: req.user });
   };
 
-  loginUser = async (username: string, password: string, done) => {
-    try {
-      const user = await userModel.findOne({ email: username }).lean().exec();
+  // loginUser = async (username: string, password: string, done: VerifyFunction) => {
+  //   try {
+  //     const user = await userModel.findOne({ email: username }).lean().exec();
 
-      if (!user) {
-        console.log("User Not Found");
+  //     if (!user) {
+  //       console.log("User Not Found");
 
-        return done(null, user);
-      }
+  //       return done(null, user);
+  //     }
 
-      const verifyPassword = await userModel.comparePassword(
-        password,
-        user.password
-      );
+  //     const verifyPassword = await userModel.comparePassword(
+  //       password,
+  //       user.password
+  //     );
 
-      if (!verifyPassword) {
-        console.log("Incorrect Password");
+  //     if (!verifyPassword) {
+  //       console.log("Incorrect Password");
 
-        return done(null, false);
-      }
+  //       return done(null, false);
+  //     }
 
-      const dtoUser = new UserDto(user);
+  //     const dtoUser = new UserDto(user);
 
-      const token = generateToken(dtoUser);
+  //     const token = generateToken(dtoUser);
 
-      dtoUser.accessToken = token;
+  //     dtoUser.accessToken = token;
 
-      return done(null, dtoUser);
-    } catch (error) {
-      console.log(error);
+  //     return done(null, dtoUser);
+  //   } catch (error) {
+  //     console.log(error);
 
-      return done(error);
-    }
-  };
+  //     return done(error);
+  //   }
+  // };
 
   changeRole = async (uid: User["_id"]) => {
     try {
@@ -186,7 +185,7 @@ class UserServices {
         return false;
       }
 
-      await userToken.delete();
+      await this.deleteToken(uid);
 
       return true;
     } catch (error) {
@@ -213,6 +212,16 @@ class UserServices {
   findUserToken = async (uid: User["_id"], token: string) => {
     try {
       const userToken = await tokenModel.findOne({ userId: uid });
+
+      return userToken;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  deleteToken = async (uid: User["_id"]) => {
+    try {
+      const userToken = await tokenModel.deleteOne({ userId: uid });
 
       return userToken;
     } catch (error) {

@@ -1,5 +1,6 @@
+import { ERRORS_ENUM } from "../consts/ERRORS.ts";
 import CustomError from "../errors/customError.ts";
-import { Cart } from "../interface/interfaces.ts";
+import { Cart, Product, SessionUser } from "../interface/interfaces.ts";
 import cartsModel from "../models/carts.model.ts";
 import productsModel from "../models/products.model.ts";
 import ticketModel from "../models/ticket.model.ts";
@@ -36,7 +37,7 @@ class CartsServices {
     }
   };
 
-  getCartById = async (cid: Cart['id']) => {
+  getCartById = async (cid: Cart["id"]) => {
     try {
       const cart = await cartsModel
         .findById({ _id: cid })
@@ -55,7 +56,11 @@ class CartsServices {
     }
   };
 
-  addProductToCart = async (cid, pid, user) => {
+  addProductToCart = async (
+    cid: Cart["id"],
+    pid: Product["_id"],
+    user: SessionUser
+  ) => {
     try {
       const cart = await this.getCartById(cid);
 
@@ -101,7 +106,11 @@ class CartsServices {
     }
   };
 
-  updateQuantity = async (cid, pid, quantity) => {
+  updateQuantity = async (
+    cid: Cart["id"],
+    pid: Product["_id"],
+    quantity: number
+  ) => {
     try {
       const cart = await this.getCartById(cid);
 
@@ -129,7 +138,7 @@ class CartsServices {
     }
   };
 
-  addArrayOfProducts = async (cid, arrayOfProducts) => {
+  addArrayOfProducts = async (cid: Cart["id"], arrayOfProducts: Product[]) => {
     try {
       const cart = await this.getCartById(cid);
 
@@ -153,7 +162,7 @@ class CartsServices {
     }
   };
 
-  deleteProductFromCart = async (cid, pid) => {
+  deleteProductFromCart = async (cid: Cart["id"], pid: Product["_id"]) => {
     try {
       const cart = await this.getCartById(cid);
 
@@ -173,7 +182,7 @@ class CartsServices {
     }
   };
 
-  deleteAllProducts = async (cid) => {
+  deleteAllProducts = async (cid: Cart["id"]) => {
     try {
       const cart = await this.getCartById(cid);
 
@@ -193,19 +202,37 @@ class CartsServices {
     }
   };
 
-  purchaseProducts = async (cid) => {
+  purchaseProducts = async (cid: Cart["id"]) => {
     try {
       const cart = await this.getCartById(cid);
 
       if (!cart) throw new Error("Cart Not Found");
 
-      const products = Array.from(cart.carts);
+      const products = Array.from(cart.products);
 
       const purchaser = await userModel.findOne({ cart: cid }).lean().exec();
 
+      if (!purchaser) {
+        CustomError.createError({
+          name: ERRORS_ENUM["USER NOT FOUND"],
+          message: ERRORS_ENUM["USER NOT FOUND"],
+        });
+
+        return;
+      }
+
       const total = await this.removeProductFromStock(cid, products);
 
-      const ticket = await this.generateTicket(purchaser.email, total);
+      if (!total) {
+        CustomError.createError({
+          name: "Something went wrong",
+          message: "Total Purchase",
+        });
+
+        return;
+      }
+
+      const ticket = await this.generateTicket(purchaser?.email, total);
 
       console.log(ticket);
 
@@ -218,7 +245,7 @@ class CartsServices {
     }
   };
 
-  generateTicket = async (purchaser, total) => {
+  generateTicket = async (purchaser: string, total: number) => {
     try {
       const result = await ticketModel.create({
         amount: total,
@@ -234,17 +261,31 @@ class CartsServices {
     }
   };
 
-  removeProductFromStock = async (cid, products) => {
+  removeProductFromStock = async (
+    cid: Cart["id"],
+    products: Cart["products"]
+  ) => {
     try {
       let total = 0;
 
       products.forEach(async (product) => {
-        const pid = product.product._id;
+        const pid = product.product;
 
-        if (ProductsService.updateStock(pid, product.quantity)) {
+        const productInDb = await ProductsService.getProductById(pid);
+
+        if (!productInDb) {
+          CustomError.createError({
+            name: ERRORS_ENUM["PRODUCT NOT FOUND"],
+            message: ERRORS_ENUM["PRODUCT NOT FOUND"],
+          });
+
+          return;
+        }
+
+        if (await ProductsService.updateStock(pid, product.quantity)) {
           await this.deleteProductFromCart(cid, pid);
 
-          total = total + product.product.price;
+          total = total + productInDb?.price;
         }
       });
 

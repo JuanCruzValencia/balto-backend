@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import { User } from "../interface/interfaces";
 
 interface UserModel extends Model<User> {
-  encryptPassword: (password: string) => Promise<void>;
+  encryptPassword: (password: string) => Promise<string>;
   comparePassword: (
     password: string,
     recivedPassword: string
@@ -32,7 +32,9 @@ const userSchema: Schema<User> = new Schema({
 userSchema.statics.encryptPassword = async (password) => {
   const salt = await bcrypt.genSalt(10);
 
-  return await bcrypt.hash(password, salt);
+  const encryptedPassword = await bcrypt.hash(password, salt);
+
+  return encryptedPassword;
 };
 
 userSchema.statics.comparePassword = async (password, recivedPassword) => {

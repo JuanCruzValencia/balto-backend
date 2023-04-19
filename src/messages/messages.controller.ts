@@ -1,4 +1,6 @@
-export const getChatPage = async (req, res) => {
+import { Request, Response } from "express";
+
+export const getChatPage = async (req: Request, res: Response) => {
   try {
     const user = req.session.user;
 

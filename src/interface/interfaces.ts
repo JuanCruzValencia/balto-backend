@@ -19,8 +19,14 @@ export interface UserDtoProps {
   role: string;
   accessToken: string;
 }
-
-export interface SessionUser extends User {
+export interface SessionUser extends Express.User {
+  _id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  age: number;
+  cart: Cart;
+  role: string;
   accessToken: string;
 }
 

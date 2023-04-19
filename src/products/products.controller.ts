@@ -82,6 +82,14 @@ class ProductsControllers {
 
       const user = req.session.user;
 
+      if (!user) {
+        CustomError.createError({
+          message: ERRORS_ENUM["USER NOT FOUND"],
+        });
+        
+        return;
+      }
+
       const { title, price, description, code, category } = newProduct;
 
       if (!title || !price || !description || !code || !category) {
@@ -138,9 +146,13 @@ class ProductsControllers {
     try {
       const { pid } = req.params;
 
-      const user: SessionUser = req.session.user;
+      const user = req.session.user;
 
       if (!user) {
+        CustomError.createError({
+          message: ERRORS_ENUM["USER NOT FOUND"],
+        });
+
         return;
       }
 

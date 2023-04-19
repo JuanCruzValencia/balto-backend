@@ -1,23 +1,24 @@
 import AuthService from "./auth.service.ts";
 import dotenv from "dotenv";
 import { Request, Response } from "express";
+import { Cart, SessionUser } from "../interface/interfaces.ts";
 dotenv.config();
 
 class AuthControllers {
   constructor() {}
 
   async loginCtrl(req: Request, res: Response) {
+    if (!req.user) return res.status(400);
 
-    if(!req.user) return res.status(400)
+    const user = req.user;
 
-    const user = await AuthService.login(req.user);
+    const loggedUser = await AuthService.login(user);
 
-    if (!user) return res.status(404).send({ message: "User not found" });
+    if (!loggedUser) return res.status(404).send({ message: "User not found" });
 
-    req.session.user = user;
+    req.session.user = loggedUser;
 
-    // res.cookie(process.env.COOKIE_NAME, user.accessToken).send(user);
-    res.send(user); //response without cookie
+    res.send(loggedUser);
   }
 }
 

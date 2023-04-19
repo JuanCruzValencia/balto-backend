@@ -2,7 +2,7 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 import dotenv from "dotenv";
 import CustomError from "./errors/customError.ts";
-import { User } from "./interface/interfaces.ts";
+import { SessionUser, User } from "./interface/interfaces.ts";
 import { Request, Response, NextFunction } from "express";
 dotenv.config();
 
@@ -27,7 +27,7 @@ export const generateCode = () => {
 export const authPolicies =
   (policieOne: string | null, policieTwo: string | null) =>
   (req: Request, res: Response, next: NextFunction) => {
-    const role = req.user?._doc.role;
+    const role = req.user?.role;
 
     if (typeof policieOne === "undefined") {
       policieOne = policieTwo;
@@ -43,8 +43,17 @@ export const authPolicies =
     next();
   };
 
-export const validateNewUser = (newUser: User) => {
+export const validateNewUser = (newUser: Partial<User>) => {
   const { first_name, last_name, age, email, password } = newUser;
+
+  if (!first_name || !last_name || !age || !email || !password) {
+    CustomError.createError({
+      name: "VALIDATION ERROR",
+      message: "One or more properties are undefined",
+    });
+
+    return false;
+  }
 
   if (
     first_name.length <= 3 ||
@@ -55,8 +64,10 @@ export const validateNewUser = (newUser: User) => {
   ) {
     CustomError.createError({
       name: "VALIDATION ERROR",
-      message: "One or more properties are undefined or incomplete",
+      message: "One or more properties are incomplete",
     });
+
+    return false;
   }
 
   if (!email.includes("@")) {
@@ -64,6 +75,8 @@ export const validateNewUser = (newUser: User) => {
       name: "VALIDATION ERROR",
       message: "Invalid email",
     });
+
+    return false;
   }
 
   return true;

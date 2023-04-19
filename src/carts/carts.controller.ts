@@ -1,5 +1,6 @@
 import { ERRORS_ENUM } from "../consts/ERRORS.ts";
 import CustomError from "../errors/customError.ts";
+import { SessionUser } from "../interface/interfaces.ts";
 import CartsService from "./carts.services.ts";
 import { ErrorRequestHandler, Request, Response } from "express";
 
@@ -65,7 +66,16 @@ class CartsControllers {
   addProductToCart = async (req: Request, res: Response) => {
     try {
       const { cid, pid } = req.params;
-      const user = req.user!._doc;
+
+      const user = req.user;
+
+      if (!user) {
+        CustomError.createError({
+          message: ERRORS_ENUM["USER NOT FOUND"],
+        });
+
+        return;
+      }
 
       const result = await CartsService.addProductToCart(cid, pid, user);
 
