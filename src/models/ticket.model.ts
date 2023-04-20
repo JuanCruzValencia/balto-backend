@@ -1,7 +1,16 @@
-import { Schema, model } from "mongoose";
+import { Document, Schema, Types, model } from "mongoose";
 import { generateCode } from "../utils.ts";
 
-const ticketSchema = new Schema({
+export interface Ticket {
+  id: Types.ObjectId;
+  code: string;
+  amount: number;
+  purchaser: string;
+}
+
+type TicketDocument = Document & Ticket;
+
+const ticketSchema: Schema<TicketDocument> = new Schema({
   id: Schema.Types.ObjectId,
   code: {
     type: String,
@@ -16,6 +25,6 @@ ticketSchema.set("timestamps", {
   createdAt: "purchased_datetime",
 });
 
-const ticketModel = model("Tickets", ticketSchema);
+const ticketModel = model<TicketDocument>("Tickets", ticketSchema);
 
 export default ticketModel;

@@ -1,7 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
 import passport from "passport";
-import __dirname from "./utils.ts";
 import session from "express-session";
 import productsRouter from "./products/products.routes.ts";
 import cartRouter from "./carts/carts.routes.ts";
@@ -35,7 +34,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static(__dirname + "/public"));
 app.use(errorHandler);
 app.use(addLogger);
 

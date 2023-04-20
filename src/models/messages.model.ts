@@ -1,10 +1,17 @@
-import { Schema, model } from "mongoose";
+import { Document, Schema, model } from "mongoose";
 
-const messageSchema = new Schema({
+export interface Message {
+  user: string;
+  message: string;
+}
+
+type MessageDocument = Document & Message;
+
+const messageSchema: Schema<MessageDocument> = new Schema({
   user: String,
   message: String,
 });
 
-const messageModel = model("Messages", messageSchema);
+const messageModel = model<MessageDocument>("Messages", messageSchema);
 
 export default messageModel;

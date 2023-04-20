@@ -1,10 +1,10 @@
-import session from "express-session";
-import express from "express";
+import "express-session";
+import "express";
 import { SessionUser } from "./interfaces";
 
 declare module "express-session" {
   export interface SessionData {
-    user: SessionUser;
+    user?: SessionUser;
   }
 }
 declare global {

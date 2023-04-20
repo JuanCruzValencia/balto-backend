@@ -1,5 +1,7 @@
-import { Schema, model } from "mongoose";
+import { Document, Schema, model } from "mongoose";
 import { Cart } from "../interface/interfaces.ts";
+
+type CartDocument = Document & Cart;
 
 const cartSchema: Schema<Cart> = new Schema({
   products: {
@@ -19,6 +21,6 @@ const cartSchema: Schema<Cart> = new Schema({
   },
 });
 
-const cartsModel = model<Cart>("Carts", cartSchema);
+const cartsModel = model<CartDocument>("Carts", cartSchema);
 
 export default cartsModel;

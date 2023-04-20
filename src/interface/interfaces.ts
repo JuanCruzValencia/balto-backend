@@ -41,3 +41,4 @@ export interface CartProduct {
   product: Product["_id"];
   quantity: number;
 }
+

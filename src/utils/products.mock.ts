@@ -8,10 +8,28 @@ export const generateProducts = () => {
     title: faker.commerce.productName(),
     description: faker.commerce.productDescription(),
     code: faker.random.alphaNumeric(6),
-    price: faker.commerce.price(),
+    price: Number(faker.commerce.price()),
     status: true,
-    stock: faker.random.numeric(1),
+    stock: Number(faker.random.numeric(1)),
     category: faker.commerce.department(),
     thumbnails: [faker.image.imageUrl()],
+  };
+};
+
+export const genFakerProduct = () => {
+  return {
+    title: faker.commerce.productName(),
+    description: faker.commerce.productDescription(),
+    code: faker.random.alphaNumeric(6),
+    price: Number(faker.commerce.price()),
+    stock: Number(faker.random.numeric(1)),
+    category: faker.commerce.department(),
+    thumbnails: [faker.image.imageUrl()],
+  };
+};
+
+export const fakerUpdateProduct = () => {
+  return {
+    price: faker.commerce.price(),
   };
 };

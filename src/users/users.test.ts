@@ -1,7 +1,7 @@
 import supertest from "supertest";
 import chai from "chai";
 import dotenv from "dotenv";
-import { newFakerUser } from "../../utils/users.mock.js";
+import { newFakerUser } from "../utils/users.mock.ts";
 dotenv.config();
 
 const expect = chai.expect;
@@ -69,7 +69,7 @@ describe("Testing auth and user endpoints", () => {
       password: "qweqwe",
     };
 
-    let cookieName, cookieToken;
+    let cookieName: string, cookieToken: string;
 
     before(async () => {
       const logUser = await requester.post("/login").send(userAccount);
@@ -88,21 +88,21 @@ describe("Testing auth and user endpoints", () => {
     });
 
     it("GET should return an user", async () => {
-      const { _body } = await requester
+      const response = await requester
         .get("/api/sessions/current")
         .set("Cookie", [`${cookieName}=${cookieToken}`]);
 
-      expect(_body.payload).to.exist.and.to.be.an("object");
+      expect(response.body.payload).to.exist.and.to.be.an("object");
     });
 
     it("GET user must have _id, email and cart properties", async () => {
-      const { _body } = await requester
+      const { body } = await requester
         .get("/api/sessions/current")
         .set("Cookie", [`${cookieName}=${cookieToken}`]);
 
-      expect(_body.payload).to.exist.and.to.haveOwnProperty("_id");
-      expect(_body.payload).to.exist.and.to.haveOwnProperty("email");
-      expect(_body.payload).to.exist.and.to.haveOwnProperty("cart");
+      expect(body.payload).to.exist.and.to.haveOwnProperty("_id");
+      expect(body.payload).to.exist.and.to.haveOwnProperty("email");
+      expect(body.payload).to.exist.and.to.haveOwnProperty("cart");
     });
   });
 });

@@ -1,4 +1,3 @@
-import __dirname from "../utils.ts";
 import { Request, Response } from "express";
 
 export const getLoggerTest = (req: Request, res: Response) => {

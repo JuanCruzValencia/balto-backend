@@ -1,5 +1,8 @@
 import dotenv from "dotenv";
 import { generateProducts } from "../utils/products.mock.ts";
+import chai from "chai";
+import supertest from "supertest";
+import { Cart } from "../interface/interfaces.ts";
 dotenv.config();
 
 const expect = chai.expect;
@@ -15,12 +18,12 @@ describe("Testing /api/carts endpoint", () => {
   });
 
   describe("GET /api/carts/:cid should return if the cart is finded status 200, with and empty array else status 400", () => {
-    let cid;
+    let cid: Cart["id"];
 
     before(async () => {
-      const { _body } = await requester.post("/api/carts");
+      const { body } = await requester.post("/api/carts");
 
-      cid = _body.payload._id;
+      cid = body.payload._id;
     });
 
     it("GET should return status 200", async () => {
@@ -30,10 +33,10 @@ describe("Testing /api/carts endpoint", () => {
     });
 
     it("GET should return an object with a carts array property", async () => {
-      const { _body } = await requester.get(`/api/carts/${cid}`);
+      const { body } = await requester.get(`/api/carts/${cid}`);
 
-      expect(_body.payload).to.be.an("object");
-      expect(_body.payload.carts).to.exist.and.to.be.an("array");
+      expect(body.payload).to.be.an("object");
+      expect(body.payload.carts).to.exist.and.to.be.an("array");
     });
 
     it("GET should return status 400 if cart doesnt exist", async () => {
@@ -44,14 +47,14 @@ describe("Testing /api/carts endpoint", () => {
   });
 
   describe("POST /api/carts/:cid", () => {
-    let cid;
+    let cid: Cart["id"];
 
     const arrayOfProducts = generateProducts();
 
     before(async () => {
-      const { _body } = await requester.post("/api/carts");
+      const { body } = await requester.post("/api/carts");
 
-      cid = _body.payload._id;
+      cid = body.payload._id;
     });
 
     it("POST should return status 200 if the array of products was sended", async () => {
@@ -71,23 +74,23 @@ describe("Testing /api/carts endpoint", () => {
     });
 
     it("POST must save the array of products and not be empty", async () => {
-      const { _body } = await requester
+      const { body } = await requester
         .post(`/api/carts/${cid}`)
         .send([arrayOfProducts]);
 
-      expect(_body.payload).to.exist.and.not.be.empty;
+      expect(body.payload).to.exist.and.not.be.empty;
     });
   });
 
   describe("DELETE /api/carts/:cid", () => {
-    let cid;
+    let cid: Cart["id"];
 
     const arrayOfProducts = generateProducts();
 
     before(async () => {
-      const { _body } = await requester.post("/api/carts");
+      const { body } = await requester.post("/api/carts");
 
-      cid = _body.payload._id;
+      cid = body.payload._id;
 
       await requester.post(`/api/carts/${cid}`).send([arrayOfProducts]);
     });

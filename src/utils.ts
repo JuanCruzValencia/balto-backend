@@ -1,15 +1,8 @@
-import { fileURLToPath } from "url";
-import { dirname } from "path";
 import dotenv from "dotenv";
 import CustomError from "./errors/customError.ts";
 import { SessionUser, User } from "./interface/interfaces.ts";
 import { Request, Response, NextFunction } from "express";
 dotenv.config();
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-export default __dirname;
 
 export const generateCode = () => {
   const characters =

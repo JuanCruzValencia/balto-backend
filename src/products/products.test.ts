@@ -1,10 +1,8 @@
 import supertest from "supertest";
 import chai from "chai";
 import dotenv from "dotenv";
-import {
-  genFakerProduct,
-  fakerUpdateProduct,
-} from "../../utils/products.mock.js";
+import { fakerUpdateProduct, genFakerProduct } from "../utils/products.mock.ts";
+import { Product } from "../interface/interfaces.ts";
 dotenv.config();
 
 const expect = chai.expect;
@@ -19,9 +17,9 @@ describe("Testing products endpoint", () => {
     });
 
     it("GET should return an array", async () => {
-      const { _body } = await requester.get("/api/products");
+      const { body } = await requester.get("/api/products");
 
-      expect(_body.payload).to.be.an("array").that.is.not.empty;
+      expect(body.payload).to.be.an("array").that.is.not.empty;
     });
   });
 
@@ -33,7 +31,7 @@ describe("Testing products endpoint", () => {
     const newProductWithoutProperties = {
       title: "Product one",
     };
-    let cookieName, cookieToken, newProduct;
+    let cookieName: string, cookieToken: string, newProduct: Partial<Product>;
 
     before(async () => {
       const logUser = await requester.post("/login").send(userAccount);
@@ -46,13 +44,13 @@ describe("Testing products endpoint", () => {
     });
 
     it("POST a new product should return status 201 if all required properties was sended and must save the product in DB with a new _id property", async () => {
-      const { _body, status } = await requester
+      const { body, status } = await requester
         .post("/api/products")
         .set("Cookie", [`${cookieName}=${cookieToken}`])
         .send(newProduct);
 
       expect(status).to.exist.and.to.be.equal(201);
-      expect(_body.payload).to.exist.and.to.haveOwnProperty("_id");
+      expect(body.payload).to.exist.and.to.haveOwnProperty("_id");
     });
 
     it("POST a new product should return status 400 if any of the required properties was undefined", async () => {
@@ -75,15 +73,15 @@ describe("Testing products endpoint", () => {
     });
 
     it("GET payload should return an object is pid is defined", async () => {
-      const { _body } = await requester.get(`/api/products/${pid}`);
+      const { body } = await requester.get(`/api/products/${pid}`);
 
-      expect(_body.payload).to.exist.and.to.be.an("object");
+      expect(body.payload).to.exist.and.to.be.an("object");
     });
 
     it("GET payload object must have property _id", async () => {
-      const { _body } = await requester.get(`/api/products/${pid}`);
+      const { body } = await requester.get(`/api/products/${pid}`);
 
-      expect(_body.payload).to.haveOwnProperty("_id");
+      expect(body.payload).to.haveOwnProperty("_id");
     });
 
     it("GET should return status 400 if pid is not defined", async () => {
@@ -101,7 +99,7 @@ describe("Testing products endpoint", () => {
       password: "qweqwe",
     };
 
-    let cookieName, cookieToken, pid;
+    let cookieName: string, cookieToken: string, pid: Product["_id"];
 
     const productUpdated = fakerUpdateProduct();
 
@@ -114,16 +112,16 @@ describe("Testing products endpoint", () => {
       cookieToken = cookie.split("=")[1];
 
       const newProduct = genFakerProduct();
-      const { _body } = await requester
+      const { body } = await requester
         .post("/api/products")
         .set("Cookie", [`${cookieName}=${cookieToken}`])
         .send(newProduct);
 
-      pid = _body.payload._id;
+      pid = body.payload._id;
     });
 
     it("PUT should return status 202 if the product was updated", async () => {
-      const { status, _body } = await requester
+      const { status, body } = await requester
         .put(`/api/products/${pid}`)
         .set("Cookie", [`${cookieName}=${cookieToken}`])
         .send(productUpdated);
@@ -145,7 +143,7 @@ describe("Testing products endpoint", () => {
       email: "jcvalencia@ismt.edu.ar",
       password: "qweqwe",
     };
-    let cookieName, cookieToken, pid;
+    let cookieName: string, cookieToken: string, pid: Product["_id"];
 
     before(async () => {
       const logUser = await requester.post("/login").send(userAccount);
@@ -156,12 +154,12 @@ describe("Testing products endpoint", () => {
       cookieToken = cookie.split("=")[1];
 
       const newProduct = genFakerProduct();
-      const { _body } = await requester
+      const { body } = await requester
         .post("/api/products")
         .set("Cookie", [`${cookieName}=${cookieToken}`])
         .send(newProduct);
 
-      pid = _body.payload._id;
+      pid = body.payload._id;
     });
 
     it("DELETE should return status 202 if the product was deleted", async () => {
