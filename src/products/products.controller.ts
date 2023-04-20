@@ -1,7 +1,6 @@
 import { ERRORS_ENUM } from "../consts/ERRORS.ts";
 import CustomError from "../errors/customError.ts";
 import { generateProductErrorInfo } from "../errors/infoError.ts";
-import { SessionUser } from "../interface/interfaces.ts";
 import ProductsService from "./products.serivces.ts";
 import { Request, Response } from "express";
 

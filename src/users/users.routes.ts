@@ -1,8 +1,8 @@
 import express from "express";
 import passport from "passport";
-import UserController from "./users.controllers.js";
-import { authToken } from "../utils/jwt.js";
-import UserService from "./users.services.js";
+import UserController from "./users.controllers.ts";
+import { authToken } from "../utils/jwt.ts";
+import UserService from "./users.services.ts";
 
 const Router = express.Router();
 
