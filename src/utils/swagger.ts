@@ -1,16 +1,16 @@
-import swaggerJSDoc from "swagger-jsdoc";
-import __dirname from "./utils.js";
+import swaggerJSDoc, { Options } from "swagger-jsdoc";
 
-const swaggerOptions = {
+const swaggerOptions: Options = {
   definition: {
     openapi: "3.0.1",
     info: {
       title: "Documentacion",
       description:
         "Documentacion del ecommerce para el curso de backend en coderhouse",
+      version: "0.1",
     },
   },
-  apis: [`${__dirname}/./docs/**/*.yaml`],
+  apis: [`./src/docs/**/*.yaml`],
 };
 
 const initSwagger = () => {
