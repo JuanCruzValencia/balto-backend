@@ -7,6 +7,13 @@ export interface User {
   password: string;
   cart: Cart;
   role: string;
+  documents: Document[];
+  last_connection: Date;
+}
+
+export interface Document {
+  name: string;
+  reference: string;
 }
 
 export interface SessionUser extends Express.User {
@@ -41,4 +48,3 @@ export interface CartProduct {
   product: Product["_id"];
   quantity: number;
 }
-

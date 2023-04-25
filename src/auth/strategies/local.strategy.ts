@@ -55,6 +55,8 @@ const initializeLocalPassport = () => {
           return done(null, false);
         }
 
+        AuthService.updateLoginDate(user._id);
+
         return done(null, user);
       }
     )

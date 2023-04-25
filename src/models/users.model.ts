@@ -8,9 +8,8 @@ interface UserModel extends Model<User> {
     password: string,
     recivedPassword: string
   ) => Promise<boolean>;
+  loginDate: (id: string) => Date;
 }
-
-type UserDocument = Document & UserModel;
 
 const userSchema: Schema<User> = new Schema({
   first_name: String,
@@ -29,18 +28,36 @@ const userSchema: Schema<User> = new Schema({
     type: String,
     default: "USER",
   },
+  documents: [
+    {
+      name: String,
+      reference: String,
+    },
+  ],
+  last_connection: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 userSchema.statics.encryptPassword = async (password) => {
   const salt = await bcrypt.genSalt(10);
-
   const encryptedPassword = await bcrypt.hash(password, salt);
-
   return encryptedPassword;
 };
 
 userSchema.statics.comparePassword = async (password, recivedPassword) => {
   return await bcrypt.compare(password, recivedPassword);
+};
+
+userSchema.statics.loginDate = async (id) => {
+  return await userModel.findByIdAndUpdate(
+    { _id: id },
+    {
+      $set: { last_connection: Date.now() },
+    },
+    { new: true }
+  );
 };
 
 const userModel = model<User, UserModel>("User", userSchema);

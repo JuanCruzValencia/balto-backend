@@ -37,6 +37,10 @@ class AuthServices {
 
     return user;
   }
+
+  updateLoginDate(id: string) {
+    return userModel.loginDate(id);
+  }
 }
 
 const AuthService = new AuthServices();
