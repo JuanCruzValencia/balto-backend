@@ -1,12 +1,13 @@
 import multer from "multer";
 import { SessionUser } from "../interface/interfaces";
+import path from "path";
 
 const storage = multer.diskStorage({
   destination(req, file, callback) {
-    const dir = `../public/${file.fieldname}`;
+    const dir = `./src/public/${file.fieldname}`;
 
     switch (file.fieldname) {
-      case "profile":
+      case "profiles":
         callback(null, dir);
         break;
       case "products":
@@ -20,10 +21,12 @@ const storage = multer.diskStorage({
     }
   },
   filename(req, file, callback) {
-    const { _id } = req.user as SessionUser;
+    // const { _id } = req.user as SessionUser;
 
-    callback(null, `${_id}`);
+    callback(null, `${file.fieldname}` + path.extname(file.originalname));
   },
 });
 
-export default multer
+const upload = multer({ storage: storage });
+
+export default upload;

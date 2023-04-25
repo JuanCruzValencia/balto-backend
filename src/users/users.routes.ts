@@ -3,6 +3,7 @@ import passport from "passport";
 import UserController from "./users.controllers.ts";
 import { authToken } from "../utils/jwt.ts";
 import UserService from "./users.services.ts";
+import upload from "../utils/multer.ts";
 
 const Router = express.Router();
 
@@ -22,6 +23,14 @@ Router.post("/restore", UserController.postRestore);
 
 Router.post("/restoreForm/:uid/:token", UserController.postRestoreForm);
 
-Router.post("/:uid/documents", UserController.uploadDocument);
+Router.post(
+  "/:uid/documents",
+  upload.fields([
+    { name: "documents", maxCount: 1 },
+    { name: "profiles", maxCount: 1 },
+    { name: "products", maxCount: 1 },
+  ]),
+  UserController.uploadDocument
+);
 
 export default Router;

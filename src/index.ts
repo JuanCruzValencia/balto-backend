@@ -20,6 +20,7 @@ import initSwagger from "./utils/swagger.ts";
 import MongoConnection, { MongoStoreInstance } from "./utils/mongo.ts";
 import { jwtStrategy, localStrategy } from "./auth/strategies/index.ts";
 import swaggerUiExpress from "swagger-ui-express";
+import path from "path";
 //const and env variables
 dotenv.config();
 const app = express();

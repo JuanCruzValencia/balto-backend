@@ -79,7 +79,14 @@ class UserControllers {
   };
 
   uploadDocument = async (req: Request, res: Response) => {
-    //TODO cargar un archivo y modificar el usuario para que quede registrada la accion
+    const { uid } = req.params;
+    const { title } = req.body;
+
+    console.log(title);
+
+    res.json({
+      message: "Document succesfully upload",
+    });
   };
 }
 
