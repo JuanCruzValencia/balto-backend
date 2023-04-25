@@ -21,6 +21,7 @@ class UserControllers {
   };
 
   changeUserRole = async (req: Request, res: Response) => {
+    //TODO el usuario debe cambiar a premium solo si actualizo su perfil con ciertos documentos
     try {
       const { uid } = req.params;
 
@@ -75,6 +76,10 @@ class UserControllers {
     } catch (error) {
       req.logger.error(error);
     }
+  };
+
+  uploadDocument = async (req: Request, res: Response) => {
+    //TODO cargar un archivo y modificar el usuario para que quede registrada la accion
   };
 }
 

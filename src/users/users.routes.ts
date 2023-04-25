@@ -22,4 +22,6 @@ Router.post("/restore", UserController.postRestore);
 
 Router.post("/restoreForm/:uid/:token", UserController.postRestoreForm);
 
+Router.post("/:uid/documents", UserController.uploadDocument);
+
 export default Router;
