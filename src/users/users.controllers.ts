@@ -89,32 +89,24 @@ class UserControllers {
       });
       return;
     }
-    const fileKeys = Object.keys(req.files);
-    const files = new Array();
+    const filesValues = Object.values(req.files);
 
-    fileKeys.forEach((key) => {
-      files.push(req.files[key]);
+    //TODO should be a better way of doing this
 
-    }); //TODO should be a better way of getting the files.path
-    // let filePath;
-    // if (files[FIELDNAMES.DOCUMENTS])
-    //   filePath = files[FIELDNAMES.DOCUMENTS][0].path;
-    // if (files[FIELDNAMES.PRODUCTS])
-    //   filePath = files[FIELDNAMES.PRODUCTS][0].path;
-    // if (files[FIELDNAMES.PROFILES])
-    //   filePath = files[FIELDNAMES.PROFILES][0].path;
+    filesValues.map(async (arrayOfFiles: Express.Multer.File[]) => {
+      return arrayOfFiles.map(async (file: Express.Multer.File) => {
+        const newDocument = {
+          name: file.originalname,
+          reference: file.path,
+        };
 
-    files.map(async (file: Express.Multer.File) => {
-      const newDocument = {
-        name: file.originalname,
-        reference: file.path,
-      };
-
-      console.log(newDocument);
-      // await UserService.updateUpload(uid, newDocument);
+        await UserService.updateUpload(uid, newDocument);
+        
+        return console.log(newDocument);
+      });
     });
 
-    res.json({
+    res.status(200).send({
       message: `Document succesfully upload`,
     });
   };

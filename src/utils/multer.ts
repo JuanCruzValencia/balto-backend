@@ -21,8 +21,6 @@ const storage = multer.diskStorage({
     }
   },
   filename(req, file, callback) {
-    // const { _id } = req.user as SessionUser;
-
     callback(null, file.originalname);
   },
 });
