@@ -101,8 +101,8 @@ class UserControllers {
         };
 
         await UserService.updateUpload(uid, newDocument);
-        
-        return console.log(newDocument);
+
+        return;
       });
     });
 

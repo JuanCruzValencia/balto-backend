@@ -7,6 +7,7 @@ import { generateCode } from "../utils.ts";
 import UserDto from "./dto/user.dto.ts";
 import { Document, User, FIELDNAMES } from "../interface/interfaces.ts";
 import { Request, Response } from "express";
+import path from "path";
 
 class UserServices {
   finAll = async () => {
@@ -49,41 +50,6 @@ class UserServices {
     res.status(200).send({ paylaod: req.user });
   };
 
-  // loginUser = async (username: string, password: string, done: VerifyFunction) => {
-  //   try {
-  //     const user = await userModel.findOne({ email: username }).lean().exec();
-
-  //     if (!user) {
-  //       console.log("User Not Found");
-
-  //       return done(null, user);
-  //     }
-
-  //     const verifyPassword = await userModel.comparePassword(
-  //       password,
-  //       user.password
-  //     );
-
-  //     if (!verifyPassword) {
-  //       console.log("Incorrect Password");
-
-  //       return done(null, false);
-  //     }
-
-  //     const dtoUser = new UserDto(user);
-
-  //     const token = generateToken(dtoUser);
-
-  //     dtoUser.accessToken = token;
-
-  //     return done(null, dtoUser);
-  //   } catch (error) {
-  //     console.log(error);
-
-  //     return done(error);
-  //   }
-  // };
-
   changeRole = async (uid: User["_id"]) => {
     try {
       const user = await this.findUserById(uid);
@@ -93,6 +59,40 @@ class UserServices {
           name: ERRORS_ENUM["USER NOT FOUND"],
           message: ERRORS_ENUM["USER NOT FOUND"],
         });
+      }
+
+      if (user?.role === "USER") {
+        const userDocuments = user?.documents.map((document: Document) => {
+          console.log(document);
+
+          if (!document) {
+            CustomError.createError({
+              name: "DOCUMENT NOT FOUND",
+              message: "YOU DONT HAVE ANY DOCUMENT UPLOADED",
+            });
+          }
+
+          const result = path.parse(document.name).name;
+
+          console.log(result);
+
+          return result;
+        });
+
+        console.log(userDocuments);
+
+        if (
+          !userDocuments?.includes("identificación") &&
+          !userDocuments?.includes("comprobante de domicilio") &&
+          !userDocuments?.includes("comprobante de estado de cuenta")
+        ) {
+          CustomError.createError({
+            name: "Invalid Credentials",
+            message: "Must upload ",
+          });
+
+          return false;
+        }
       }
 
       const result = await userModel.updateOne(
@@ -105,6 +105,7 @@ class UserServices {
       return true;
     } catch (error) {
       console.log(error);
+      return error;
     }
   };
 

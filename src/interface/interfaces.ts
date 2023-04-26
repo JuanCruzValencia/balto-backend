@@ -12,8 +12,8 @@ export interface User {
 }
 
 export interface Document {
-  name: string | undefined;
-  reference: string | undefined;
+  name: string;
+  reference: string;
 }
 
 export enum FIELDNAMES {
