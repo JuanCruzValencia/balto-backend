@@ -16,6 +16,17 @@ export interface Document {
   reference: string | undefined;
 }
 
+export interface MulterFieldnames {
+  name: Fieldnames;
+  maxCount: number;
+}
+
+export enum Fieldnames {
+  DOCUMENTS = "documents",
+  PROFILES = "profiles",
+  PRODUCTS = "products",
+}
+
 export interface SessionUser extends Express.User {
   _id: string;
   first_name: string;

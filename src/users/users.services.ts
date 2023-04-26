@@ -249,7 +249,10 @@ class UserServices {
         return;
       }
 
-      user.documents.push(newDocument);
+      await userModel.updateOne(
+        { _id: uid },
+        { $push: { documents: newDocument } }
+      );
     } catch (error) {
       console.log(error);
     }
