@@ -16,12 +16,7 @@ export interface Document {
   reference: string | undefined;
 }
 
-export interface MulterFieldnames {
-  name: Fieldnames;
-  maxCount: number;
-}
-
-export enum Fieldnames {
+export enum FIELDNAMES {
   DOCUMENTS = "documents",
   PROFILES = "profiles",
   PRODUCTS = "products",

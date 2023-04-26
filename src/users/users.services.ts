@@ -5,7 +5,7 @@ import userModel from "../models/users.model.ts";
 import sendMail from "../utils/nodemailer.ts";
 import { generateCode } from "../utils.ts";
 import UserDto from "./dto/user.dto.ts";
-import { Document, User } from "../interface/interfaces.ts";
+import { Document, User, FIELDNAMES } from "../interface/interfaces.ts";
 import { Request, Response } from "express";
 
 class UserServices {

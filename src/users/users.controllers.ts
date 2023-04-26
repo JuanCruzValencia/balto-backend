@@ -3,7 +3,7 @@ import { ERRORS_ENUM } from "../consts/ERRORS.ts";
 import CustomError from "../errors/customError.ts";
 import UserService from "./users.services.ts";
 import dotenv from "dotenv";
-import { Document, Fieldnames } from "../interface/interfaces.ts";
+import { Document, FIELDNAMES } from "../interface/interfaces.ts";
 dotenv.config();
 
 class UserControllers {
@@ -81,21 +81,41 @@ class UserControllers {
 
   uploadDocument = async (req: Request, res: Response) => {
     const { uid } = req.params;
-    const { title } = req.body;
-    const file = req.files;
 
-    const fieldname = file?.map(elem => {
-      return elem
-    })
+    if (!req.files) {
+      CustomError.createError({
+        name: "Multer ERROR",
+        message: "Files can not be saved",
+      });
+      return;
+    }
+    const fileKeys = Object.keys(req.files);
+    const files = new Array();
 
-    const newDocument: Document = {
-      name: title,
-      reference: "",
-    };
-    await UserService.updateUpload(uid, newDocument);
+    fileKeys.forEach((key) => {
+      files.push(req.files[key]);
+
+    }); //TODO should be a better way of getting the files.path
+    // let filePath;
+    // if (files[FIELDNAMES.DOCUMENTS])
+    //   filePath = files[FIELDNAMES.DOCUMENTS][0].path;
+    // if (files[FIELDNAMES.PRODUCTS])
+    //   filePath = files[FIELDNAMES.PRODUCTS][0].path;
+    // if (files[FIELDNAMES.PROFILES])
+    //   filePath = files[FIELDNAMES.PROFILES][0].path;
+
+    files.map(async (file: Express.Multer.File) => {
+      const newDocument = {
+        name: file.originalname,
+        reference: file.path,
+      };
+
+      console.log(newDocument);
+      // await UserService.updateUpload(uid, newDocument);
+    });
 
     res.json({
-      message: `Document ${title} succesfully upload`,
+      message: `Document succesfully upload`,
     });
   };
 }
