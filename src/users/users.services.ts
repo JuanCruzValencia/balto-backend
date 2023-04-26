@@ -5,7 +5,7 @@ import userModel from "../models/users.model.ts";
 import sendMail from "../utils/nodemailer.ts";
 import { generateCode } from "../utils.ts";
 import UserDto from "./dto/user.dto.ts";
-import { User } from "../interface/interfaces.ts";
+import { Document, User } from "../interface/interfaces.ts";
 import { Request, Response } from "express";
 
 class UserServices {
@@ -231,6 +231,25 @@ class UserServices {
       const userToken = await tokenModel.deleteOne({ userId: uid });
 
       return userToken;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  updateUpload = async (uid: User["_id"], newDocument: Document) => {
+    try {
+      const user = await userModel.findById({ _id: uid }).lean().exec();
+
+      if (!user) {
+        CustomError.createError({
+          name: ERRORS_ENUM["USER NOT FOUND"],
+          message: ERRORS_ENUM["USER NOT FOUND"],
+        });
+
+        return;
+      }
+
+      user.documents.push(newDocument);
     } catch (error) {
       console.log(error);
     }

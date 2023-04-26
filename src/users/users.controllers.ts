@@ -3,6 +3,7 @@ import { ERRORS_ENUM } from "../consts/ERRORS.ts";
 import CustomError from "../errors/customError.ts";
 import UserService from "./users.services.ts";
 import dotenv from "dotenv";
+import { Document } from "../interface/interfaces.ts";
 dotenv.config();
 
 class UserControllers {
@@ -81,11 +82,16 @@ class UserControllers {
   uploadDocument = async (req: Request, res: Response) => {
     const { uid } = req.params;
     const { title } = req.body;
+    const filePath = req.file?.path;
 
-    console.log(title);
+    const newDocument: Document = {
+      name: title,
+      reference: filePath,
+    };
+    await UserService.updateUpload(uid, newDocument);
 
     res.json({
-      message: "Document succesfully upload",
+      message: `Document ${title} succesfully upload`,
     });
   };
 }

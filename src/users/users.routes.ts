@@ -26,9 +26,9 @@ Router.post("/restoreForm/:uid/:token", UserController.postRestoreForm);
 Router.post(
   "/:uid/documents",
   upload.fields([
-    { name: "documents", maxCount: 1 },
+    { name: "documents", maxCount: 3 },
     { name: "profiles", maxCount: 1 },
-    { name: "products", maxCount: 1 },
+    { name: "products", maxCount: 10 },
   ]),
   UserController.uploadDocument
 );

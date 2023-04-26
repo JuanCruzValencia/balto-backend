@@ -12,8 +12,8 @@ export interface User {
 }
 
 export interface Document {
-  name: string;
-  reference: string;
+  name: string | undefined;
+  reference: string | undefined;
 }
 
 export interface SessionUser extends Express.User {
