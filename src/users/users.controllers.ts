@@ -3,7 +3,6 @@ import { ERRORS_ENUM } from "../consts/ERRORS.ts";
 import CustomError from "../errors/customError.ts";
 import UserService from "./users.services.ts";
 import dotenv from "dotenv";
-import { Document, FIELDNAMES } from "../interface/interfaces.ts";
 dotenv.config();
 
 class UserControllers {
@@ -22,7 +21,6 @@ class UserControllers {
   };
 
   changeUserRole = async (req: Request, res: Response) => {
-    //TODO el usuario debe cambiar a premium solo si actualizo su perfil con ciertos documentos
     try {
       const { uid } = req.params;
 
@@ -43,6 +41,7 @@ class UserControllers {
     }
   };
 
+  //TODO endpoint no implementado en el front con next
   postRestore = async (req: Request, res: Response) => {
     try {
       const { email } = req.body;
@@ -53,12 +52,13 @@ class UserControllers {
         return res.render("error", { error: "Email Not Found" });
       }
 
-      res.status(200).redirect("login");
+      res.status(200);
     } catch (error) {
       req.logger.error(error);
     }
   };
 
+  //TODO endpoint no implementado en el front con next
   postRestoreForm = async (req: Request, res: Response) => {
     try {
       const { password } = req.body;
@@ -73,12 +73,13 @@ class UserControllers {
         });
       }
 
-      res.status(200).redirect("login");
+      res.status(200);
     } catch (error) {
       req.logger.error(error);
     }
   };
 
+  //TODO endpoint no implementado en el front con next
   uploadDocument = async (req: Request, res: Response) => {
     const { uid } = req.params;
 
@@ -90,8 +91,6 @@ class UserControllers {
       return;
     }
     const filesValues = Object.values(req.files);
-
-    //TODO should be a better way of doing this
 
     filesValues.map(async (arrayOfFiles: Express.Multer.File[]) => {
       return arrayOfFiles.map(async (file: Express.Multer.File) => {

@@ -11,9 +11,7 @@ class CartsControllers {
     try {
       await CartsService.createCart();
 
-      res.status(200).send({
-        message: "Cart created",
-      });
+      res.status(200);
     } catch (error: any) {
       req.logger.error(error);
 
@@ -24,13 +22,6 @@ class CartsControllers {
   getCarts = async (req: Request, res: Response) => {
     try {
       const result = await CartsService.getAllCarts();
-
-      if (!result) {
-        CustomError.createError({
-          name: ERRORS_ENUM["CART IS EMPTY"],
-          message: ERRORS_ENUM["CART IS EMPTY"],
-        });
-      }
 
       res.status(200).send({
         payload: result,
@@ -48,13 +39,6 @@ class CartsControllers {
 
       const result = await CartsService.getCartById(cid);
 
-      if (!result) {
-        CustomError.createError({
-          name: ERRORS_ENUM["CART NOT FOUND"],
-          message: ERRORS_ENUM["CART NOT FOUND"],
-        });
-      }
-
       res.status(200).send({
         payload: result,
       });
@@ -71,23 +55,7 @@ class CartsControllers {
 
       const user = req.user as SessionUser;
 
-      if (!user) {
-        CustomError.createError({
-          name: ERRORS_ENUM["USER NOT FOUND"],
-          message: ERRORS_ENUM["USER NOT FOUND"],
-        });
-
-        return;
-      }
-
       const result = await CartsService.addProductToCart(cid, pid, user);
-
-      if (!result) {
-        CustomError.createError({
-          name: "Cart Error",
-          message: "Failed to add producto to cart",
-        });
-      }
 
       res.status(200).send({
         payload: result,
@@ -107,13 +75,6 @@ class CartsControllers {
       const { quantity } = req.body;
 
       const result = await CartsService.updateQuantity(cid, pid, quantity);
-
-      if (!result) {
-        CustomError.createError({
-          name: ERRORS_ENUM["INVALID CART PROPERTY"],
-          message: ERRORS_ENUM["INVALID CART PROPERTY"],
-        });
-      }
 
       res.status(200).send({
         payload: result,
@@ -149,18 +110,9 @@ class CartsControllers {
     try {
       const { cid, pid } = req.params;
 
-      const result = await CartsService.deleteProductFromCart(cid, pid);
+      await CartsService.deleteProductFromCart(cid, pid);
 
-      if (!result) {
-        CustomError.createError({
-          name: ERRORS_ENUM["INVALID CART PROPERTY"],
-          message: ERRORS_ENUM["INVALID CART PROPERTY"],
-        });
-      }
-
-      res.status(200).send({
-        payload: result,
-      });
+      res.status(200);
     } catch (error: any) {
       req.logger.error(error);
 
@@ -172,11 +124,9 @@ class CartsControllers {
     try {
       const { cid } = req.params;
 
-      const result = await CartsService.deleteAllProducts(cid);
+      await CartsService.deleteAllProducts(cid);
 
-      res.status(200).send({
-        payload: result,
-      });
+      res.status(200);
     } catch (error: any) {
       req.logger.error(error);
 
@@ -189,13 +139,6 @@ class CartsControllers {
       const { cid } = req.params;
 
       const result = await CartsService.purchaseProducts(cid);
-
-      if (!result) {
-        CustomError.createError({
-          name: ERRORS_ENUM["INVALID CART PROPERTY"],
-          message: ERRORS_ENUM["INVALID CART PROPERTY"],
-        });
-      }
 
       res.status(200).send({
         payload: result,
