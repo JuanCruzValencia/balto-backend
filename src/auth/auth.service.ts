@@ -38,9 +38,15 @@ class AuthServices {
     return user;
   }
 
-  updateLoginDate(id: string) {
-    return userModel.loginDate(id);
-  }
+  updateLoginDate = async (id: User["_id"]) => {
+    return await userModel.findByIdAndUpdate(
+      { _id: id },
+      {
+        $set: { last_connection: Date.now() },
+      },
+      { new: true }
+    );
+  };
 }
 
 const AuthService = new AuthServices();

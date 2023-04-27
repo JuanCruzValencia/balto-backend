@@ -17,27 +17,30 @@ class UserControllers {
       res.send(user);
     } catch (error) {
       req.logger.error(error);
+
+      return res.status(404).send({ message: "SOMETHING WENT WRONG" });
     }
+  };
+
+  registerUser = (req: Request, res: Response) => {
+    if (!req.user) return res.status(400);
+
+    res.status(200).send({ paylaod: req.user });
   };
 
   changeUserRole = async (req: Request, res: Response) => {
     try {
       const { uid } = req.params;
 
-      const result = await UserService.changeRole(uid);
-
-      if (!result) {
-        CustomError.createError({
-          name: "ERROR",
-          message: "Something went wrong",
-        });
-      }
+      await UserService.changeRole(uid);
 
       res.status(200).send({
         message: "User succesfully changed role",
       });
     } catch (error: any) {
       req.logger.error(error);
+
+      return res.status(404).send({ message: "SOMETHING WENT WRONG" });
     }
   };
 
@@ -46,15 +49,13 @@ class UserControllers {
     try {
       const { email } = req.body;
 
-      const result = await UserService.sendRestoreMail(email);
-
-      if (!result) {
-        return res.render("error", { error: "Email Not Found" });
-      }
+      await UserService.sendRestoreMail(email);
 
       res.status(200);
     } catch (error) {
       req.logger.error(error);
+
+      return res.status(404).send({ message: "SOMETHING WENT WRONG" });
     }
   };
 
@@ -64,50 +65,47 @@ class UserControllers {
       const { password } = req.body;
       const { uid, token } = req.params;
 
-      const result = await UserService.restorePassword(uid, password, token);
-
-      if (!result) {
-        CustomError.createError({
-          name: ERRORS_ENUM["USER NOT FOUND"],
-          message: ERRORS_ENUM["USER NOT FOUND"],
-        });
-      }
+      await UserService.restorePassword(uid, password, token);
 
       res.status(200);
     } catch (error) {
       req.logger.error(error);
+
+      return res.status(404).send({ message: "SOMETHING WENT WRONG" });
     }
   };
 
   //TODO endpoint no implementado en el front con next
   uploadDocument = async (req: Request, res: Response) => {
-    const { uid } = req.params;
+    try {
+      const { uid } = req.params;
 
-    if (!req.files) {
-      CustomError.createError({
-        name: "Multer ERROR",
-        message: "Files can not be saved",
+      if (!req.files)
+        return res.status(404).send({ message: "SOMETHING WENT WRONG" });
+
+      const filesValues = Object.values(req.files);
+
+      filesValues.map(async (arrayOfFiles: Express.Multer.File[]) => {
+        return arrayOfFiles.map(async (file: Express.Multer.File) => {
+          const newDocument = {
+            name: file.originalname,
+            reference: file.path,
+          };
+
+          await UserService.updateUpload(uid, newDocument);
+
+          return;
+        });
       });
-      return;
+
+      res.status(200).send({
+        message: `Document succesfully upload`,
+      });
+    } catch (error) {
+      req.logger.error(error);
+
+      return res.status(404).send({ message: "SOMETHING WENT WRONG" });
     }
-    const filesValues = Object.values(req.files);
-
-    filesValues.map(async (arrayOfFiles: Express.Multer.File[]) => {
-      return arrayOfFiles.map(async (file: Express.Multer.File) => {
-        const newDocument = {
-          name: file.originalname,
-          reference: file.path,
-        };
-
-        await UserService.updateUpload(uid, newDocument);
-
-        return;
-      });
-    });
-
-    res.status(200).send({
-      message: `Document succesfully upload`,
-    });
   };
 }
 

@@ -45,7 +45,14 @@ class CartsServices {
         .lean()
         .exec();
 
-      if (!cart) throw new Error("Cart Not Found");
+      if (!cart) {
+        CustomError.createError({
+          name: ERRORS_ENUM["CART NOT FOUND"],
+          message: ERRORS_ENUM["CART NOT FOUND"],
+        });
+
+        return;
+      }
 
       return cart;
     } catch (error: any) {
@@ -64,11 +71,25 @@ class CartsServices {
     try {
       const cart = await this.getCartById(cid);
 
-      if (!cart) throw new Error("Cart Not Found");
+      if (!cart) {
+        CustomError.createError({
+          name: ERRORS_ENUM["CART NOT FOUND"],
+          message: ERRORS_ENUM["CART NOT FOUND"],
+        });
+
+        return;
+      }
 
       const product = await productsModel.findById({ _id: pid }).lean().exec();
 
-      if (!product) throw new Error("Product Not Found");
+      if (!product) {
+        CustomError.createError({
+          name: ERRORS_ENUM["PRODUCT NOT FOUND"],
+          message: ERRORS_ENUM["PRODUCT NOT FOUND"],
+        });
+
+        return;
+      }
 
       if (product.owner == user._id) {
         CustomError.createError({
@@ -114,11 +135,25 @@ class CartsServices {
     try {
       const cart = await this.getCartById(cid);
 
-      if (!cart) throw new Error("Cart Not Found");
+      if (!cart) {
+        CustomError.createError({
+          name: ERRORS_ENUM["CART NOT FOUND"],
+          message: ERRORS_ENUM["CART NOT FOUND"],
+        });
+
+        return;
+      }
 
       const product = await cartsModel.findOne({ "carts.product": pid });
 
-      if (!product) throw new Error("Product Not Found In Cart");
+      if (!product) {
+        CustomError.createError({
+          name: ERRORS_ENUM["PRODUCT NOT FOUND"],
+          message: ERRORS_ENUM["PRODUCT NOT FOUND"],
+        });
+
+        return;
+      }
 
       const result = await cartsModel.updateOne(
         { "carts.product": pid },
@@ -142,7 +177,14 @@ class CartsServices {
     try {
       const cart = await this.getCartById(cid);
 
-      if (!cart) throw new Error("Cart Not Found");
+      if (!cart) {
+        CustomError.createError({
+          name: ERRORS_ENUM["CART NOT FOUND"],
+          message: ERRORS_ENUM["CART NOT FOUND"],
+        });
+
+        return;
+      }
 
       const mapProducts = arrayOfProducts.map((product) => {
         product: product._id;
@@ -166,7 +208,14 @@ class CartsServices {
     try {
       const cart = await this.getCartById(cid);
 
-      if (!cart) throw new Error("Cart Not Found");
+      if (!cart) {
+        CustomError.createError({
+          name: ERRORS_ENUM["CART NOT FOUND"],
+          message: ERRORS_ENUM["CART NOT FOUND"],
+        });
+
+        return;
+      }
 
       const result = await cartsModel.updateOne(
         { _id: cid },
@@ -186,7 +235,14 @@ class CartsServices {
     try {
       const cart = await this.getCartById(cid);
 
-      if (!cart) throw new Error("Cart Not Found");
+      if (!cart) {
+        CustomError.createError({
+          name: ERRORS_ENUM["CART NOT FOUND"],
+          message: ERRORS_ENUM["CART NOT FOUND"],
+        });
+
+        return;
+      }
 
       const result = await cartsModel.updateOne(
         { _id: cid },
@@ -206,7 +262,14 @@ class CartsServices {
     try {
       const cart = await this.getCartById(cid);
 
-      if (!cart) throw new Error("Cart Not Found");
+      if (!cart) {
+        CustomError.createError({
+          name: ERRORS_ENUM["CART NOT FOUND"],
+          message: ERRORS_ENUM["CART NOT FOUND"],
+        });
+
+        return;
+      }
 
       const products = Array.from(cart.products);
 

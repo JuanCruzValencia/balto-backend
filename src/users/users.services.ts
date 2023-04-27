@@ -5,8 +5,7 @@ import userModel from "../models/users.model.ts";
 import sendMail from "../utils/nodemailer.ts";
 import { generateCode } from "../utils.ts";
 import UserDto from "./dto/user.dto.ts";
-import { Document, User, FIELDNAMES } from "../interface/interfaces.ts";
-import { Request, Response } from "express";
+import { Document, User } from "../interface/interfaces.ts";
 import path from "path";
 
 class UserServices {
@@ -14,9 +13,9 @@ class UserServices {
     try {
       const users = await userModel.find().lean().exec();
 
-      const mapedUser = users.map((user) => new UserDto(user));
+      const mapedUsers = users.map((user) => new UserDto(user));
 
-      return mapedUser;
+      return mapedUsers;
     } catch (error) {
       console.log(error);
     }
@@ -41,13 +40,6 @@ class UserServices {
     } catch (error) {
       console.log(error);
     }
-  };
-
-  registerUser = (req: Request, res: Response) => {
-    //TODO register must redirect fron the front
-    if (!req.user) return res.status(400);
-
-    res.status(200).send({ paylaod: req.user });
   };
 
   changeRole = async (uid: User["_id"]) => {
@@ -115,8 +107,8 @@ class UserServices {
 
       if (!user) {
         CustomError.createError({
-          name: "ERROR",
-          message: "User with given email doesn't exist",
+          name: ERRORS_ENUM["USER NOT FOUND"],
+          message: ERRORS_ENUM["USER NOT FOUND"],
         });
 
         return;
@@ -163,7 +155,7 @@ class UserServices {
       if (!userToken) {
         CustomError.createError({
           name: "ERROR",
-          message: "Invalid or expired token",
+          message: "INVALID OR EXPIRED TOKEN",
         });
 
         return;
@@ -177,7 +169,7 @@ class UserServices {
       if (verifyPassword) {
         CustomError.createError({
           name: "ERROR",
-          message: "Can not use the last password, must be a new one",
+          message: "CAN NOT USE THE LAST PASSWORD",
         });
 
         return;
@@ -250,7 +242,7 @@ class UserServices {
         return;
       }
 
-      await userModel.updateOne(
+      return await userModel.updateOne(
         { _id: uid },
         { $push: { documents: newDocument } }
       );

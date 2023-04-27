@@ -50,16 +50,6 @@ userSchema.statics.comparePassword = async (password, recivedPassword) => {
   return await bcrypt.compare(password, recivedPassword);
 };
 
-userSchema.statics.loginDate = async (id) => {
-  return await userModel.findByIdAndUpdate(
-    { _id: id },
-    {
-      $set: { last_connection: Date.now() },
-    },
-    { new: true }
-  );
-};
-
 const userModel = model<User, UserModel>("User", userSchema);
 
 export default userModel;

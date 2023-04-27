@@ -1,3 +1,4 @@
+import { ERRORS_ENUM } from "../consts/ERRORS.ts";
 import CustomError from "../errors/customError.ts";
 import { Product, SessionUser } from "../interface/interfaces.ts";
 import productsModel from "../models/products.model.ts";
@@ -45,7 +46,12 @@ class ProductsServices {
       const product = await productsModel.findById({ _id: pid }).lean();
 
       if (!product) {
-        throw new Error("Product Not Found");
+        CustomError.createError({
+          name: ERRORS_ENUM["PRODUCT NOT FOUND"],
+          message: ERRORS_ENUM["PRODUCT NOT FOUND"],
+        });
+
+        return;
       }
 
       return product;
@@ -62,7 +68,12 @@ class ProductsServices {
       const product = await productsModel.findOne({ code: newProduct.code });
 
       if (product) {
-        throw new Error("Product Already Exist in DB");
+        CustomError.createError({
+          name: ERRORS_ENUM["PRODUCT ALREADY IS IN DB"],
+          message: ERRORS_ENUM["PRODUCT ALREADY IS IN DB"],
+        });
+
+        return;
       }
 
       const addProduct = await productsModel.create({
@@ -84,7 +95,12 @@ class ProductsServices {
       const product = await this.getProductById(pid);
 
       if (!product) {
-        throw new Error("Product Not Found");
+        CustomError.createError({
+          name: ERRORS_ENUM["PRODUCT NOT FOUND"],
+          message: ERRORS_ENUM["PRODUCT NOT FOUND"],
+        });
+
+        return;
       }
 
       const updateProduct = await productsModel.updateOne(
@@ -107,11 +123,21 @@ class ProductsServices {
 
       //TODO el owner dentro del prodcuto se guarda como un objeto
       if (!product) {
-        throw new Error("Product Not Found");
+        CustomError.createError({
+          name: ERRORS_ENUM["PRODUCT NOT FOUND"],
+          message: ERRORS_ENUM["PRODUCT NOT FOUND"],
+        });
+
+        return;
       }
 
       if (product.owner !== "ADMIN" && product.owner != user._id) {
-        throw new Error("Not Authorized");
+        CustomError.createError({
+          name: ERRORS_ENUM["INVALID USER"],
+          message: ERRORS_ENUM["INVALID USER"],
+        });
+
+        return;
       }
 
       const deleteProduct = await productsModel.deleteOne({ _id: pid });
@@ -130,7 +156,12 @@ class ProductsServices {
       const product = await this.getProductById(pid);
 
       if (!product) {
-        throw new Error("Product Not Found");
+        CustomError.createError({
+          name: ERRORS_ENUM["PRODUCT NOT FOUND"],
+          message: ERRORS_ENUM["PRODUCT NOT FOUND"],
+        });
+
+        return;
       }
 
       if (product.stock < quantity) {

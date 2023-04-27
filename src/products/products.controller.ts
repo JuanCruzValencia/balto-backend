@@ -1,6 +1,3 @@
-import { ERRORS_ENUM } from "../consts/ERRORS.ts";
-import CustomError from "../errors/customError.ts";
-import { generateProductErrorInfo } from "../errors/infoError.ts";
 import ProductsService from "./products.serivces.ts";
 import { Request, Response } from "express";
 
@@ -23,12 +20,9 @@ class ProductsControllers {
       const result = await ProductsService.getAllProducts(queryParam, options);
 
       if (!result) {
-        CustomError.createError({
-          name: ERRORS_ENUM["PRODUCT NOT FOUND"],
-          message: ERRORS_ENUM["PRODUCT NOT FOUND"],
-        });
-
-        return;
+        return res
+          .status(400)
+          .send({ status: "ERROR", message: "PRODUCTS NOT FOUND IN DB" });
       }
 
       return res.status(200).send({
@@ -61,12 +55,9 @@ class ProductsControllers {
       const result = await ProductsService.getProductById(pid);
 
       if (!result) {
-        CustomError.createError({
-          name: ERRORS_ENUM["PRODUCT NOT FOUND"],
-          message: ERRORS_ENUM["PRODUCT NOT FOUND"],
-        });
-
-        return;
+        return res
+          .status(400)
+          .send({ status: "ERROR", message: "PRODUCT NOT FOUND" });
       }
 
       return res.status(200).send({
@@ -86,31 +77,25 @@ class ProductsControllers {
       const user = req.session.user;
 
       if (!user) {
-        CustomError.createError({
-          name: ERRORS_ENUM["USER NOT FOUND"],
-          message: ERRORS_ENUM["USER NOT FOUND"],
-        });
-
-        return;
+        return res
+          .status(400)
+          .send({ status: "ERROR", message: "USER NOT FOUND IN DB" });
       }
 
       const { title, price, description, code, category } = newProduct;
 
       if (!title || !price || !description || !code || !category) {
-        CustomError.createError({
-          name: ERRORS_ENUM["INVALID PRODUCT PROPERTY"],
-          message: generateProductErrorInfo(newProduct),
-        });
-
-        return;
+        return res
+          .status(400)
+          .send({ status: "ERROR", message: "ONE OR MORE INVALID PROPERTIES" });
       }
 
       const result = await ProductsService.addNewProduct(newProduct, user);
 
       if (!result) {
-        CustomError.createError({
-          name: ERRORS_ENUM["INVALID PRODUCT PROPERTY"],
-          message: ERRORS_ENUM["INVALID PRODUCT PROPERTY"],
+        return res.status(400).send({
+          status: "ERROR",
+          message: "PRODUCT CAN NOT BE ADDED TO CART",
         });
       }
 
@@ -132,10 +117,9 @@ class ProductsControllers {
       const result = await ProductsService.updateProduct(pid, newProduct);
 
       if (!result) {
-        CustomError.createError({
-          name: ERRORS_ENUM["PRODUCT NOT FOUND"],
-          message: ERRORS_ENUM["PRODUCT NOT FOUND"],
-        });
+        return res
+          .status(400)
+          .send({ status: "ERROR", message: "PRODUCT NOT FOUND IN DB" });
       }
 
       return res.status(200).send({
@@ -155,21 +139,17 @@ class ProductsControllers {
       const user = req.session.user;
 
       if (!user) {
-        CustomError.createError({
-          name: ERRORS_ENUM["USER NOT FOUND"],
-          message: ERRORS_ENUM["USER NOT FOUND"],
-        });
-
-        return;
+        return res
+          .status(400)
+          .send({ status: "ERROR", message: "USER NOT FOUND IN DB" });
       }
 
       const result = await ProductsService.deleteProduct(pid, user);
 
       if (!result) {
-        CustomError.createError({
-          name: ERRORS_ENUM["PRODUCT NOT FOUND"],
-          message: ERRORS_ENUM["PRODUCT NOT FOUND"],
-        });
+        return res
+          .status(400)
+          .send({ status: "ERROR", message: "PRODUCT NOT FOUND IN DB" });
       }
 
       return res.status(202).send({

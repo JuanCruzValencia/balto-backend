@@ -63,9 +63,7 @@ class CartsControllers {
     } catch (error: any) {
       req.logger.error(error);
 
-      res.render("error", {
-        error: error.message,
-      });
+      res.status(400).send({ status: error.name, message: error.message });
     }
   };
 

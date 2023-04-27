@@ -5,7 +5,7 @@ import CartsService from "../../carts/carts.services.ts";
 import AuthService from "../auth.service.ts";
 import { validateNewUser } from "../../utils.ts";
 import dotenv from "dotenv";
-import { SessionUser, User } from "../../interface/interfaces.ts";
+import { User } from "../../interface/interfaces.ts";
 
 dotenv.config();
 const LocalStrategy = passportLocal.Strategy;
