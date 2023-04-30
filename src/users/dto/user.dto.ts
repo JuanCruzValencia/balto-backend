@@ -1,4 +1,4 @@
-import { Cart, User } from "../../interface/interfaces";
+import { Cart, Document, User } from "../../interface/interfaces";
 
 export default class UserDto {
   readonly _id: string;
@@ -8,6 +8,7 @@ export default class UserDto {
   readonly age: number;
   readonly cart: Cart;
   readonly role: string;
+  readonly documents: Document[];
   public accessToken: string | undefined;
 
   constructor(user: User) {
@@ -18,6 +19,6 @@ export default class UserDto {
     this.email = user.email;
     this.cart = user.cart;
     this.role = user.role;
-    this.accessToken = "";
+    this.documents = user.documents;
   }
 }

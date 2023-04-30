@@ -1,3 +1,5 @@
+import UserDto from "../users/dto/user.dto";
+
 export interface User {
   _id: string;
   first_name: string;
@@ -9,6 +11,12 @@ export interface User {
   role: string;
   documents: Document[];
   last_connection: Date;
+}
+
+export interface UserSession {
+  user: {
+    _doc: User;
+  };
 }
 
 export interface Document {

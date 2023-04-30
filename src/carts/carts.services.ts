@@ -41,7 +41,7 @@ class CartsServices {
     try {
       const cart = await cartsModel
         .findById({ _id: cid })
-        .populate("carts.product")
+        .populate("products.product")
         .lean()
         .exec();
 
@@ -115,7 +115,7 @@ class CartsServices {
 
       const result = await cartsModel.updateOne(
         { _id: cid },
-        { $push: { carts: { product: pid } } }
+        { $push: { products: { product: pid } } }
       );
 
       return result;
@@ -192,7 +192,7 @@ class CartsServices {
 
       const result = await cartsModel.updateOne(
         { _id: cid },
-        { $push: { carts: { $each: mapProducts } } }
+        { $push: { products: { $each: mapProducts } } }
       );
 
       return result;
@@ -219,8 +219,11 @@ class CartsServices {
 
       const result = await cartsModel.updateOne(
         { _id: cid },
-        { $pull: { carts: { product: pid } } }
+        { $pull: { products: { product: pid } } }
       );
+
+      console.log(result);
+      
 
       return result;
     } catch (error: any) {
@@ -246,7 +249,7 @@ class CartsServices {
 
       const result = await cartsModel.updateOne(
         { _id: cid },
-        { $set: { carts: [] } }
+        { $set: { products: [] } }
       );
 
       return result;

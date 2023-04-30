@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { ERRORS_ENUM } from "../consts/ERRORS.ts";
-import CustomError from "../errors/customError.ts";
 import UserService from "./users.services.ts";
 import dotenv from "dotenv";
+import UserDto from "./dto/user.dto.ts";
+import { UserSession } from "../interface/interfaces.ts";
 dotenv.config();
 
 class UserControllers {
@@ -10,9 +10,12 @@ class UserControllers {
 
   getCurrentUser = (req: Request, res: Response) => {
     try {
-      const user = { ...req.user };
+      const sessionUser = { ...req.user } as UserSession; //TODO have to create new interface to deconstruc Session User
 
-      if (!user) return res.status(404).send({ message: "User Not Found" });
+      if (!sessionUser)
+        return res.status(404).send({ message: "User Not Found" });
+
+      const user = new UserDto(sessionUser.user._doc);
 
       res.send(user);
     } catch (error) {
