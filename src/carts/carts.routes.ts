@@ -11,7 +11,7 @@ Router.get("/", CartsController.getCarts);
 
 Router.get("/:cid", CartsController.getCartById);
 
-Router.post("/cid", CartsController.addArrayOfProducts);
+Router.post("/:cid", CartsController.addArrayOfProducts);
 
 Router.delete("/:cid", CartsController.emptyCart);
 

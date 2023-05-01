@@ -1,6 +1,6 @@
 import { ERRORS_ENUM } from "../consts/ERRORS.ts";
 import CustomError from "../errors/customError.ts";
-import { SessionUser } from "../interface/interfaces.ts";
+import { SessionUser, UserSession } from "../interface/interfaces.ts";
 import CartsService from "./carts.services.ts";
 import { Request, Response } from "express";
 
@@ -53,7 +53,9 @@ class CartsControllers {
     try {
       const { cid, pid } = req.params;
 
-      const user = req.user as SessionUser;
+      const data = req.user as UserSession;
+
+      const user = data.user._doc; //TODO should be a better way of deconstruc the request.user
 
       const result = await CartsService.addProductToCart(cid, pid, user);
 

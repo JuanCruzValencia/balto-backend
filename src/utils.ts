@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import CustomError from "./errors/customError.ts";
-import { SessionUser, User } from "./interface/interfaces.ts";
+import { SessionUser, User, UserSession } from "./interface/interfaces.ts";
 import { Request, Response, NextFunction } from "express";
 dotenv.config();
 
@@ -20,8 +20,8 @@ export const generateCode = () => {
 export const authPolicies =
   (policieOne: string | null, policieTwo: string | null) =>
   (req: Request, res: Response, next: NextFunction) => {
-    const user = req.user as SessionUser;
-    const role = user.role;
+    const data = req.user as UserSession;
+    const { role } = data.user._doc; //TODO should be a better way of deconstruc the req.user
 
     if (typeof policieOne === "undefined") {
       policieOne = policieTwo;

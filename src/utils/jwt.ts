@@ -13,26 +13,6 @@ export const generateToken = (user: SessionUser) => {
 };
 
 export const authToken = (req: Request, res: Response, next: NextFunction) => {
-  // const signedJwt = req.headers["authorization"];
-
-  // if (!signedJwt) return;
-
-  // jwt.verify(
-  //   signedJwt.split(" ")[1],
-  //   process.env.JWT_SECRET!,
-  //   (error, credentials) => {
-  //     if (error) {
-  //       console.log(error);
-  //       return res.status(403).send({
-  //         error: "Not Authorized from JWT",
-  //       });
-  //     }
-
-  //     req.user = credentials?.user;
-
-  //     next();
-  //   }
-  // );
   try {
     const signedJwt = req.headers["authorization"];
 

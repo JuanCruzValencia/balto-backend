@@ -1,6 +1,6 @@
 import { ERRORS_ENUM } from "../consts/ERRORS.ts";
 import CustomError from "../errors/customError.ts";
-import { Cart, Product, SessionUser } from "../interface/interfaces.ts";
+import { Cart, Product, User } from "../interface/interfaces.ts";
 import cartsModel from "../models/carts.model.ts";
 import productsModel from "../models/products.model.ts";
 import ticketModel from "../models/ticket.model.ts";
@@ -66,7 +66,7 @@ class CartsServices {
   addProductToCart = async (
     cid: Cart["id"],
     pid: Product["_id"],
-    user: SessionUser
+    user: User
   ) => {
     try {
       const cart = await this.getCartById(cid);
@@ -221,9 +221,6 @@ class CartsServices {
         { _id: cid },
         { $pull: { products: { product: pid } } }
       );
-
-      console.log(result);
-      
 
       return result;
     } catch (error: any) {
