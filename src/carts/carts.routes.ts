@@ -1,7 +1,7 @@
 import express from "express";
-import { authToken } from "../utils/jwt.ts";
 import CartsController from "./carts.controller.ts";
-import { authPolicies } from "../utils.ts";
+import { authPolicies } from "../middlewares/authPolicies.ts";
+import { authToken } from "../middlewares/authToken.ts";
 
 const Router = express.Router();
 

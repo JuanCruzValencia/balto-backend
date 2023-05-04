@@ -4,13 +4,7 @@ import session from "express-session";
 import { Server } from "socket.io";
 import dotenv from "dotenv";
 //routers
-import productsRouter from "./products/products.routes.ts";
-import cartRouter from "./carts/carts.routes.ts";
-import chatRouter from "./messages/messages.routes.ts";
-import sessionRouter from "./users/users.routes.ts";
-import productsMockRouter from "./mocks/productsMock.routes.ts";
-import loggerRouter from "./logger/logger.routes.ts";
-import authRouter from "./auth/auth.routes.ts";
+import Routers from "./utils/routers.ts";
 //utils
 import socket from "./utils/socket.ts";
 import { errorHandler } from "./middlewares/errors/index.ts";
@@ -26,10 +20,10 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-//init mongoDb
+//mongoDb init
 MongoConnection.getInstance();
 
-//passport
+//passport strategies init
 jwtStrategy();
 localStrategy();
 
@@ -43,13 +37,13 @@ app.use(errorHandler);
 app.use(addLogger);
 
 //routers
-app.use("/auth", authRouter);
-app.use("/api/users", sessionRouter);
-app.use("/api/products", productsRouter);
-app.use("/api/carts", cartRouter);
-app.use("/chat", chatRouter);
-app.use("/mocks", productsMockRouter);
-app.use("/loggerTest", loggerRouter);
+app.use("/auth", Routers.authRouter);
+app.use("/api/users", Routers.sessionRouter);
+app.use("/api/products", Routers.productsRouter);
+app.use("/api/carts", Routers.cartRouter);
+app.use("/chat", Routers.chatRouter);
+app.use("/mocks", Routers.productsMockRouter);
+app.use("/loggerTest", Routers.loggerRouter);
 app.use(
   "/api/docs",
   swaggerUiExpress.serve,

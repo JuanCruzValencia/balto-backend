@@ -2,8 +2,8 @@ import express from "express";
 import passport from "passport";
 import UserController from "./users.controllers.ts";
 import upload from "../utils/multer.ts";
-import { authToken } from "../utils/jwt.ts";
-import { authPolicies } from "../utils.ts";
+import { authToken } from "../middlewares/authToken.ts";
+import { authPolicies } from "../middlewares/authPolicies.ts";
 
 const Router = express.Router();
 
