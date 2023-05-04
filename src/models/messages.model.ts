@@ -1,9 +1,7 @@
 import { Document, Schema, model } from "mongoose";
+import { Message } from "../interface/interfaces";
 
-export interface Message {
-  user: string;
-  message: string;
-}
+
 
 type MessageDocument = Document & Message;
 

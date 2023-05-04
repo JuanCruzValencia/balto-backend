@@ -1,10 +1,7 @@
-import { Document, Schema, Types, model } from "mongoose";
+import { Document, Schema, model } from "mongoose";
+import { Token } from "../interface/interfaces";
 
-type TokenDocument = Document & {
-  userId: Types.ObjectId;
-  token: string;
-  expireAt: Date;
-}
+type TokenDocument = Document & Token;
 
 const tokenSchema: Schema<TokenDocument> = new Schema({
   userId: {

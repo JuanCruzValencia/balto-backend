@@ -1,4 +1,4 @@
-import { Schema, model, Model, Document } from "mongoose";
+import { Schema, model, Model } from "mongoose";
 import bcrypt from "bcryptjs";
 import { User } from "../interface/interfaces";
 
@@ -8,7 +8,6 @@ interface UserModel extends Model<User> {
     password: string,
     recivedPassword: string
   ) => Promise<boolean>;
-  loginDate: (id: string) => Date;
 }
 
 const userSchema: Schema<User> = new Schema({

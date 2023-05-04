@@ -1,12 +1,7 @@
-import { Document, Schema, Types, model } from "mongoose";
+import { Document, Schema, model } from "mongoose";
 import { generateCode } from "../utils.ts";
-
-export interface Ticket {
-  id: Types.ObjectId;
-  code: string;
-  amount: number;
-  purchaser: string;
-}
+import { Ticket } from "../interface/interfaces.ts";
+import { timeStamp } from "console";
 
 type TicketDocument = Document & Ticket;
 

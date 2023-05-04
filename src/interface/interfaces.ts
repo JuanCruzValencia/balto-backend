@@ -1,4 +1,4 @@
-import UserDto from "../users/dto/user.dto";
+import { Types } from "mongoose";
 
 export interface User {
   _id: string;
@@ -30,6 +30,25 @@ export enum FIELDNAMES {
   PRODUCTS = "products",
 }
 
+export interface Message {
+  user: string;
+  message: string;
+}
+
+export interface Ticket {
+  id: Types.ObjectId;
+  code: string;
+  amount: number;
+  purchaser: string;
+  purchased_datetime: Date;
+}
+
+export interface Token {
+  userId: Types.ObjectId;
+  token: string;
+  expireAt: Date;
+}
+
 export interface SessionUser extends Express.User {
   _id: string;
   first_name: string;
@@ -56,6 +75,7 @@ export interface Product {
   stock: number;
   category: string;
   thumbnails: string[];
+  owner: string;
 }
 
 export interface CartProduct {
