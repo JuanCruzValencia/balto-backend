@@ -3,7 +3,7 @@ import * as passportLocal from "passport-local";
 import userModel from "../../models/users.model.ts";
 import CartsService from "../../carts/carts.services.ts";
 import AuthService from "../auth.service.ts";
-import { validateNewUser } from "../../utils.ts";
+import { validateNewUser } from "../../utils/utils.ts";
 import dotenv from "dotenv";
 import { User } from "../../interface/interfaces.ts";
 

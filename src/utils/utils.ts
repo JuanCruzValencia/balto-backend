@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
-import CustomError from "./errors/customError.ts";
-import { User } from "./interface/interfaces.ts";
+import CustomError from "../errors/customError.ts";
+import { User } from "../interface/interfaces.ts";
 dotenv.config();
 
 export const generateCode = () => {

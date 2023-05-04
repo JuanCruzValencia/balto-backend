@@ -38,7 +38,12 @@ Router.delete(
 
 Router.get("/current", authToken, UserController.getCurrentUser);
 
-Router.get("/premium/:uid", UserController.changeUserRole);
+Router.get(
+  "/premium/:uid",
+  authToken,
+  authPolicies("USER", "PREMIUM"),
+  UserController.changeUserRole
+);
 
 Router.post("/restore", UserController.postRestore);
 
@@ -46,6 +51,9 @@ Router.post("/restoreForm/:uid/:token", UserController.postRestoreForm);
 
 Router.post(
   "/:uid/documents",
+  authToken,
+  authPolicies("USER", "PREMIUM"),
+
   upload.fields([
     { name: "documents", maxCount: 3 },
     { name: "profiles", maxCount: 1 },

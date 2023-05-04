@@ -7,7 +7,7 @@ const router = Router();
 
 router.get("/", authToken, ProductsController.getAllProducts);
 
-router.get("/:pid", ProductsController.getProductById);
+router.get("/:pid", authToken, ProductsController.getProductById);
 
 router.post(
   "/",

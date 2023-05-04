@@ -3,7 +3,7 @@ import CustomError from "../errors/customError.ts";
 import tokenModel from "../models/token.model.ts";
 import userModel from "../models/users.model.ts";
 import sendMail from "../utils/nodemailer.ts";
-import { generateCode } from "../utils.ts";
+import { generateCode } from "../utils/utils.ts";
 import UserDto from "./dto/user.dto.ts";
 import { Document, User } from "../interface/interfaces.ts";
 import path from "path";
