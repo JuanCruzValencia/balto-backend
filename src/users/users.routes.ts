@@ -1,8 +1,9 @@
 import express from "express";
 import passport from "passport";
 import UserController from "./users.controllers.ts";
-import { authToken } from "../utils/jwt.ts";
 import upload from "../utils/multer.ts";
+import { authToken } from "../utils/jwt.ts";
+import { authPolicies } from "../utils.ts";
 
 const Router = express.Router();
 
@@ -12,6 +13,27 @@ Router.post(
     failureMessage: "Cannot register new user",
   }),
   UserController.registerUser
+);
+
+Router.get(
+  "/",
+  authToken,
+  authPolicies("ADMIN", null),
+  UserController.getAllUsers
+);
+
+Router.delete(
+  "/",
+  authToken,
+  authPolicies("ADMIN", null),
+  UserController.deleteAllUsers
+);
+
+Router.delete(
+  "/:pid",
+  authToken,
+  authPolicies("ADMIN", null),
+  UserController.deleteUser
 );
 
 Router.get("/current", authToken, UserController.getCurrentUser);

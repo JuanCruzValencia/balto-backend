@@ -6,7 +6,17 @@ import { UserSession } from "../interface/interfaces.ts";
 dotenv.config();
 
 class UserControllers {
-  constructor() {}
+  getAllUsers = async (req: Request, res: Response) => {
+    try {
+      const users = await UserService.finAll();
+
+      return res.status(200).send({ payload: users });
+    } catch (error) {
+      req.logger.error(error);
+
+      return res.status(400).send({ message: "SOMETHING WENT WRONG" });
+    }
+  };
 
   getCurrentUser = (req: Request, res: Response) => {
     try {
@@ -108,6 +118,32 @@ class UserControllers {
       req.logger.error(error);
 
       return res.status(404).send({ message: "SOMETHING WENT WRONG" });
+    }
+  };
+
+  deleteAllUsers = async (req: Request, res: Response) => {
+    try {
+      const result = await UserService.deleteAllUsers();
+
+      return res.status(200).send({ message: "ALL UNUSED USERS DELETED" });
+    } catch (error) {
+      req.logger.error(error);
+
+      return res.status(400).send({ message: "SOMETHING WENT WRONG " });
+    }
+  };
+
+  deleteUser = async (req: Request, res: Response) => {
+    try {
+      const { uid } = req.params;
+
+      const result = await UserService.deleteUserById(uid);
+
+      return res.status(200).send({ message: "USER DELETED" });
+    } catch (error) {
+      req.logger.error(error);
+
+      return res.status(400).send({ message: "SOMETHING WENT WRONG " });
     }
   };
 }

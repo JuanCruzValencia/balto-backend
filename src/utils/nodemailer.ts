@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
+import { User } from "../interface/interfaces";
 dotenv.config();
 
 class MailManager {
@@ -16,7 +17,7 @@ class MailManager {
     });
   }
 
-  send = async (user: string, subject: string, text: string) => {
+  send = async (user: User["email"], subject: string, text: string) => {
     const result = await this.transport.sendMail({
       from: process.env.NODE_APP_EMAIL,
       to: user,

@@ -7,13 +7,14 @@ import { generateCode } from "../utils.ts";
 import UserDto from "./dto/user.dto.ts";
 import { Document, User } from "../interface/interfaces.ts";
 import path from "path";
+import UsersDto from "./dto/users.dto.ts";
 
 class UserServices {
   finAll = async () => {
     try {
       const users = await userModel.find().lean().exec();
 
-      const mapedUsers = users.map((user) => new UserDto(user));
+      const mapedUsers = users.map((user) => new UsersDto(user));
 
       return mapedUsers;
     } catch (error) {
@@ -249,6 +250,35 @@ class UserServices {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  deleteUserById = async (uid: User["_id"]) => {
+    const user = await this.findUserById(uid);
+
+    if (!user) {
+      CustomError.createError({
+        name: ERRORS_ENUM["USER NOT FOUND"],
+        message: ERRORS_ENUM["USER NOT FOUND"],
+      });
+
+      return false;
+    }
+    const body =
+      "We have to inform your account was deleted because inactivity";
+
+    await sendMail.send(user.email, "User deleted", body);
+
+    await userModel.deleteOne({ _id: uid });
+
+    return true;
+  };
+
+  deleteAllUsers = async () => {
+    const allUsers = await this.finAll();
+
+    const todayDate = new Date();
+
+    const filteredUsers = allUsers?.filter((user) => user.last_connection);
   };
 }
 

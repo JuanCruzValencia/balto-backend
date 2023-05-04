@@ -3,6 +3,7 @@ import CustomError from "../errors/customError.ts";
 import { Product, SessionUser } from "../interface/interfaces.ts";
 import productsModel from "../models/products.model.ts";
 import { PaginateOptions } from "mongoose";
+import sendMail from "../utils/nodemailer.ts";
 
 class ProductsServices {
   getAllProducts = async (query: string, options: PaginateOptions) => {
@@ -138,6 +139,13 @@ class ProductsServices {
         });
 
         return;
+      }
+
+      if (product.owner === "PREMIUM") {
+        const body =
+          "We have to inform your product was deleted: " + product.title;
+
+        await sendMail.send(user.email, "Product deleted", body);
       }
 
       const deleteProduct = await productsModel.deleteOne({ _id: pid });
