@@ -4,6 +4,7 @@ import UserController from "./users.controllers.ts";
 import upload from "../utils/multer.ts";
 import { authToken } from "../middlewares/authToken.ts";
 import { authPolicies } from "../middlewares/authPolicies.ts";
+import { ROLES } from "../interface/interfaces.ts";
 
 const Router = express.Router();
 
@@ -18,21 +19,21 @@ Router.post(
 Router.get(
   "/",
   authToken,
-  authPolicies("ADMIN", null),
+  authPolicies(ROLES.ADMIN, null),
   UserController.getAllUsers
 );
 
 Router.delete(
   "/",
   authToken,
-  authPolicies("ADMIN", null),
+  authPolicies(ROLES.ADMIN, null),
   UserController.deleteAllUsers
 );
 
 Router.delete(
   "/:pid",
   authToken,
-  authPolicies("ADMIN", null),
+  authPolicies(ROLES.ADMIN, null),
   UserController.deleteUser
 );
 
@@ -41,7 +42,7 @@ Router.get("/current", authToken, UserController.getCurrentUser);
 Router.get(
   "/premium/:uid",
   authToken,
-  authPolicies("USER", "PREMIUM"),
+  authPolicies(ROLES.USER, ROLES.PREMIUM),
   UserController.changeUserRole
 );
 
@@ -52,7 +53,7 @@ Router.post("/restoreForm/:uid/:token", UserController.postRestoreForm);
 Router.post(
   "/:uid/documents",
   authToken,
-  authPolicies("USER", "PREMIUM"),
+  authPolicies(ROLES.USER, ROLES.PREMIUM),
 
   upload.fields([
     { name: "documents", maxCount: 3 },

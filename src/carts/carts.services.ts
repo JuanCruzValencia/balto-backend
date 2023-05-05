@@ -1,6 +1,5 @@
-import { ERRORS_ENUM } from "../consts/ERRORS.ts";
 import CustomError from "../errors/customError.ts";
-import { Cart, Product, User } from "../interface/interfaces.ts";
+import { Cart, ERRORS, Product, User } from "../interface/interfaces.ts";
 import cartsModel from "../models/carts.model.ts";
 import productsModel from "../models/products.model.ts";
 import ticketModel from "../models/ticket.model.ts";
@@ -21,6 +20,8 @@ class CartsServices {
         name: error.name,
         message: error.message,
       });
+
+      return;
     }
   };
 
@@ -34,6 +35,8 @@ class CartsServices {
         name: error.name,
         message: error.message,
       });
+
+      return;
     }
   };
 
@@ -47,8 +50,8 @@ class CartsServices {
 
       if (!cart) {
         CustomError.createError({
-          name: ERRORS_ENUM["CART NOT FOUND"],
-          message: ERRORS_ENUM["CART NOT FOUND"],
+          name: ERRORS.CART_NOT_FOUND,
+          message: ERRORS.CART_NOT_FOUND,
         });
 
         return;
@@ -60,6 +63,8 @@ class CartsServices {
         name: error.name,
         message: error.message,
       });
+
+      return;
     }
   };
 
@@ -73,8 +78,8 @@ class CartsServices {
 
       if (!cart) {
         CustomError.createError({
-          name: ERRORS_ENUM["CART NOT FOUND"],
-          message: ERRORS_ENUM["CART NOT FOUND"],
+          name: ERRORS.CART_NOT_FOUND,
+          message: ERRORS.CART_NOT_FOUND,
         });
 
         return;
@@ -84,8 +89,8 @@ class CartsServices {
 
       if (!product) {
         CustomError.createError({
-          name: ERRORS_ENUM["PRODUCT NOT FOUND"],
-          message: ERRORS_ENUM["PRODUCT NOT FOUND"],
+          name: ERRORS.PRODUCT_NOT_FOUND,
+          message: ERRORS.PRODUCT_NOT_FOUND,
         });
 
         return;
@@ -93,9 +98,11 @@ class CartsServices {
 
       if (product.owner == user._id) {
         CustomError.createError({
-          name: "Failed to add product to cart",
-          message: "Cant add to cart a product that you already own",
+          name: ERRORS.FAILED_TO_ADD_PRODUCT_TO_CART,
+          message: ERRORS.FAILED_TO_ADD_PRODUCT_TO_CART,
         });
+
+        return;
       }
 
       const findProduct = await cartsModel.findOne({ "carts.product": pid });
@@ -124,6 +131,8 @@ class CartsServices {
         name: error.name,
         message: error.message,
       });
+
+      return;
     }
   };
 
@@ -137,8 +146,8 @@ class CartsServices {
 
       if (!cart) {
         CustomError.createError({
-          name: ERRORS_ENUM["CART NOT FOUND"],
-          message: ERRORS_ENUM["CART NOT FOUND"],
+          name: ERRORS.CART_NOT_FOUND,
+          message: ERRORS.CART_NOT_FOUND,
         });
 
         return;
@@ -148,8 +157,8 @@ class CartsServices {
 
       if (!product) {
         CustomError.createError({
-          name: ERRORS_ENUM["PRODUCT NOT FOUND"],
-          message: ERRORS_ENUM["PRODUCT NOT FOUND"],
+          name: ERRORS.PRODUCT_NOT_FOUND,
+          message: ERRORS.PRODUCT_NOT_FOUND,
         });
 
         return;
@@ -170,6 +179,8 @@ class CartsServices {
         name: error.name,
         message: error.message,
       });
+
+      return;
     }
   };
 
@@ -179,8 +190,8 @@ class CartsServices {
 
       if (!cart) {
         CustomError.createError({
-          name: ERRORS_ENUM["CART NOT FOUND"],
-          message: ERRORS_ENUM["CART NOT FOUND"],
+          name: ERRORS.CART_NOT_FOUND,
+          message: ERRORS.CART_NOT_FOUND,
         });
 
         return;
@@ -201,6 +212,8 @@ class CartsServices {
         name: error.name,
         message: error.message,
       });
+
+      return;
     }
   };
 
@@ -210,8 +223,8 @@ class CartsServices {
 
       if (!cart) {
         CustomError.createError({
-          name: ERRORS_ENUM["CART NOT FOUND"],
-          message: ERRORS_ENUM["CART NOT FOUND"],
+          name: ERRORS.CART_NOT_FOUND,
+          message: ERRORS.CART_NOT_FOUND,
         });
 
         return;
@@ -228,6 +241,8 @@ class CartsServices {
         name: error.name,
         message: error.message,
       });
+
+      return;
     }
   };
 
@@ -237,8 +252,8 @@ class CartsServices {
 
       if (!cart) {
         CustomError.createError({
-          name: ERRORS_ENUM["CART NOT FOUND"],
-          message: ERRORS_ENUM["CART NOT FOUND"],
+          name: ERRORS.CART_NOT_FOUND,
+          message: ERRORS.CART_NOT_FOUND,
         });
 
         return;
@@ -255,6 +270,8 @@ class CartsServices {
         name: error.name,
         message: error.message,
       });
+
+      return;
     }
   };
 
@@ -264,8 +281,8 @@ class CartsServices {
 
       if (!cart) {
         CustomError.createError({
-          name: ERRORS_ENUM["CART NOT FOUND"],
-          message: ERRORS_ENUM["CART NOT FOUND"],
+          name: ERRORS.CART_NOT_FOUND,
+          message: ERRORS.CART_NOT_FOUND,
         });
 
         return;
@@ -277,8 +294,8 @@ class CartsServices {
 
       if (!purchaser) {
         CustomError.createError({
-          name: ERRORS_ENUM["USER NOT FOUND"],
-          message: ERRORS_ENUM["USER NOT FOUND"],
+          name: ERRORS.USER_NOT_FOUND,
+          message: ERRORS.USER_NOT_FOUND,
         });
 
         return;
@@ -288,8 +305,8 @@ class CartsServices {
 
       if (!total) {
         CustomError.createError({
-          name: "Something went wrong",
-          message: "Total Purchase",
+          name: ERRORS.PRODUCT_NOT_FOUND,
+          message: ERRORS.PRODUCT_NOT_FOUND,
         });
 
         return;
@@ -305,6 +322,8 @@ class CartsServices {
         name: error.name,
         message: error.message,
       });
+
+      return;
     }
   };
 
@@ -321,6 +340,8 @@ class CartsServices {
         name: error.name,
         message: error.message,
       });
+
+      return;
     }
   };
 
@@ -338,8 +359,8 @@ class CartsServices {
 
         if (!productInDb) {
           CustomError.createError({
-            name: ERRORS_ENUM["PRODUCT NOT FOUND"],
-            message: ERRORS_ENUM["PRODUCT NOT FOUND"],
+            name: ERRORS.PRODUCT_NOT_FOUND,
+            message: ERRORS.PRODUCT_NOT_FOUND,
           });
 
           return;
@@ -358,6 +379,8 @@ class CartsServices {
         name: error.name,
         message: error.message,
       });
+
+      return;
     }
   };
 }

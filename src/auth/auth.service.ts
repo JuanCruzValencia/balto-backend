@@ -2,8 +2,7 @@ import jwt from "jsonwebtoken";
 import userModel from "../models/users.model.ts";
 import dotenv from "dotenv";
 import CustomError from "../errors/customError.ts";
-import { ERRORS_ENUM } from "../consts/ERRORS.ts";
-import { SessionUser, User } from "../interface/interfaces.ts";
+import { ERRORS, SessionUser, User } from "../interface/interfaces.ts";
 dotenv.config();
 
 class AuthServices {
@@ -14,8 +13,8 @@ class AuthServices {
 
     if (!user) {
       CustomError.createError({
-        name: ERRORS_ENUM["USER NOT FOUND"],
-        message: "User not found in DB",
+        name: ERRORS.USER_NOT_FOUND,
+        message: ERRORS.USER_NOT_FOUND,
       });
     }
 

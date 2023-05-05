@@ -1,11 +1,16 @@
-import { ERRORS_ENUM } from "../consts/ERRORS.ts";
 import CustomError from "../errors/customError.ts";
 import tokenModel from "../models/token.model.ts";
 import userModel from "../models/users.model.ts";
 import sendMail from "../utils/nodemailer.ts";
 import { generateCode } from "../utils/utils.ts";
 import UserDto from "./dto/user.dto.ts";
-import { Document, User } from "../interface/interfaces.ts";
+import {
+  Document,
+  User,
+  ERRORS,
+  ROLES,
+  DOCUMENTS,
+} from "../interface/interfaces.ts";
 import path from "path";
 import UsersDto from "./dto/users.dto.ts";
 
@@ -17,8 +22,13 @@ class UserServices {
       const mapedUsers = users.map((user) => new UsersDto(user));
 
       return mapedUsers;
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      CustomError.createError({
+        name: error.name,
+        message: error.message,
+      });
+
+      return;
     }
   };
 
@@ -28,8 +38,8 @@ class UserServices {
 
       if (!user) {
         CustomError.createError({
-          name: ERRORS_ENUM["USER NOT FOUND"],
-          message: ERRORS_ENUM["USER NOT FOUND"],
+          name: ERRORS.USER_NOT_FOUND,
+          message: ERRORS.USER_NOT_FOUND,
         });
 
         return;
@@ -38,8 +48,13 @@ class UserServices {
       const userDto = new UserDto(user);
 
       return userDto;
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      CustomError.createError({
+        name: error.name,
+        message: error.message,
+      });
+
+      return;
     }
   };
 
@@ -49,39 +64,39 @@ class UserServices {
 
       if (!user) {
         CustomError.createError({
-          name: ERRORS_ENUM["USER NOT FOUND"],
-          message: ERRORS_ENUM["USER NOT FOUND"],
+          name: ERRORS.USER_NOT_FOUND,
+          message: ERRORS.USER_NOT_FOUND,
         });
+
+        return;
       }
 
-      if (user?.role === "USER") {
+      if (user?.role === ROLES.USER) {
         const userDocuments = user?.documents.map((document: Document) => {
-          console.log(document);
-
           if (!document) {
             CustomError.createError({
-              name: "DOCUMENT NOT FOUND",
-              message: "YOU DONT HAVE ANY DOCUMENT UPLOADED",
+              name: ERRORS.DOCUMENTS_NOT_FOUND_IN_DB,
+              message: ERRORS.DOCUMENTS_NOT_FOUND_IN_DB,
             });
+
+            return;
           }
 
           const result = path.parse(document.name).name;
 
-          console.log(result);
-
           return result;
         });
 
-        console.log(userDocuments);
+        const arrayEnum = Object.values(DOCUMENTS) as string[]; //TODO should be a better way to make this
 
-        if (
-          !userDocuments?.includes("identificación") &&
-          !userDocuments?.includes("comprobante de domicilio") &&
-          !userDocuments?.includes("comprobante de estado de cuenta")
-        ) {
+        const verifyDocuments = userDocuments.every((document) =>
+          arrayEnum.includes(document!)
+        );
+
+        if (!verifyDocuments) {
           CustomError.createError({
-            name: "Invalid Credentials",
-            message: "Must upload ",
+            name: ERRORS.DOCUMENTS_NOT_FOUND_IN_DB,
+            message: `${DOCUMENTS.ACCOUNT_STATE}, ${DOCUMENTS.ADDRESS}, ${DOCUMENTS.ID}`,
           });
 
           return false;
@@ -90,15 +105,20 @@ class UserServices {
 
       const result = await userModel.updateOne(
         { _id: uid },
-        { role: user?.role === "USER" ? "PREMIUM" : "USER" }
+        { role: user?.role === ROLES.USER ? ROLES.PREMIUM : ROLES.USER }
       );
 
       if (!result) return false;
 
       return true;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
-      return error;
+      CustomError.createError({
+        name: error.name,
+        message: error.message,
+      });
+
+      return;
     }
   };
 
@@ -108,8 +128,8 @@ class UserServices {
 
       if (!user) {
         CustomError.createError({
-          name: ERRORS_ENUM["USER NOT FOUND"],
-          message: ERRORS_ENUM["USER NOT FOUND"],
+          name: ERRORS.USER_NOT_FOUND,
+          message: ERRORS.USER_NOT_FOUND,
         });
 
         return;
@@ -129,8 +149,13 @@ class UserServices {
       await sendMail.send(user.email, "Password reset", link);
 
       return true;
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      CustomError.createError({
+        name: error.name,
+        message: error.message,
+      });
+
+      return;
     }
   };
 
@@ -144,8 +169,8 @@ class UserServices {
 
       if (!user) {
         CustomError.createError({
-          name: ERRORS_ENUM["USER NOT FOUND"],
-          message: ERRORS_ENUM["USER NOT FOUND"],
+          name: ERRORS.USER_NOT_FOUND,
+          message: ERRORS.USER_NOT_FOUND,
         });
 
         return;
@@ -155,8 +180,8 @@ class UserServices {
 
       if (!userToken) {
         CustomError.createError({
-          name: "ERROR",
-          message: "INVALID OR EXPIRED TOKEN",
+          name: ERRORS.INVALID_OR_EXPIRED_TOKEN,
+          message: ERRORS.INVALID_OR_EXPIRED_TOKEN,
         });
 
         return;
@@ -169,8 +194,8 @@ class UserServices {
 
       if (verifyPassword) {
         CustomError.createError({
-          name: "ERROR",
-          message: "CAN NOT USE THE LAST PASSWORD",
+          name: ERRORS.CAN_NOT_USE_THE_LAST_PASSWORD,
+          message: ERRORS.CAN_NOT_USE_THE_LAST_PASSWORD,
         });
 
         return;
@@ -188,8 +213,13 @@ class UserServices {
       await this.deleteToken(uid);
 
       return true;
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      CustomError.createError({
+        name: error.name,
+        message: error.message,
+      });
+
+      return;
     }
   };
 
@@ -199,14 +229,19 @@ class UserServices {
 
       if (!user) {
         CustomError.createError({
-          name: ERRORS_ENUM["USER NOT FOUND"],
-          message: ERRORS_ENUM["USER NOT FOUND"],
+          name: ERRORS.USER_NOT_FOUND,
+          message: ERRORS.USER_NOT_FOUND,
         });
       }
 
       return user;
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      CustomError.createError({
+        name: error.name,
+        message: error.message,
+      });
+
+      return;
     }
   };
 
@@ -215,8 +250,13 @@ class UserServices {
       const userToken = await tokenModel.findOne({ userId: uid });
 
       return userToken;
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      CustomError.createError({
+        name: error.name,
+        message: error.message,
+      });
+
+      return;
     }
   };
 
@@ -225,8 +265,13 @@ class UserServices {
       const userToken = await tokenModel.deleteOne({ userId: uid });
 
       return userToken;
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      CustomError.createError({
+        name: error.name,
+        message: error.message,
+      });
+
+      return;
     }
   };
 
@@ -236,8 +281,8 @@ class UserServices {
 
       if (!user) {
         CustomError.createError({
-          name: ERRORS_ENUM["USER NOT FOUND"],
-          message: ERRORS_ENUM["USER NOT FOUND"],
+          name: ERRORS.USER_NOT_FOUND,
+          message: ERRORS.USER_NOT_FOUND,
         });
 
         return;
@@ -247,38 +292,61 @@ class UserServices {
         { _id: uid },
         { $push: { documents: newDocument } }
       );
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      CustomError.createError({
+        name: error.name,
+        message: error.message,
+      });
+
+      return;
     }
   };
 
   deleteUserById = async (uid: User["_id"]) => {
-    const user = await this.findUserById(uid);
+    try {
+      const user = await this.findUserById(uid);
 
-    if (!user) {
+      if (!user) {
+        CustomError.createError({
+          name: ERRORS.USER_NOT_FOUND,
+          message: ERRORS.USER_NOT_FOUND,
+        });
+
+        return false;
+      }
+      const body =
+        "We have to inform your account was deleted because inactivity";
+
+      await sendMail.send(user.email, "User deleted", body);
+
+      await userModel.deleteOne({ _id: uid });
+
+      return true;
+    } catch (error: any) {
       CustomError.createError({
-        name: ERRORS_ENUM["USER NOT FOUND"],
-        message: ERRORS_ENUM["USER NOT FOUND"],
+        name: error.name,
+        message: error.message,
       });
 
-      return false;
+      return;
     }
-    const body =
-      "We have to inform your account was deleted because inactivity";
-
-    await sendMail.send(user.email, "User deleted", body);
-
-    await userModel.deleteOne({ _id: uid });
-
-    return true;
   };
 
   deleteAllUsers = async () => {
-    const allUsers = await this.finAll();
+    try {
+      const allUsers = await this.finAll();
 
-    const todayDate = new Date();
+      const todayDate = new Date();
 
-    const filteredUsers = allUsers?.filter((user) => user.last_connection);
+      const filteredUsers = allUsers?.filter((user) => user.last_connection);
+    } catch (error: any) {
+      CustomError.createError({
+        name: error.name,
+        message: error.message,
+      });
+
+      return;
+    }
   };
 }
 

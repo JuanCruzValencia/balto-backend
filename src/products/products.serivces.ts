@@ -1,6 +1,5 @@
-import { ERRORS_ENUM } from "../consts/ERRORS.ts";
 import CustomError from "../errors/customError.ts";
-import { Product, SessionUser } from "../interface/interfaces.ts";
+import { ERRORS, Product, SessionUser } from "../interface/interfaces.ts";
 import productsModel from "../models/products.model.ts";
 import { PaginateOptions } from "mongoose";
 import sendMail from "../utils/nodemailer.ts";
@@ -39,6 +38,8 @@ class ProductsServices {
         name: error.name,
         message: error.message,
       });
+
+      return;
     }
   };
 
@@ -48,8 +49,8 @@ class ProductsServices {
 
       if (!product) {
         CustomError.createError({
-          name: ERRORS_ENUM["PRODUCT NOT FOUND"],
-          message: ERRORS_ENUM["PRODUCT NOT FOUND"],
+          name: ERRORS.PRODUCT_NOT_FOUND,
+          message: ERRORS.PRODUCT_NOT_FOUND,
         });
 
         return;
@@ -61,6 +62,8 @@ class ProductsServices {
         name: error.name,
         message: error.message,
       });
+
+      return;
     }
   };
 
@@ -70,8 +73,8 @@ class ProductsServices {
 
       if (product) {
         CustomError.createError({
-          name: ERRORS_ENUM["PRODUCT ALREADY IS IN DB"],
-          message: ERRORS_ENUM["PRODUCT ALREADY IS IN DB"],
+          name: ERRORS.PRODUCT_ALREADY_IS_IN_DB,
+          message: ERRORS.PRODUCT_ALREADY_IS_IN_DB,
         });
 
         return;
@@ -88,6 +91,8 @@ class ProductsServices {
         name: error.name,
         message: error.message,
       });
+
+      return;
     }
   };
 
@@ -97,8 +102,8 @@ class ProductsServices {
 
       if (!product) {
         CustomError.createError({
-          name: ERRORS_ENUM["PRODUCT NOT FOUND"],
-          message: ERRORS_ENUM["PRODUCT NOT FOUND"],
+          name: ERRORS.PRODUCT_NOT_FOUND,
+          message: ERRORS.PRODUCT_NOT_FOUND,
         });
 
         return;
@@ -115,6 +120,8 @@ class ProductsServices {
         name: error.name,
         message: error.message,
       });
+
+      return;
     }
   };
 
@@ -125,8 +132,8 @@ class ProductsServices {
       //TODO el owner dentro del prodcuto se guarda como un objeto
       if (!product) {
         CustomError.createError({
-          name: ERRORS_ENUM["PRODUCT NOT FOUND"],
-          message: ERRORS_ENUM["PRODUCT NOT FOUND"],
+          name: ERRORS.PRODUCT_NOT_FOUND,
+          message: ERRORS.PRODUCT_NOT_FOUND,
         });
 
         return;
@@ -134,8 +141,8 @@ class ProductsServices {
 
       if (product.owner !== "ADMIN" && product.owner != user._id) {
         CustomError.createError({
-          name: ERRORS_ENUM["INVALID USER"],
-          message: ERRORS_ENUM["INVALID USER"],
+          name: ERRORS.INVALID_USER,
+          message: ERRORS.INVALID_USER,
         });
 
         return;
@@ -156,6 +163,8 @@ class ProductsServices {
         name: error.name,
         message: error.message,
       });
+
+      return;
     }
   };
 
@@ -165,8 +174,8 @@ class ProductsServices {
 
       if (!product) {
         CustomError.createError({
-          name: ERRORS_ENUM["PRODUCT NOT FOUND"],
-          message: ERRORS_ENUM["PRODUCT NOT FOUND"],
+          name: ERRORS.PRODUCT_NOT_FOUND,
+          message: ERRORS.PRODUCT_NOT_FOUND,
         });
 
         return;
@@ -189,6 +198,8 @@ class ProductsServices {
         name: error.name,
         message: error.message,
       });
+
+      return;
     }
   };
 }

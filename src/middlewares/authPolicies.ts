@@ -1,8 +1,8 @@
-import { UserSession } from "../interface/interfaces.ts";
+import { ROLES, UserSession } from "../interface/interfaces.ts";
 import { Request, Response, NextFunction } from "express";
 
 export const authPolicies =
-  (policieOne: string | null, policieTwo: string | null) =>
+  (policieOne: ROLES | null, policieTwo: ROLES | null) =>
   (req: Request, res: Response, next: NextFunction) => {
     const data = req.user as UserSession;
     const { role } = data.user._doc; //TODO should be a better way of deconstruc the req.user
