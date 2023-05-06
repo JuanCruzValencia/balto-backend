@@ -1,12 +1,8 @@
-import { ERRORS_ENUM } from "../consts/ERRORS.ts";
-import CustomError from "../errors/customError.ts";
-import { SessionUser, UserSession } from "../interface/interfaces.ts";
+import { UserSession } from "../interface/interfaces.ts";
 import CartsService from "./carts.services.ts";
 import { Request, Response } from "express";
 
 class CartsControllers {
-  constructor() {}
-
   createCart = async (req: Request, res: Response) => {
     try {
       await CartsService.createCart();
