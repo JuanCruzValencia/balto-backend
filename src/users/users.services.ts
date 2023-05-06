@@ -315,7 +315,7 @@ class UserServices {
         return false;
       }
       const body =
-        "We have to inform your account was deleted because inactivity";
+        "We have to inform that your account was deleted because inactivity";
 
       await sendMail.send(user.email, "User deleted", body);
 
@@ -336,9 +336,21 @@ class UserServices {
     try {
       const allUsers = await this.finAll();
 
-      const todayDate = new Date();
+      allUsers?.map(async (user) => {
+        const todayDate = new Date();
 
-      const filteredUsers = allUsers?.filter((user) => user.last_connection);
+        const userLastLogin = new Date(user.last_connection);
+
+        const result =
+          (todayDate.getTime() - userLastLogin.getTime()) /
+          (1000 * 60 * 60 * 24);
+
+        if (result < 2) return;
+
+        await this.deleteUserById(user._id);
+      });
+
+      return;
     } catch (error: any) {
       CustomError.createError({
         name: error.name,

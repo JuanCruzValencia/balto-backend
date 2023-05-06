@@ -7,6 +7,6 @@ import { authToken } from "../middlewares/authToken.ts";
 const Router = express.Router();
 
 //should i user auth for this view??
-Router.get("/", authToken, authPolicies(ROLES.USER, null), getChatPage);
+Router.get("/", getChatPage);
 
 export default Router;

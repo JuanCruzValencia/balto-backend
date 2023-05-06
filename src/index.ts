@@ -3,6 +3,7 @@ import passport from "passport";
 import session from "express-session";
 import { Server } from "socket.io";
 import dotenv from "dotenv";
+import { engine } from "express-handlebars";
 //routers
 import Routers from "./utils/routers.ts";
 //utils
@@ -14,7 +15,6 @@ import initSwagger from "./utils/swagger.ts";
 import MongoConnection, { MongoStoreInstance } from "./utils/mongo.ts";
 import { jwtStrategy, localStrategy } from "./auth/strategies/index.ts";
 import swaggerUiExpress from "swagger-ui-express";
-import path from "path";
 //const and env variables
 dotenv.config();
 const app = express();
@@ -27,6 +27,11 @@ MongoConnection.getInstance();
 jwtStrategy();
 localStrategy();
 
+//handlebars
+app.engine("handlebars", engine());
+app.set("views", "./src/views");
+app.set("view engine", "handlebars");
+
 //middlewares
 app.use(session(MongoStoreInstance));
 app.use(express.json());
@@ -35,6 +40,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(errorHandler);
 app.use(addLogger);
+app.use(express.static("./src/public"));
 
 //routers
 app.use("/auth", Routers.authRouter);
