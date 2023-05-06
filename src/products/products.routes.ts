@@ -6,29 +6,29 @@ import { ROLES } from "../interface/interfaces.ts";
 
 const router = Router();
 
-router.get("/", authToken, ProductsController.getAllProducts);
+router.get("/", authToken, ProductsController.getAll);
 
-router.get("/:pid", authToken, ProductsController.getProductById);
+router.get("/:pid", authToken, ProductsController.getOne);
 
 router.post(
   "/",
   authToken,
   authPolicies(ROLES.ADMIN, ROLES.PREMIUM),
-  ProductsController.addNewProduct
+  ProductsController.addOne
 );
 
 router.put(
   "/:pid",
   authToken,
   authPolicies(ROLES.ADMIN, ROLES.PREMIUM),
-  ProductsController.updateProduct
+  ProductsController.updateOne
 );
 
 router.delete(
   "/:pid",
   authToken,
   authPolicies(ROLES.ADMIN, ROLES.PREMIUM),
-  ProductsController.deleteProduct
+  ProductsController.deleteOne
 );
 
 export default router;

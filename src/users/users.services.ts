@@ -32,7 +32,7 @@ class UserServices {
     }
   };
 
-  findUser = async (email: User["email"]) => {
+  findOneByEmail = async (email: User["email"]) => {
     try {
       const user = await userModel.findOne({ email }).lean().exec();
 
@@ -58,9 +58,31 @@ class UserServices {
     }
   };
 
+  findOneById = async (uid: User["_id"]) => {
+    try {
+      const user = await userModel.findById({ _id: uid }).lean().exec();
+
+      if (!user) {
+        CustomError.createError({
+          name: ERRORS.USER_NOT_FOUND,
+          message: ERRORS.USER_NOT_FOUND,
+        });
+      }
+
+      return user;
+    } catch (error: any) {
+      CustomError.createError({
+        name: error.name,
+        message: error.message,
+      });
+
+      return;
+    }
+  };
+
   changeRole = async (uid: User["_id"]) => {
     try {
-      const user = await this.findUserById(uid);
+      const user = await this.findOneById(uid);
 
       if (!user) {
         CustomError.createError({
@@ -124,7 +146,7 @@ class UserServices {
 
   sendRestoreMail = async (email: string) => {
     try {
-      const user = await this.findUser(email);
+      const user = await this.findOneByEmail(email);
 
       if (!user) {
         CustomError.createError({
@@ -165,7 +187,7 @@ class UserServices {
     token: string
   ) => {
     try {
-      const user = await this.findUserById(uid);
+      const user = await this.findOneById(uid);
 
       if (!user) {
         CustomError.createError({
@@ -213,28 +235,6 @@ class UserServices {
       await this.deleteToken(uid);
 
       return true;
-    } catch (error: any) {
-      CustomError.createError({
-        name: error.name,
-        message: error.message,
-      });
-
-      return;
-    }
-  };
-
-  findUserById = async (uid: User["_id"]) => {
-    try {
-      const user = await userModel.findById({ _id: uid }).lean().exec();
-
-      if (!user) {
-        CustomError.createError({
-          name: ERRORS.USER_NOT_FOUND,
-          message: ERRORS.USER_NOT_FOUND,
-        });
-      }
-
-      return user;
     } catch (error: any) {
       CustomError.createError({
         name: error.name,
@@ -302,9 +302,9 @@ class UserServices {
     }
   };
 
-  deleteUserById = async (uid: User["_id"]) => {
+  deleteOne = async (uid: User["_id"]) => {
     try {
-      const user = await this.findUserById(uid);
+      const user = await this.findOneById(uid);
 
       if (!user) {
         CustomError.createError({
@@ -332,7 +332,7 @@ class UserServices {
     }
   };
 
-  deleteAllUsers = async () => {
+  deleteAll = async () => {
     try {
       const allUsers = await this.finAll();
 
@@ -347,7 +347,7 @@ class UserServices {
 
         if (result < 2) return;
 
-        await this.deleteUserById(user._id);
+        await this.deleteOne(user._id);
       });
 
       return;

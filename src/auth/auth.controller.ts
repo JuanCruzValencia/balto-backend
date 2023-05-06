@@ -5,20 +5,25 @@ import { SessionUser } from "../interface/interfaces.ts";
 dotenv.config();
 
 class AuthControllers {
-  constructor() {}
-
   async loginCtrl(req: Request, res: Response) {
-    if (!req.user) return res.status(400);
+    try {
+      if (!req.user) return res.status(400);
 
-    const user = req.user as SessionUser;
+      const user = req.user as SessionUser;
 
-    const loggedUser = await AuthService.login(user);
+      const loggedUser = await AuthService.login(user);
 
-    if (!loggedUser) return res.status(404).send({ message: "User not found" });
+      if (!loggedUser)
+        return res.status(404).send({ message: "User not found" });
 
-    req.session.user = loggedUser;
+      req.session.user = loggedUser;
 
-    res.send(loggedUser);
+      res.status(200).send(loggedUser);
+    } catch (error) {
+      req.logger.error(error);
+
+      return res.status(400).send();
+    }
   }
 }
 

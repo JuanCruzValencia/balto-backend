@@ -1,11 +1,16 @@
 import CustomError from "../errors/customError.ts";
-import { ERRORS, Product, SessionUser } from "../interface/interfaces.ts";
+import {
+  ERRORS,
+  Product,
+  ROLES,
+  SessionUser,
+} from "../interface/interfaces.ts";
 import productsModel from "../models/products.model.ts";
 import { PaginateOptions } from "mongoose";
 import sendMail from "../utils/nodemailer.ts";
 
 class ProductsServices {
-  getAllProducts = async (query: string, options: PaginateOptions) => {
+  getAll = async (query: string, options: PaginateOptions) => {
     try {
       if (query === "inStock") {
         const products = await productsModel.paginate(
@@ -43,7 +48,7 @@ class ProductsServices {
     }
   };
 
-  getProductById = async (pid: Product["_id"]) => {
+  getOne = async (pid: Product["_id"]) => {
     try {
       const product = await productsModel.findById({ _id: pid }).lean();
 
@@ -67,7 +72,7 @@ class ProductsServices {
     }
   };
 
-  addNewProduct = async (newProduct: Product, user: SessionUser) => {
+  addOne = async (newProduct: Product, user: SessionUser) => {
     try {
       const product = await productsModel.findOne({ code: newProduct.code });
 
@@ -96,9 +101,9 @@ class ProductsServices {
     }
   };
 
-  updateProduct = async (pid: Product["_id"], newProduct: Partial<Product>) => {
+  updateOne = async (pid: Product["_id"], newProduct: Partial<Product>) => {
     try {
-      const product = await this.getProductById(pid);
+      const product = await this.getOne(pid);
 
       if (!product) {
         CustomError.createError({
@@ -125,9 +130,9 @@ class ProductsServices {
     }
   };
 
-  deleteProduct = async (pid: Product["_id"], user: SessionUser) => {
+  deleteOne = async (pid: Product["_id"], user: SessionUser) => {
     try {
-      const product = await this.getProductById(pid);
+      const product = await this.getOne(pid);
 
       //TODO el owner dentro del prodcuto se guarda como un objeto
       if (!product) {
@@ -139,7 +144,7 @@ class ProductsServices {
         return;
       }
 
-      if (product.owner !== "ADMIN" && product.owner != user._id) {
+      if (product.owner !== ROLES.ADMIN && product.owner != user._id) {
         CustomError.createError({
           name: ERRORS.INVALID_USER,
           message: ERRORS.INVALID_USER,
@@ -148,7 +153,7 @@ class ProductsServices {
         return;
       }
 
-      if (product.owner === "PREMIUM") {
+      if (product.owner === ROLES.PREMIUM) {
         const body =
           "We have to inform your product was deleted: " + product.title;
 
@@ -170,7 +175,7 @@ class ProductsServices {
 
   updateStock = async (pid: Product["_id"], quantity: number) => {
     try {
-      const product = await this.getProductById(pid);
+      const product = await this.getOne(pid);
 
       if (!product) {
         CustomError.createError({

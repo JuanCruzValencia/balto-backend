@@ -6,57 +6,56 @@ import { ROLES } from "../interface/interfaces.ts";
 
 const Router = express.Router();
 
-Router.post("/", CartsController.createCart);
-
 Router.get(
   "/",
   authToken,
   authPolicies(ROLES.ADMIN, null),
-  CartsController.getCarts
+  CartsController.getAll
 );
 
-Router.get("/:cid", authToken, CartsController.getCartById);
+Router.get("/:cid", authToken, CartsController.getOne);
 
 Router.post(
   "/:cid",
   authToken,
   authPolicies(ROLES.ADMIN, null),
-  CartsController.addArrayOfProducts
+  CartsController.addMany
 );
 
-Router.delete(
-  "/:cid",
-  authToken,
-  authPolicies(ROLES.USER, ROLES.PREMIUM),
-  CartsController.emptyCart
-);
+Router.post("/", CartsController.create);
 
 Router.post(
   "/:cid/product/:pid",
   authToken,
   authPolicies(ROLES.USER, ROLES.PREMIUM),
-  CartsController.addProductToCart
+  CartsController.addOne
 );
-
 Router.post(
   "/:cid/purchase",
   authToken,
   authPolicies(ROLES.USER, ROLES.PREMIUM),
-  CartsController.purchaseCart
+  CartsController.purchase
 );
 
 Router.put(
   "/:cid/product/:pid",
   authToken,
   authPolicies(ROLES.USER, ROLES.PREMIUM),
-  CartsController.updateProductQuantity
+  CartsController.updateQuantity
+);
+
+Router.delete(
+  "/:cid",
+  authToken,
+  authPolicies(ROLES.USER, ROLES.PREMIUM),
+  CartsController.empty
 );
 
 Router.delete(
   "/:cid/product/:pid",
   authToken,
   authPolicies(ROLES.USER, ROLES.PREMIUM),
-  CartsController.deleteOneProduct
+  CartsController.deleteOne
 );
 
 export default Router;

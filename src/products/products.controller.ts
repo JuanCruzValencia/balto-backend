@@ -1,10 +1,9 @@
+import { ERRORS } from "../interface/interfaces.ts";
 import ProductsService from "./products.serivces.ts";
 import { Request, Response } from "express";
 
 class ProductsControllers {
-  constructor() {}
-
-  getAllProducts = async (req: Request, res: Response) => {
+  getAll = async (req: Request, res: Response) => {
     try {
       const { query, limit, sort, page } = req.query;
 
@@ -17,12 +16,12 @@ class ProductsControllers {
         lean: true,
       };
 
-      const result = await ProductsService.getAllProducts(queryParam, options);
+      const result = await ProductsService.getAll(queryParam, options);
 
       if (!result) {
         return res
           .status(400)
-          .send({ status: "ERROR", message: "PRODUCTS NOT FOUND IN DB" });
+          .send({ status: "ERROR", message: ERRORS.PRODUCT_NOT_FOUND });
       }
 
       return res.status(200).send({
@@ -48,16 +47,16 @@ class ProductsControllers {
     }
   };
 
-  getProductById = async (req: Request, res: Response) => {
+  getOne = async (req: Request, res: Response) => {
     try {
       const { pid } = req.params;
 
-      const result = await ProductsService.getProductById(pid);
+      const result = await ProductsService.getOne(pid);
 
       if (!result) {
         return res
           .status(400)
-          .send({ status: "ERROR", message: "PRODUCT NOT FOUND" });
+          .send({ status: "ERROR", message: ERRORS.PRODUCT_NOT_FOUND });
       }
 
       return res.status(200).send({
@@ -70,7 +69,7 @@ class ProductsControllers {
     }
   };
 
-  addNewProduct = async (req: Request, res: Response) => {
+  addOne = async (req: Request, res: Response) => {
     try {
       const newProduct = req.body;
 
@@ -79,7 +78,7 @@ class ProductsControllers {
       if (!user) {
         return res
           .status(400)
-          .send({ status: "ERROR", message: "USER NOT FOUND IN DB" });
+          .send({ status: "ERROR", message: ERRORS.USER_NOT_FOUND });
       }
 
       const { title, price, description, code, category } = newProduct;
@@ -87,15 +86,15 @@ class ProductsControllers {
       if (!title || !price || !description || !code || !category) {
         return res
           .status(400)
-          .send({ status: "ERROR", message: "ONE OR MORE INVALID PROPERTIES" });
+          .send({ status: "ERROR", message: ERRORS.INVALID_PRODUCT_PROPERTY });
       }
 
-      const result = await ProductsService.addNewProduct(newProduct, user);
+      const result = await ProductsService.addOne(newProduct, user);
 
       if (!result) {
         return res.status(400).send({
           status: "ERROR",
-          message: "PRODUCT CAN NOT BE ADDED TO CART",
+          message: ERRORS.FAILED_TO_ADD_PRODUCT_TO_CART,
         });
       }
 
@@ -109,17 +108,17 @@ class ProductsControllers {
     }
   };
 
-  updateProduct = async (req: Request, res: Response) => {
+  updateOne = async (req: Request, res: Response) => {
     try {
       const { pid } = req.params;
       const newProduct = req.body;
 
-      const result = await ProductsService.updateProduct(pid, newProduct);
+      const result = await ProductsService.updateOne(pid, newProduct);
 
       if (!result) {
         return res
           .status(400)
-          .send({ status: "ERROR", message: "PRODUCT NOT FOUND IN DB" });
+          .send({ status: "ERROR", message: ERRORS.PRODUCT_NOT_FOUND });
       }
 
       return res.status(200).send({
@@ -132,7 +131,7 @@ class ProductsControllers {
     }
   };
 
-  deleteProduct = async (req: Request, res: Response) => {
+  deleteOne = async (req: Request, res: Response) => {
     try {
       const { pid } = req.params;
 
@@ -141,15 +140,15 @@ class ProductsControllers {
       if (!user) {
         return res
           .status(400)
-          .send({ status: "ERROR", message: "USER NOT FOUND IN DB" });
+          .send({ status: "ERROR", message: ERRORS.USER_NOT_FOUND });
       }
 
-      const result = await ProductsService.deleteProduct(pid, user);
+      const result = await ProductsService.deleteOne(pid, user);
 
       if (!result) {
         return res
           .status(400)
-          .send({ status: "ERROR", message: "PRODUCT NOT FOUND IN DB" });
+          .send({ status: "ERROR", message: ERRORS.PRODUCT_NOT_FOUND });
       }
 
       return res.status(202).send({

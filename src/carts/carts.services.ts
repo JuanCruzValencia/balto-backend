@@ -355,7 +355,7 @@ class CartsServices {
       products.forEach(async (product) => {
         const pid = product.product;
 
-        const productInDb = await ProductsService.getProductById(pid);
+        const productInDb = await ProductsService.getOne(pid);
 
         if (!productInDb) {
           CustomError.createError({
