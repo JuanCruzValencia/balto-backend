@@ -6,7 +6,7 @@ import { UserSession } from "../interface/interfaces.ts";
 dotenv.config();
 
 class UserControllers {
-  getAllUsers = async (req: Request, res: Response) => {
+  getAll = async (req: Request, res: Response) => {
     try {
       const users = await UserService.finAll();
 
@@ -18,7 +18,7 @@ class UserControllers {
     }
   };
 
-  getCurrentUser = (req: Request, res: Response) => {
+  getCurrent = (req: Request, res: Response) => {
     try {
       const sessionUser = { ...req.user } as UserSession; //TODO have to create new interface to deconstruc Session User
 
@@ -27,7 +27,7 @@ class UserControllers {
 
       const user = new UserDto(sessionUser.user._doc);
 
-      res.send(user);
+      return res.status(200).send(user);
     } catch (error) {
       req.logger.error(error);
 
@@ -35,19 +35,19 @@ class UserControllers {
     }
   };
 
-  registerUser = (req: Request, res: Response) => {
+  registerOne = (req: Request, res: Response) => {
     if (!req.user) return res.status(400);
 
-    res.status(200).send({ paylaod: req.user });
+    return res.status(200).send({ paylaod: req.user });
   };
 
-  changeUserRole = async (req: Request, res: Response) => {
+  changeRole = async (req: Request, res: Response) => {
     try {
       const { uid } = req.params;
 
       await UserService.changeRole(uid);
 
-      res.status(200).send({
+      return res.status(200).send({
         message: "User succesfully changed role",
       });
     } catch (error: any) {
@@ -58,13 +58,13 @@ class UserControllers {
   };
 
   //TODO endpoint no implementado en el front con next
-  postRestore = async (req: Request, res: Response) => {
+  sendRestoreMail = async (req: Request, res: Response) => {
     try {
       const { email } = req.body;
 
       await UserService.sendRestoreMail(email);
 
-      res.status(200);
+      return res.status(200).send();
     } catch (error) {
       req.logger.error(error);
 
@@ -73,14 +73,14 @@ class UserControllers {
   };
 
   //TODO endpoint no implementado en el front con next
-  postRestoreForm = async (req: Request, res: Response) => {
+  restorePassword = async (req: Request, res: Response) => {
     try {
       const { password } = req.body;
       const { uid, token } = req.params;
 
       await UserService.restorePassword(uid, password, token);
 
-      res.status(200);
+      return res.status(200).send();
     } catch (error) {
       req.logger.error(error);
 
@@ -111,7 +111,7 @@ class UserControllers {
         });
       });
 
-      res.status(200).send({
+      return res.status(200).send({
         message: `Document succesfully upload`,
       });
     } catch (error) {
@@ -123,7 +123,7 @@ class UserControllers {
 
   deleteAllUsers = async (req: Request, res: Response) => {
     try {
-      const result = await UserService.deleteAllUsers();
+      await UserService.deleteAll();
 
       return res.status(200).send({ message: "ALL UNUSED USERS DELETED" });
     } catch (error) {
@@ -137,7 +137,7 @@ class UserControllers {
     try {
       const { uid } = req.params;
 
-      const result = await UserService.deleteUserById(uid);
+      await UserService.deleteOne(uid);
 
       return res.status(200).send({ message: "USER DELETED" });
     } catch (error) {
