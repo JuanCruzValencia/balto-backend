@@ -4,12 +4,13 @@ import PaymentService from "./payment.services";
 class PaymentsControllers {
   createPayment = async (req: Request, res: Response) => {
     try {
-      const total = req.body;
+      const { total } = req.body;
 
       const paymentInfo = {
         amount: total,
         currency: "usd",
       };
+
       const clientSecret = await PaymentService.createPayment(paymentInfo);
 
       return res.status(200).send({ payload: clientSecret });

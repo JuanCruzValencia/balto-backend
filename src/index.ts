@@ -49,7 +49,7 @@ app.use("/auth", Routers.authRouter);
 app.use("/api/users", Routers.sessionRouter);
 app.use("/api/products", Routers.productsRouter);
 app.use("/api/carts", Routers.cartRouter);
-app.use("api/payment", Routers.paymentRouter);
+app.use("/api/payment", Routers.paymentRouter);
 app.use("/chat", Routers.chatRouter);
 app.use("/mocks", Routers.productsMockRouter);
 app.use("/loggerTest", Routers.loggerRouter);
