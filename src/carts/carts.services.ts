@@ -105,14 +105,14 @@ class CartsServices {
         return;
       }
 
-      const findProduct = await cartsModel.findOne({ "carts.product": pid });
+      const findProduct = await cartsModel.findOne({ "products.product": pid });
 
       if (findProduct) {
         const result = await cartsModel.updateOne(
-          { "carts.product": pid },
+          { "products.product": pid },
           {
             $inc: {
-              "carts.$.quantity": 1,
+              "products.$.quantity": 1,
             },
           }
         );
@@ -153,7 +153,7 @@ class CartsServices {
         return;
       }
 
-      const product = await cartsModel.findOne({ "carts.product": pid });
+      const product = await cartsModel.findOne({ "products.product": pid });
 
       if (!product) {
         CustomError.createError({
@@ -165,10 +165,10 @@ class CartsServices {
       }
 
       const result = await cartsModel.updateOne(
-        { "carts.product": pid },
+        { "products.product": pid },
         {
           $inc: {
-            "carts.$.quantity": quantity,
+            "products.$.quantity": quantity,
           },
         }
       );
