@@ -9,6 +9,9 @@ class PaymentsControllers {
       const paymentInfo = {
         amount: total,
         currency: "usd",
+        automatic_payment_methods: {
+          enabled: true,
+        },
       };
 
       const clientSecret = await PaymentService.createPayment(paymentInfo);
