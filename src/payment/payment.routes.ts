@@ -4,6 +4,10 @@ import { authToken } from "../middlewares/authToken";
 
 const router = Router();
 
-router.post("/client-payment-intent", PaymentController.createPayment);
+router.post(
+  "/client-payment-intent",
+  authToken,
+  PaymentController.createPayment
+);
 
 export default router;
