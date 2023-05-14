@@ -50,7 +50,7 @@ class ProductsServices {
 
   getOne = async (pid: Product["_id"]) => {
     try {
-      const product = await productsModel.findById({ _id: pid }).lean();
+      const product = await productsModel.findById({ _id: pid }).lean().exec();
 
       if (!product) {
         CustomError.createError({
@@ -192,7 +192,7 @@ class ProductsServices {
         return false;
       }
 
-      await productsModel.updateOne(
+      const result = await productsModel.updateOne(
         { _id: pid },
         { $inc: { stock: -quantity } }
       );

@@ -1,6 +1,6 @@
 import { Document, Schema, model } from "mongoose";
-import { generateCode } from "../utils/utils.ts";
 import { Ticket } from "../interface/interfaces.ts";
+import { v4 as uuidv4 } from "uuid";
 
 type TicketDocument = Document & Ticket;
 
@@ -8,7 +8,7 @@ const ticketSchema: Schema<TicketDocument> = new Schema({
   id: Schema.Types.ObjectId,
   code: {
     type: String,
-    default: generateCode(),
+    default: uuidv4(),
     unique: true,
   },
   amount: Number,

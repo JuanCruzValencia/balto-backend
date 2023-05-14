@@ -2,7 +2,7 @@ import CustomError from "../errors/customError.ts";
 import tokenModel from "../models/token.model.ts";
 import userModel from "../models/users.model.ts";
 import sendMail from "../utils/nodemailer.ts";
-import { generateCode } from "../utils/utils.ts";
+import { v4 as uuidv4 } from "uuid";
 import UserDto from "./dto/user.dto.ts";
 import {
   Document,
@@ -134,7 +134,6 @@ class UserServices {
 
       return true;
     } catch (error: any) {
-      console.log(error);
       CustomError.createError({
         name: error.name,
         message: error.message,
@@ -162,7 +161,7 @@ class UserServices {
       if (!token) {
         token = await new tokenModel({
           userId: user._id,
-          token: generateCode(),
+          token: uuidv4(),
         }).save();
       }
 

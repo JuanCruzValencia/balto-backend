@@ -118,9 +118,11 @@ class CartsControllers {
     try {
       const { cid, pid } = req.params;
 
-      await CartsService.deleteProductFromCart(cid, pid);
+      const result = await CartsService.deleteProductFromCart(cid, pid);
 
-      return res.status(200);
+      return res.status(200).send({
+        payload: result,
+      });
     } catch (error: any) {
       req.logger.error(error);
 
@@ -134,9 +136,11 @@ class CartsControllers {
     try {
       const { cid } = req.params;
 
-      await CartsService.deleteAllProducts(cid);
+      const result = await CartsService.deleteAllProducts(cid);
 
-      return res.status(200);
+      return res.status(200).send({
+        payload: result,
+      });
     } catch (error: any) {
       req.logger.error(error);
 

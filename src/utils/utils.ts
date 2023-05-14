@@ -3,19 +3,6 @@ import CustomError from "../errors/customError.ts";
 import { User } from "../interface/interfaces.ts";
 dotenv.config();
 
-export const generateCode = () => {
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-  let result = " ";
-  const charactersLength = characters.length;
-  for (let i = 0; i < 12; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-
-  return result;
-};
-
 export const validateNewUser = (newUser: Partial<User>) => {
   const { first_name, last_name, age, email, password } = newUser;
 

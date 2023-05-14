@@ -1,5 +1,11 @@
 import CustomError from "../errors/customError.ts";
-import { Cart, ERRORS, Product, User } from "../interface/interfaces.ts";
+import {
+  Cart,
+  CartProduct,
+  ERRORS,
+  Product,
+  User,
+} from "../interface/interfaces.ts";
 import cartsModel from "../models/carts.model.ts";
 import productsModel from "../models/products.model.ts";
 import ticketModel from "../models/ticket.model.ts";
@@ -303,18 +309,7 @@ class CartsServices {
 
       const total = await this.removeProductFromStock(cid, products);
 
-      if (!total) {
-        CustomError.createError({
-          name: ERRORS.PRODUCT_NOT_FOUND,
-          message: ERRORS.PRODUCT_NOT_FOUND,
-        });
-
-        return;
-      }
-
-      const ticket = await this.generateTicket(purchaser?.email, total);
-
-      console.log(ticket);
+      const ticket = await this.generateTicket(purchaser.email, total!);
 
       return ticket;
     } catch (error: any) {
@@ -345,35 +340,34 @@ class CartsServices {
     }
   };
 
-  removeProductFromStock = async (
-    cid: Cart["id"],
-    products: Cart["products"]
-  ) => {
+  removeProductFromStock = async (cid: Cart["id"], products: CartProduct[]) => {
     try {
-      let total = 0;
+      const total: number[] = [];
 
-      products.forEach(async (product) => {
-        const pid = product.product;
+      await Promise.all(
+        products.map(async (product) => {
+          const pid = product.product._id;
 
-        const productInDb = await ProductsService.getOne(pid);
+          const productInDb = await ProductsService.getOne(pid);
 
-        if (!productInDb) {
-          CustomError.createError({
-            name: ERRORS.PRODUCT_NOT_FOUND,
-            message: ERRORS.PRODUCT_NOT_FOUND,
-          });
+          if (!productInDb) {
+            CustomError.createError({
+              name: ERRORS.PRODUCT_NOT_FOUND,
+              message: ERRORS.PRODUCT_NOT_FOUND,
+            });
 
-          return;
-        }
+            return;
+          }
 
-        if (await ProductsService.updateStock(pid, product.quantity)) {
-          await this.deleteProductFromCart(cid, pid);
+          if (await ProductsService.updateStock(pid, product.quantity)) {
+            await this.deleteProductFromCart(cid, pid);
 
-          total = total + productInDb?.price;
-        }
-      });
+            total.push(productInDb?.price);
+          }
+        })
+      );
 
-      return total;
+      return total.reduce((acc, curr) => acc + curr, 0);
     } catch (error: any) {
       CustomError.createError({
         name: error.name,
