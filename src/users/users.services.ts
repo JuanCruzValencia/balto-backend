@@ -164,7 +164,7 @@ class UserServices {
         }).save();
       }
 
-      const link = `${process.env.BASE_URL}/restoreForm/${user?._id}/${token.token}`;
+      const link = `${process.env.NEXT_URL}/restoreForm/${user?._id}/${token.token}`;
 
       await sendMail.send(user.email, "Password reset", link);
 
