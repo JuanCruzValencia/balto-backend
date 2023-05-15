@@ -1,18 +1,18 @@
-import CustomError from "../errors/customError.ts";
-import tokenModel from "../models/token.model.ts";
-import userModel from "../models/users.model.ts";
-import sendMail from "../utils/nodemailer.ts";
+import CustomError from "../errors/customError";
+import tokenModel from "../models/token.model";
+import userModel from "../models/users.model";
+import sendMail from "../utils/nodemailer";
 import { v4 as uuidv4 } from "uuid";
-import UserDto from "./dto/user.dto.ts";
+import UserDto from "./dto/user.dto";
 import {
   Document,
   User,
   ERRORS,
   ROLES,
   DOCUMENTS,
-} from "../interface/interfaces.ts";
+} from "../interface/interfaces";
 import path from "path";
-import UsersDto from "./dto/users.dto.ts";
+import UsersDto from "./dto/users.dto";
 
 class UserServices {
   finAll = async () => {

@@ -6,16 +6,16 @@ import cors from "cors";
 import { Server } from "socket.io";
 import { engine } from "express-handlebars";
 //routers
-import Routers from "./utils/routers.ts";
+import Routers from "./utils/routers";
 //utils
-import socket from "./utils/socket.ts";
-import initSwagger from "./utils/swagger.ts";
-import { errorHandler } from "./middlewares/errors/index.ts";
-import { addLogger } from "./utils/logger.ts";
+import socket from "./utils/socket";
+import initSwagger from "./utils/swagger";
+import { errorHandler } from "./middlewares/errors/index";
+import { addLogger } from "./utils/logger";
 //conections
-import MongoConnection, { MongoStoreInstance } from "./utils/mongo.ts";
+import MongoConnection, { MongoStoreInstance } from "./utils/mongo";
 import swaggerUiExpress from "swagger-ui-express";
-import { jwtStrategy, localStrategy } from "./auth/strategies/index.ts";
+import { jwtStrategy, localStrategy } from "./auth/strategies/index";
 //const and env variables
 dotenv.config();
 const app = express();

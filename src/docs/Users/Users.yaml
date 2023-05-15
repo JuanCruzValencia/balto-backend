@@ -99,15 +99,15 @@ components:
           type: Date
           description: Ultima vez que el usuario ingreso
       example:
-        first_name: "Juan",
-        last_name: "Valencia"
-        email: "juan@mail.com"
+        first_name: Juan
+        last_name: Valencia
+        email: juan@mail.com
         age: 33
-        password: "dansldkj29d23n242dNJU",
+        password: dansldkj29d23n242dNJU
         cart: DweCWie03i3N
-        role: 'USER'
+        role: "USER"
         documents: []
-        last_connection: "15-05-2023"
+        last_connection: 15-05-2023
   requestBodies:
     newUser:
       type: object
@@ -129,9 +129,9 @@ components:
           description: contrasena del usuario
       example:
         _id: 63bf146e58e7baa835ee686f
-        first_name: "Martina",
-        last_name: "Valencia"
-        email: "marti@mail.com"
+        first_name: Martina
+        last_name: Valencia
+        email: marti@mail.com
         age: 22
-        password: "dansldkj29d23n242dNJU",
+        password: dansldkj29d23n242dNJU
 tags: []

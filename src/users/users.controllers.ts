@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import UserService from "./users.services.ts";
+import UserService from "./users.services";
 import dotenv from "dotenv";
-import UserDto from "./dto/user.dto.ts";
-import { UserSession } from "../interface/interfaces.ts";
+import UserDto from "./dto/user.dto";
+import { UserSession } from "../interface/interfaces";
 dotenv.config();
 
 class UserControllers {

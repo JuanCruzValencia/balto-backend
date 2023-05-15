@@ -1,10 +1,10 @@
 import express from "express";
 import passport from "passport";
-import UserController from "./users.controllers.ts";
-import upload from "../utils/multer.ts";
-import { authToken } from "../middlewares/authToken.ts";
-import { authPolicies } from "../middlewares/authPolicies.ts";
-import { ROLES } from "../interface/interfaces.ts";
+import UserController from "./users.controllers";
+import upload from "../utils/multer";
+import { authToken } from "../middlewares/authToken";
+import { authPolicies } from "../middlewares/authPolicies";
+import { ROLES } from "../interface/interfaces";
 
 const Router = express.Router();
 

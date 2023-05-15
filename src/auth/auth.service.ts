@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
-import userModel from "../models/users.model.ts";
+import userModel from "../models/users.model";
 import dotenv from "dotenv";
-import { SessionUser, User } from "../interface/interfaces.ts";
+import { SessionUser, User } from "../interface/interfaces";
 dotenv.config();
 
 class AuthServices {

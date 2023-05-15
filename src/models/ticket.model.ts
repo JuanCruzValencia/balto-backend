@@ -1,5 +1,5 @@
 import { Document, Schema, model } from "mongoose";
-import { Ticket } from "../interface/interfaces.ts";
+import { Ticket } from "../interface/interfaces";
 import { v4 as uuidv4 } from "uuid";
 
 type TicketDocument = Document & Ticket;

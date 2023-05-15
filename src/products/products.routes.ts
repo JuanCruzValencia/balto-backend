@@ -1,8 +1,8 @@
 import { Router } from "express";
-import ProductsController from "./products.controller.ts";
-import { authPolicies } from "../middlewares/authPolicies.ts";
-import { authToken } from "../middlewares/authToken.ts";
-import { ROLES } from "../interface/interfaces.ts";
+import ProductsController from "./products.controller";
+import { authPolicies } from "../middlewares/authPolicies";
+import { authToken } from "../middlewares/authToken";
+import { ROLES } from "../interface/interfaces";
 
 const router = Router();
 

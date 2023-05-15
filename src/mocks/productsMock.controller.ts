@@ -1,4 +1,4 @@
-import { saveGeneratedProducts } from "./productsMock.services.ts";
+import { saveGeneratedProducts } from "./productsMock.services";
 import { Request, Response } from "express";
 
 export const generateMockProducts = (req: Request, res: Response) => {

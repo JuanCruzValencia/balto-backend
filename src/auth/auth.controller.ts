@@ -1,7 +1,7 @@
-import AuthService from "./auth.service.ts";
+import AuthService from "./auth.service";
 import dotenv from "dotenv";
 import { Request, Response } from "express";
-import { SessionUser } from "../interface/interfaces.ts";
+import { SessionUser } from "../interface/interfaces";
 dotenv.config();
 
 class AuthControllers {

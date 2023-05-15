@@ -1,8 +1,8 @@
 import dotenv from "dotenv";
-import { generateProducts } from "../utils/products.mock.ts";
+import { generateProducts } from "../utils/products.mock";
 import chai from "chai";
 import supertest from "supertest";
-import { Cart } from "../interface/interfaces.ts";
+import { Cart } from "../interface/interfaces";
 dotenv.config();
 
 const expect = chai.expect;

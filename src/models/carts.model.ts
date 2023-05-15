@@ -1,5 +1,5 @@
 import { Document, Schema, model } from "mongoose";
-import { Cart } from "../interface/interfaces.ts";
+import { Cart } from "../interface/interfaces";
 
 type CartDocument = Document & Cart;
 

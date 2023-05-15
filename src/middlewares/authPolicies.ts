@@ -1,4 +1,4 @@
-import { ROLES, UserSession } from "../interface/interfaces.ts";
+import { ROLES, UserSession } from "../interface/interfaces";
 import { Request, Response, NextFunction } from "express";
 
 export const authPolicies =

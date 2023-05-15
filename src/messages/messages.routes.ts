@@ -1,5 +1,5 @@
 import express from "express";
-import { getChatPage } from "./messages.controller.ts";
+import { getChatPage } from "./messages.controller";
 
 const Router = express.Router();
 

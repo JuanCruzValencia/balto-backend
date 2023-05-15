@@ -1,4 +1,4 @@
-import messageModel from "../models/messages.model.ts";
+import messageModel from "../models/messages.model";
 import { Server } from "socket.io";
 
 export default (io: Server) => {

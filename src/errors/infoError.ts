@@ -1,4 +1,4 @@
-import { Product } from "../interface/interfaces.ts";
+import { Product } from "../interface/interfaces";
 
 export const generateProductErrorInfo = (product: Product) => {
   return `Required properties:

@@ -1,13 +1,13 @@
-import CustomError from "../errors/customError.ts";
+import CustomError from "../errors/customError";
 import {
   ERRORS,
   Product,
   ROLES,
   SessionUser,
-} from "../interface/interfaces.ts";
-import productsModel from "../models/products.model.ts";
+} from "../interface/interfaces";
+import productsModel from "../models/products.model";
 import { PaginateOptions } from "mongoose";
-import sendMail from "../utils/nodemailer.ts";
+import sendMail from "../utils/nodemailer";
 
 class ProductsServices {
   getAll = async (query: string, options: PaginateOptions) => {

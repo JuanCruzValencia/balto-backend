@@ -1,8 +1,8 @@
 import supertest from "supertest";
 import chai from "chai";
 import dotenv from "dotenv";
-import { fakerUpdateProduct, genFakerProduct } from "../utils/products.mock.ts";
-import { Product } from "../interface/interfaces.ts";
+import { fakerUpdateProduct, genFakerProduct } from "../utils/products.mock";
+import { Product } from "../interface/interfaces";
 dotenv.config();
 
 const expect = chai.expect;

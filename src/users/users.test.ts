@@ -1,7 +1,7 @@
 import supertest from "supertest";
 import chai from "chai";
 import dotenv from "dotenv";
-import { newFakerUser } from "../utils/users.mock.ts";
+import { newFakerUser } from "../utils/users.mock";
 dotenv.config();
 
 const expect = chai.expect;

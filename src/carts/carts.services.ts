@@ -1,16 +1,16 @@
-import CustomError from "../errors/customError.ts";
+import CustomError from "../errors/customError";
 import {
   Cart,
   CartProduct,
   ERRORS,
   Product,
   User,
-} from "../interface/interfaces.ts";
-import cartsModel from "../models/carts.model.ts";
-import productsModel from "../models/products.model.ts";
-import ticketModel from "../models/ticket.model.ts";
-import userModel from "../models/users.model.ts";
-import ProductsService from "../products/products.serivces.ts";
+} from "../interface/interfaces";
+import cartsModel from "../models/carts.model";
+import productsModel from "../models/products.model";
+import ticketModel from "../models/ticket.model";
+import userModel from "../models/users.model";
+import ProductsService from "../products/products.serivces";
 
 class CartsServices {
   createCart = async () => {

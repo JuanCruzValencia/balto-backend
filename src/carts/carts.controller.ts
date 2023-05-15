@@ -1,5 +1,5 @@
-import { UserSession } from "../interface/interfaces.ts";
-import CartsService from "./carts.services.ts";
+import { UserSession } from "../interface/interfaces";
+import CartsService from "./carts.services";
 import { Request, Response } from "express";
 
 class CartsControllers {

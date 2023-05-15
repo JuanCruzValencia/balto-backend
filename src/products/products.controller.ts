@@ -1,5 +1,5 @@
-import { ERRORS } from "../interface/interfaces.ts";
-import ProductsService from "./products.serivces.ts";
+import { ERRORS } from "../interface/interfaces";
+import ProductsService from "./products.serivces";
 import { Request, Response } from "express";
 
 class ProductsControllers {

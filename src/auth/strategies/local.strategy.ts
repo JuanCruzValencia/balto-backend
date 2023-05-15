@@ -1,11 +1,11 @@
 import passport from "passport";
 import * as passportLocal from "passport-local";
-import userModel from "../../models/users.model.ts";
-import CartsService from "../../carts/carts.services.ts";
-import AuthService from "../auth.service.ts";
-import { validateNewUser } from "../../utils/utils.ts";
+import userModel from "../../models/users.model";
+import CartsService from "../../carts/carts.services";
+import AuthService from "../auth.service";
+import { validateNewUser } from "../../utils/utils";
 import dotenv from "dotenv";
-import { User } from "../../interface/interfaces.ts";
+import { User } from "../../interface/interfaces";
 
 dotenv.config();
 const LocalStrategy = passportLocal.Strategy;

@@ -1,8 +1,8 @@
 import passport from "passport";
 import passportJWT from "passport-jwt";
-import userModel from "../../models/users.model.ts";
+import userModel from "../../models/users.model";
 import dotenv from "dotenv";
-import { SessionUser } from "../../interface/interfaces.ts";
+import { SessionUser } from "../../interface/interfaces";
 
 dotenv.config();
 const JwtStrategy = passportJWT.Strategy;

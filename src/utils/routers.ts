@@ -1,11 +1,11 @@
-import productsRouter from "../products/products.routes.ts";
-import cartRouter from "../carts/carts.routes.ts";
-import chatRouter from "../messages/messages.routes.ts";
-import sessionRouter from "../users/users.routes.ts";
-import productsMockRouter from "../mocks/productsMock.routes.ts";
-import loggerRouter from "../logger/logger.routes.ts";
-import authRouter from "../auth/auth.routes.ts";
-import paymentRouter from "../payment/payment.routes.ts";
+import productsRouter from "../products/products.routes";
+import cartRouter from "../carts/carts.routes";
+import chatRouter from "../messages/messages.routes";
+import sessionRouter from "../users/users.routes";
+import productsMockRouter from "../mocks/productsMock.routes";
+import loggerRouter from "../logger/logger.routes";
+import authRouter from "../auth/auth.routes";
+import paymentRouter from "../payment/payment.routes";
 
 const Routers = {
   productsRouter,

@@ -1,8 +1,8 @@
 import express from "express";
-import CartsController from "./carts.controller.ts";
-import { authPolicies } from "../middlewares/authPolicies.ts";
-import { authToken } from "../middlewares/authToken.ts";
-import { ROLES } from "../interface/interfaces.ts";
+import CartsController from "./carts.controller";
+import { authPolicies } from "../middlewares/authPolicies";
+import { authToken } from "../middlewares/authToken";
+import { ROLES } from "../interface/interfaces";
 
 const Router = express.Router();
 

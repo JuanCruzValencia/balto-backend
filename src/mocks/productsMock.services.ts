@@ -1,4 +1,4 @@
-import { generateProducts } from "../utils/products.mock.ts";
+import { generateProducts } from "../utils/products.mock";
 
 export const saveGeneratedProducts = () => {
     const prodcustQuantity = 100;
