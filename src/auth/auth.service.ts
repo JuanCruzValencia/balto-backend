@@ -11,13 +11,6 @@ class AuthServices {
   async validateUser(username: User["email"], password: User["password"]) {
     const user = await userModel.findOne({ email: username });
 
-    if (!user) {
-      CustomError.createError({
-        name: ERRORS.USER_NOT_FOUND,
-        message: ERRORS.USER_NOT_FOUND,
-      });
-    }
-
     if (user && (await userModel.comparePassword(password, user.password))) {
       return user;
     }
@@ -29,7 +22,7 @@ class AuthServices {
     const user = { ...payload };
 
     const token = jwt.sign({ user }, process.env.JWT_SECRET!, {
-      expiresIn: 1200,
+      expiresIn: 7 * 24 * 60 * 60,
     });
 
     user.accessToken = token;
