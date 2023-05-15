@@ -20,7 +20,7 @@ class UserControllers {
 
   getCurrent = (req: Request, res: Response) => {
     try {
-      const sessionUser = { ...req.user } as UserSession; //TODO have to create new interface to deconstruc Session User
+      const sessionUser = { ...req.user } as UserSession;
 
       if (!sessionUser)
         return res.status(404).send({ message: "User Not Found" });
@@ -57,7 +57,6 @@ class UserControllers {
     }
   };
 
-  //TODO endpoint no implementado en el front con next
   sendRestoreMail = async (req: Request, res: Response) => {
     try {
       const { email } = req.body;
@@ -72,7 +71,6 @@ class UserControllers {
     }
   };
 
-  //TODO endpoint no implementado en el front con next
   restorePassword = async (req: Request, res: Response) => {
     try {
       const { password } = req.body;
@@ -88,7 +86,6 @@ class UserControllers {
     }
   };
 
-  //TODO endpoint no implementado en el front con next
   uploadDocument = async (req: Request, res: Response) => {
     try {
       const { uid } = req.params;

@@ -8,14 +8,6 @@ import { ROLES } from "../interface/interfaces.ts";
 
 const Router = express.Router();
 
-Router.post(
-  "/register",
-  passport.authenticate("register", {
-    failureMessage: "Cannot register new user",
-  }),
-  UserController.registerOne
-);
-
 Router.get(
   "/",
   authToken,
@@ -30,6 +22,14 @@ Router.get(
   authToken,
   authPolicies(ROLES.USER, ROLES.PREMIUM),
   UserController.changeRole
+);
+
+Router.post(
+  "/register",
+  passport.authenticate("register", {
+    failureMessage: "Cannot register new user",
+  }),
+  UserController.registerOne
 );
 
 Router.post("/restore", UserController.sendRestoreMail);

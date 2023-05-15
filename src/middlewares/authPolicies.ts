@@ -5,7 +5,7 @@ export const authPolicies =
   (policieOne: ROLES | null, policieTwo: ROLES | null) =>
   (req: Request, res: Response, next: NextFunction) => {
     const data = req.user as UserSession;
-    const { role } = data.user._doc; //TODO should be a better way of deconstruc the req.user
+    const { role } = data.user._doc;
 
     if (typeof policieOne === "undefined") {
       policieOne = policieTwo;

@@ -109,8 +109,7 @@ class UserServices {
           return result;
         });
 
-        const arrayEnum = Object.values(DOCUMENTS) as string[]; //TODO should be a better way to make this
-
+        const arrayEnum = Object.values(DOCUMENTS) as string[];
         const verifyDocuments = userDocuments.every((document) =>
           arrayEnum.includes(document!)
         );
