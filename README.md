@@ -1,4 +1,3 @@
-![](http://imgur.com/t3teAxi.png)
 ### Balto-backend - API REST ecommerce app
 
 API Rest developed for CoderHouse Backend Course
@@ -67,9 +66,7 @@ Link to live server on Railway app - [Server](balto-backend.up.railway.app/api/d
 
 # eCommerce
 
-**eCommerce** it's an open source (test scenario) software made to create a easy and simple "Shop" API, where you have different micro services, one the **Products API** that stores and handles everything Related to Stock and Products. The **Cart API** where you can create orders (cart's), add, delete and checkout items.
-
-The purpose of this repository it's for education and test. But the code it's being coded in a proper way.
+**eCommerce** it's an open source (test scenario) software made to create a easy and simple "Shop" API, where you have different micro services, one the **Products API** that stores and handles everything Related Stock and Products. The **Cart API** where you can create orders (cart's), add, delete and checkout items. The **User API** where you can register new user, login, update documents and restore password.
 
 ## Documentation
 
@@ -90,15 +87,9 @@ The purpose of this repository it's for education and test. But the code it's be
 
 `node build`
 
-### Notes
-
-**Note.:** By default `balto-backend` runs on port 8080.
-
-**Note.:** You also can clean the sources and rebuild the sources by running `grailsw clean`
-
 ## Running Test Cases
 
-Yoou can run test cases in PRODUCTS, CARTS, USERS folder
+User, Products and Carts API have integration test cases that can be runned.
 
 ## Technologies used
 
@@ -117,6 +108,10 @@ Yoou can run test cases in PRODUCTS, CARTS, USERS folder
 **Nodemailer** - Node JS module that allows you to send emails from your server.
 
 **Stripe** - API to accept payments, send payouts, and manage their businesses online.
+
+**Mocha - Chai** - frameworks used together for unit testing.
+
+**Supertest** - frameworks used for integration testing.
 
 **Handlebars** - Javascript library used to create reusable webpage templates. 
 
