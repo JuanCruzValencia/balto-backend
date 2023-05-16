@@ -43,11 +43,11 @@ Link to live server on Railway app - [Server](balto-backend.up.railway.app/api/d
 
 | Feature  |  Coded?       | Description  |
 |----------|:-------------:|:-------------|
-| Add a Product | &#10004; | Add one Product to the Cart |
-| Add an Products | &#10004; | Add an array of Products to the Cart |
-| List Carts | &#10004; | List all Carts |
-| List one Cart | &#10004; | List a Cart by ID |
-| Edit a Quantity | &#10004; | Update a Product Quantity |
+| Add ona | &#10004; | Add one Product to the Cart |
+| Add array | &#10004; | Add an array of Products to the Cart |
+| List all | &#10004; | List all Carts |
+| List one | &#10004; | List a Cart by ID |
+| Edit Quantity | &#10004; | Update a Product Quantity |
 | Delete all | &#10004; | Delete all Products in Cart |
 | Delete one | &#10004; | Delete one Product |
 | Checkout | &#10004; | Ability to Checkout |
