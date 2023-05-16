@@ -70,7 +70,7 @@ Link to live server on Railway app - [Server](balto-backend.up.railway.app/api/d
 
 ## Documentation
 
-**eCommerce** has a full API documentation made with [Swagger](https://swagger.io), you can check it by accessing [this](balto-backend.up.railway.app/api/docs) link.
+Full API documentation made with [Swagger](https://swagger.io), you can check it by accessing [this](balto-backend.up.railway.app/api/docs) link.
 
 
 ## Installation
