@@ -1,4 +1,4 @@
-### Balto-backend - API REST ecommerce app
+# Balto-backend - API REST ecommerce app
 
 API Rest developed for CoderHouse Backend Course
 
@@ -64,7 +64,7 @@ Link to live server on Railway app - [Server](balto-backend.up.railway.app/api/d
 |----------|:-------------:|:-------------|
 | Chat | &#10004; | Chat developed with Socket.io |
 
-# eCommerce
+# Balto-backend
 
 **eCommerce** it's an open source (test scenario) software made to create a easy and simple "Shop" API, where you have different micro services, one the **Products API** that stores and handles everything Related Stock and Products. The **Cart API** where you can create orders (cart's), add, delete and checkout items. The **User API** where you can register new user, login, update documents and restore password.
 
