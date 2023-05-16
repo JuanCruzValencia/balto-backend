@@ -11,6 +11,7 @@ import productsModel from "../models/products.model";
 import ticketModel from "../models/ticket.model";
 import userModel from "../models/users.model";
 import ProductsService from "../products/products.serivces";
+import sendMail from "../utils/nodemailer";
 
 class CartsServices {
   createCart = async () => {
@@ -310,6 +311,16 @@ class CartsServices {
       const total = await this.removeProductFromStock(cid, products);
 
       const ticket = await this.generateTicket(purchaser.email, total!);
+
+      const ticketBody = `Muchas gracias por su compra: ${purchaser.first_name}!
+      Compra realizada con exito por un total: ${total}      
+      `;
+
+      await sendMail.send(
+        purchaser.email,
+        "Gracias por su compra!",
+        ticketBody
+      );
 
       return ticket;
     } catch (error: any) {
