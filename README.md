@@ -1,54 +1,79 @@
-# Balto-backend - API REST ecommerce app
-
-Link to live version - [Balto's Shop]()
-Link to live server on Railway app - [Server](balto-backend.up.railway.app/api/docs)
+![](http://imgur.com/t3teAxi.png)
+### Balto-backend - API REST ecommerce app
 
 API Rest developed for CoderHouse Backend Course
 
-Link to Swagger docs - [Documentation](balto-backend.up.railway.app/api/docs)
-
-![](http://imgur.com/t3teAxi.png)
-### :handbag: A simple RESTful API for Purchases and Products
-
-[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Github All Releases](https://img.shields.io/github/downloads/ovflowd/ecommerce/total.svg)]() [![GitHub release](https://img.shields.io/github/release/ovflowd/ecommerce.svg)]() [![Build Status](https://travis-ci.org/ovflowd/ecommerce.svg?branch=master)](https://travis-ci.org/ovflowd/ecommerce) [![Codecov](https://img.shields.io/codecov/c/github/ovflowd/ecommerce.svg)]() [![Docker Pulls](https://img.shields.io/docker/pulls/sant0ro/products-api.svg)]() [![Docker Pulls](https://img.shields.io/docker/pulls/sant0ro/purchase-api.svg)]()
-
 ## Deploy
 
-<a href="https://azuredeploy.net/"><img src="http://azuredeploy.net/deploybutton.png" height="32"></a> <a href="https://bluemix.net/deploy?repository=https://github.com/sant0ro/eCommerce"><img src="https://bluemix.net/deploy/button.png" height="32"></a>
+Link to live version - [Balto's Shop]()
+
+Link to live server on Railway app - [Server](balto-backend.up.railway.app/api/docs)
 
 ## Features
+
+<b>Auth Features</b>
+
+| Feature  |  Coded?       | Description  |
+|----------|:-------------:|:-------------|
+| Login | &#10004; | Login with Local and Jwt Strategy |
+
+<b>User Features</b>
+
+| Feature  |  Coded?       | Description  |
+|----------|:-------------:|:-------------|
+| Register | &#10004; | Add one User to the Db |
+| List one | &#10004; | List one User by Id |
+| List all | &#10004; | List all Users |
+| Change role | &#10004; | Update User role |
+| Upload | &#10004; | Upload one o more documents |
+| Restore one | &#10004; | Update User password |
+| Delete all | &#10004; | Delete all Users |
+| Delete one | &#10004; | Delete one User by Id |
 
 <b>Products Features</b>
 
 | Feature  |  Coded?       | Description  |
 |----------|:-------------:|:-------------|
-| Add a Product | &#10004; | Ability of Add a Product on the System |
-| List Products | &#10004; | Ability of List Products |
-| Edit a Product | &#10004; | Ability of Edit a Product |
-| Delete a Product | &#10004; | Ability of Delete a Product |
-| Stock | &#10004; | Ability of Update the Stock |
-| Stock History | &#10004; | Ability to see the Stock History |
+| Add one | &#10004; | Add a Product on the Db |
+| List all | &#10004; | List all Products |
+| List one | &#10004; | List a Product by ID |
+| Edit one | &#10004; | Update a Product |
+| Delete one | &#10004; | Delete a Product |
 
-<b>Purchase Features</b>
+<b>Carts Features</b>
 
 | Feature  |  Coded?       | Description  |
 |----------|:-------------:|:-------------|
-| Create a Cart | &#10004; | Ability of Create a new Cart |
-| See Cart | &#10004; | Ability to see the Cart and it items |
-| Remove a Cart | &#10004; | Ability of Remove a Cart |
-| Add Item | &#10004; | Ability of add a new Item on the Cart |
-| Remove a Item | &#10004; | Ability of Remove a Item from the Cart |
+| Add a Product | &#10004; | Add one Product to the Cart |
+| Add an Products | &#10004; | Add an array of Products to the Cart |
+| List Carts | &#10004; | List all Carts |
+| List one Cart | &#10004; | List a Cart by ID |
+| Edit a Quantity | &#10004; | Update a Product Quantity |
+| Delete all | &#10004; | Delete all Products in Cart |
+| Delete one | &#10004; | Delete one Product |
 | Checkout | &#10004; | Ability to Checkout |
+
+<b>Payment Features</b>
+
+| Feature  |  Coded?       | Description  |
+|----------|:-------------:|:-------------|
+| Payment | &#10004; | Pay all Products in Cart with Stripe API |
+
+<b>Messages Features</b>
+
+| Feature  |  Coded?       | Description  |
+|----------|:-------------:|:-------------|
+| Chat | &#10004; | Chat developed with Socket.io |
 
 # eCommerce
 
-**eCommerce** it's an open source (test scenario) software made to create a easy and simple "Shop" API, where you have two micro services, one the **Products API** that stores and handles everything Related to Stock and Products. And the **Purchase API** where you can create orders (cart's) and checkout items.
+**eCommerce** it's an open source (test scenario) software made to create a easy and simple "Shop" API, where you have different micro services, one the **Products API** that stores and handles everything Related to Stock and Products. The **Cart API** where you can create orders (cart's), add, delete and checkout items.
 
 The purpose of this repository it's for education and test. But the code it's being coded in a proper way.
 
 ## Documentation
 
-**eCommerce** has a full API documentation made with [Swagger](https://swagger.io), you can check it by accessing [this](http://santoro.pw/eCommerce) link.
+**eCommerce** has a full API documentation made with [Swagger](https://swagger.io), you can check it by accessing [this](balto-backend.up.railway.app/api/docs) link.
 
 
 ## Installation
