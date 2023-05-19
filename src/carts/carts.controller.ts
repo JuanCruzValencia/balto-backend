@@ -1,4 +1,4 @@
-import { UserSession } from "../interface/interfaces";
+import { ERRORS, UserSession } from "../interface/interfaces";
 import CartsService from "./carts.services";
 import { Request, Response } from "express";
 
@@ -66,6 +66,12 @@ class CartsControllers {
       });
     } catch (error: any) {
       req.logger.error(error);
+
+      if (error.name === ERRORS.FAILED_TO_ADD_PRODUCT_TO_CART) {
+        return res.status(403).send({
+          error: "You are trying to add a product you already own",
+        });
+      }
 
       return res
         .status(400)
