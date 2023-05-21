@@ -57,7 +57,7 @@ class CartsControllers {
 
       const data = req.user as UserSession;
 
-      const user = data.user._doc; //TODO should be a better way of deconstruc the request.user
+      const user = data.user._doc;
 
       const result = await CartsService.addProductToCart(cid, pid, user);
 
