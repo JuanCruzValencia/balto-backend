@@ -4,9 +4,9 @@ API Rest developed for CoderHouse Backend Course
 
 ## Deploy
 
-Link to live version - [Balto's Shop]()
+Link to live version - [Balto's Shop](https://balto-frontend.vercel.app/)
 
-Link to live server on Railway app - [Server](balto-backend.up.railway.app/api/docs)
+Link to live server on Railway app - [Server](https://balto-backend.up.railway.app/api/docs)
 
 ## Features
 
