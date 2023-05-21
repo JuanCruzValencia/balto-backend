@@ -335,6 +335,15 @@ class CartsServices {
 
   generateTicket = async (purchaser: string, total: number) => {
     try {
+      const isTicket = await ticketModel
+        .find({ purchaser: purchaser })
+        .lean()
+        .exec();
+
+      if (isTicket) {
+        await ticketModel.deleteOne({ purchaser: purchaser });
+      }
+
       const result = await ticketModel.create({
         amount: total,
         purchaser: purchaser,
