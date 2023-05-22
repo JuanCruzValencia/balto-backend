@@ -226,7 +226,7 @@ class CartsServices {
 
   deleteProductFromCart = async (cid: Cart["id"], pid: Product["_id"]) => {
     try {
-      const cart = await this.getCartById(cid);
+      const cart = await cartsModel.findOne({ _id: cid }).lean().exec();
 
       if (!cart) {
         CustomError.createError({
@@ -235,6 +235,23 @@ class CartsServices {
         });
 
         return;
+      }
+
+      const product = cart?.products.find(
+        (product) => product.product._id === pid
+      );
+
+      if (product && product?.quantity > 1) {
+        const result = await cartsModel.updateOne(
+          { "products.product": pid },
+          {
+            $inc: {
+              quantity: -1,
+            },
+          }
+        );
+
+        return result;
       }
 
       const result = await cartsModel.updateOne(
