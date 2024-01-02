@@ -39,7 +39,7 @@ paths:
     get:
       summary: Obtiene el usuario logueado
       tags:
-        - User
+        - Users
       responses:
         "200":
           description: Usuario encontrado
@@ -50,7 +50,7 @@ paths:
     delete:
       summary: Elimina un usuario a partir del ID
       tags:
-        - User
+        - Users
       parameters:
         - name: uid
           in: path
