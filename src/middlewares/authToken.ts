@@ -9,6 +9,7 @@ export const authToken = (req: Request, res: Response, next: NextFunction) => {
     const signedJwt = req.headers["authorization"];
 
     if (!signedJwt) return;
+
     const payload = jwt.verify(
       signedJwt.split(" ")[1],
       process.env.JWT_SECRET!
